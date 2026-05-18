@@ -10,6 +10,7 @@ import WeddingPage from './components/pages/WeddingPage';
 import ConditioningPage from './components/pages/ConditioningPage';
 import StyleGuidePage from './components/pages/StyleGuidePage';
 import QuizPage from './components/pages/QuizPage';
+import ArrangementBuilderPage from './components/pages/ArrangementBuilderPage';
 
 export default function App() {
   const { page, go } = useNav();
@@ -21,7 +22,8 @@ export default function App() {
     seasonal: <SeasonalPage/>,
     techniques: <TechniquesPage/>,
     styles: <StyleGuidePage/>,
-    quiz:   <QuizPage/>,
+    quiz:    <QuizPage/>,
+    builder: <ArrangementBuilderPage/>,
     wedding: <WeddingPage/>,
     conditioning: <ConditioningPage/>,
   };

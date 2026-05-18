@@ -2,7 +2,7 @@ export default function Nav({ page, go }) {
   const tabs = [
     ['home','Home'],['flowers','30 Core Flowers'],['wheel','Colour Wheel'],
     ['bouquets','Bouquets'],['seasonal','Seasonal'],['techniques','Techniques'],
-    ['styles','Style Guide'],['quiz','Quiz'],['wedding','Wedding'],['conditioning','Conditioning'],
+    ['styles','Style Guide'],['quiz','Quiz'],['builder','Arrangement Builder'],['wedding','Wedding'],['conditioning','Conditioning'],
   ];
   const current = page === 'wheel' ? 'wheel' : page;
   return (
