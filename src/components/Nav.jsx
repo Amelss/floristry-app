@@ -41,14 +41,18 @@ export default function Nav({ page, go }) {
   const navRef = useRef(null);
 
   useEffect(() => {
-    function handleClick(e) {
+    function handleOutside(e) {
       if (navRef.current && !navRef.current.contains(e.target)) {
         setOpen(null);
         setMobileOpen(false);
       }
     }
-    document.addEventListener('mousedown', handleClick);
-    return () => document.removeEventListener('mousedown', handleClick);
+    document.addEventListener('mousedown', handleOutside);
+    document.addEventListener('touchstart', handleOutside, { passive: true });
+    return () => {
+      document.removeEventListener('mousedown', handleOutside);
+      document.removeEventListener('touchstart', handleOutside);
+    };
   }, []);
 
   // close mobile menu on page change
@@ -59,8 +63,10 @@ export default function Nav({ page, go }) {
 
   const activeMenu = menuForPage(page);
 
+  function closeAll() { setOpen(null); setMobileOpen(false); }
+
   return (
-    <header ref={navRef} className="sticky top-0 z-50 bg-white shadow-sm">
+    <header ref={navRef} className="sticky top-0 z-50 bg-white shadow-sm" onClick={closeAll}>
 
       {/* ── Logo bar ── */}
       <div className="flex items-center justify-center py-2.5 border-b border-stone-100 relative px-4">
@@ -78,7 +84,7 @@ export default function Nav({ page, go }) {
 
         {/* Hamburger — mobile only */}
         <button
-          onClick={() => setMobileOpen(v => !v)}
+          onClick={e => { e.stopPropagation(); setMobileOpen(v => !v); }}
           className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-lg text-stone-500 hover:bg-stone-50 transition-colors cursor-pointer bg-transparent border-none"
           aria-label="Menu"
         >
@@ -110,7 +116,7 @@ export default function Nav({ page, go }) {
           return (
             <div key={menu.key} className="relative flex items-stretch">
               <button
-                onClick={() => toggleMenu(menu.key)}
+                onClick={e => { e.stopPropagation(); toggleMenu(menu.key); }}
                 className={`flex items-center gap-1.5 px-4 py-3 text-[11px] font-medium tracking-wide cursor-pointer border-b-2 transition-all bg-transparent whitespace-nowrap flex-shrink-0
                   ${isActive ? 'text-[#3D5C3A] border-[#3D5C3A]' : 'text-stone-400 border-transparent hover:text-stone-600'}
                   ${isOpen   ? 'text-[#3D5C3A]' : ''}`}
