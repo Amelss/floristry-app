@@ -1,6 +1,16 @@
 import { useState, useMemo } from 'react';
 import FLOWERS from '../../data/flowers';
+import { FOLIAGE as BOUQUET_FOLIAGE } from '../../data/bouquets';
 import { ARRANGEMENT_TYPES, stemPrice } from '../../data/arrangementTypes';
+
+// Adapt bouquets foliage (name/latin) to the flower shape the picker expects
+const FOLIAGE_FLOWERS = BOUQUET_FOLIAGE.map((f, i) => ({
+  num: `foliage-${i}`,
+  common: f.name,
+  latin: f.latin,
+  season: Array(12).fill(true), // foliage is available year-round
+  roles: ['Foliage'],
+}));
 
 /* ── helpers ─────────────────────────────────────────────── */
 const MONTHS_S = ['J','F','M','A','M','J','J','A','S','O','N','D'];
@@ -12,6 +22,7 @@ const ROLE_CONFIG = {
 };
 
 function flowersByRole(roleKeys) {
+  if (roleKeys.includes('Foliage')) return FOLIAGE_FLOWERS;
   return FLOWERS.filter(f => f.roles.some(r => roleKeys.includes(r)));
 }
 

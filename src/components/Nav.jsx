@@ -58,6 +58,12 @@ export default function Nav({ page, go }) {
   // close mobile menu on page change
   useEffect(() => { setMobileOpen(false); setOpen(null); }, [page]);
 
+  // lock body scroll while mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileOpen]);
+
   function handleGo(key) { go(key); setOpen(null); setMobileOpen(false); }
   function toggleMenu(key) { setOpen(prev => prev === key ? null : key); }
 
@@ -155,7 +161,7 @@ export default function Nav({ page, go }) {
 
       {/* ── Mobile menu ── */}
       {mobileOpen && (
-        <div className="md:hidden border-b border-stone-100 bg-white">
+        <div className="md:hidden border-b border-stone-100 bg-white overflow-y-auto" style={{maxHeight:'calc(100dvh - 88px)'}}>
           <button
             onClick={() => handleGo('home')}
             className={`w-full text-left px-5 py-3 text-[13px] font-medium border-b border-stone-50 cursor-pointer transition-colors
