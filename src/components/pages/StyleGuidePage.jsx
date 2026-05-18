@@ -53,10 +53,10 @@ function StyleDetail({ style }) {
         </div>
       </div>
 
-      <div className="px-10 py-8 max-w-[900px]">
+      <div className="px-5 sm:px-10 py-6 sm:py-8 max-w-[900px]">
         <p className="text-[14px] text-stone-600 leading-relaxed font-light mb-8">{style.desc}</p>
 
-        <div className="grid grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8 mb-8">
           <div>
             <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-3">Key Characteristics</p>
             <ul className="flex flex-col gap-2">
@@ -85,7 +85,7 @@ function StyleDetail({ style }) {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mb-8">
           <div className="bg-white border border-stone-100 rounded-xl p-5">
             <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-3">Signature Flowers</p>
             <div className="flex flex-wrap gap-1.5">
@@ -142,8 +142,23 @@ export default function StyleGuidePage() {
         ["Designer's tips", 'Every style includes a practical tip from a professional perspective — the things textbooks leave out.'],
       ]}/>
 
+      {/* Mobile style picker */}
+      <div className="md:hidden px-4 py-3 border-b border-stone-100 bg-white">
+        <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-2">Select a style</p>
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
+          {STYLES.map(s => (
+            <button key={s.id} onClick={() => setSelected(s)}
+              className={`flex-shrink-0 text-[12px] px-3 py-1.5 rounded-full border transition-all cursor-pointer font-medium
+                ${selected.id === s.id ? 'text-white border-transparent' : 'bg-white border-stone-200 text-stone-600'}`}
+              style={selected.id === s.id ? {background: s.diffColour, borderColor: s.diffColour} : {}}>
+              {s.name}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="flex" style={{minHeight:'calc(100vh - 49px)'}}>
-        <aside className="w-64 flex-shrink-0 sticky top-[49px] self-start h-[calc(100vh-49px)] overflow-y-auto border-r border-stone-100 bg-white">
+        <aside className="hidden md:block w-64 flex-shrink-0 sticky top-[49px] self-start h-[calc(100vh-49px)] overflow-y-auto border-r border-stone-100 bg-white">
           <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 px-4 pt-5 pb-3">Select a style</p>
           {STYLES.map(s => (
             <StyleSidebarItem key={s.id} style={s} active={selected.id === s.id} onClick={() => setSelected(s)}/>

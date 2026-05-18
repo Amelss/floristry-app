@@ -42,13 +42,13 @@ function HomeCard({ p, go }) {
 export default function HomePage({ go }) {
   return (
     <div>
-      <div className="bg-[#3D5C3A] px-14 py-20 relative overflow-hidden">
+      <div className="bg-[#3D5C3A] px-5 sm:px-14 py-12 sm:py-20 relative overflow-hidden">
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full border border-white/5 pointer-events-none"/>
         <div className="absolute bottom-0 left-1/3 w-64 h-64 rounded-full border border-white/4 translate-y-1/2 pointer-events-none"/>
         <p className="text-[10px] tracking-[0.22em] uppercase text-[#B8CEAE] mb-5 font-medium">Free Online Learning Resource · UK</p>
-        <h1 style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[64px] font-semibold text-white leading-[1.05] mb-5 max-w-xl">UK Floristry <em className="italic text-[#D4B8B5]">Reference</em></h1>
-        <p className="text-[14px] text-white/55 font-light max-w-lg leading-relaxed mb-10">A free comprehensive self-study resource for beginner to intermediate floristry students in the United Kingdom. No sign-up. No cost.</p>
-        <div className="flex gap-10">
+        <h1 style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[42px] sm:text-[64px] font-semibold text-white leading-[1.05] mb-5 max-w-xl">UK Floristry <em className="italic text-[#D4B8B5]">Reference</em></h1>
+        <p className="text-[13px] sm:text-[14px] text-white/55 font-light max-w-lg leading-relaxed mb-8 sm:mb-10">A free comprehensive self-study resource for beginner to intermediate floristry students in the United Kingdom. No sign-up. No cost.</p>
+        <div className="flex flex-wrap gap-5 sm:gap-10">
           {[['7','Learning modules'],['30','Core flowers'],['5','Key techniques'],['£0','Total cost']].map(([n,l]) => (
             <div key={n} className="border-l border-[#B8CEAE] pl-4">
               <div style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-3xl text-white">{n}</div>
@@ -57,13 +57,13 @@ export default function HomePage({ go }) {
           ))}
         </div>
       </div>
-      <main className="max-w-[1200px] mx-auto px-10 py-12">
+      <main className="max-w-[1200px] mx-auto px-5 sm:px-10 py-8 sm:py-12">
         <p className="text-[9px] font-medium tracking-[0.22em] uppercase text-stone-400 mb-6">All modules</p>
-        <div className="grid grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {HOME_PAGES.map(p => <HomeCard key={p.page} p={p} go={go}/>)}
         </div>
       </main>
-      <footer className="bg-[#3D5C3A] text-white/50 px-14 py-8 text-[12px] font-light">
+      <footer className="bg-[#3D5C3A] text-white/50 px-5 sm:px-14 py-8 text-[12px] font-light">
         <p><strong className="text-white/80 font-medium">UK Floristry Reference</strong> · A free self-study resource for beginner to intermediate floristry students.</p>
       </footer>
     </div>

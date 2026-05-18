@@ -45,9 +45,9 @@ function grade(score, total) {
 function StartScreen({ onStart }) {
   const [cat, setCat] = useState('all');
   return (
-    <div className="max-w-[700px] mx-auto px-10 py-16">
+    <div className="max-w-[700px] mx-auto px-5 sm:px-10 py-10 sm:py-16">
       <p className="text-[10px] tracking-[0.22em] uppercase text-stone-400 mb-3 font-medium">UK Floristry · Self-Assessment</p>
-      <h1 style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[52px] font-semibold text-stone-800 leading-[1.05] mb-4">
+      <h1 style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[38px] sm:text-[52px] font-semibold text-stone-800 leading-[1.05] mb-4">
         Test your <em className="italic text-[#3D5C3A]">Floristry Knowledge</em>
       </h1>
       <p className="text-[14px] text-stone-500 font-light leading-relaxed mb-10">
@@ -102,7 +102,7 @@ function QuestionScreen({ questions, current, score, onAnswer, onNext }) {
   const correct = selected === q.answer;
 
   return (
-    <div className="max-w-[700px] mx-auto px-10 py-10">
+    <div className="max-w-[700px] mx-auto px-5 sm:px-10 py-8 sm:py-10">
       <div className="flex items-center justify-between mb-3">
         <span className="text-[11px] font-medium text-stone-400">{q.category}</span>
         <span className="text-[11px] font-medium text-stone-400">Question {current+1} of {questions.length}</span>
@@ -144,7 +144,7 @@ function ResultsScreen({ score, total, questions, answers, onRetry, onHome }) {
   const pct = Math.round((score/total)*100);
 
   return (
-    <div className="max-w-[700px] mx-auto px-10 py-16">
+    <div className="max-w-[700px] mx-auto px-5 sm:px-10 py-10 sm:py-16">
       <div className="text-center mb-10">
         <div className="inline-flex items-center justify-center w-24 h-24 rounded-full mb-5 border-4" style={{borderColor:g.colour, background:g.colour+'15'}}>
           <span style={{fontFamily:'"Cormorant Garamond",serif', color:g.colour}} className="text-[40px] font-semibold">{score}</span>

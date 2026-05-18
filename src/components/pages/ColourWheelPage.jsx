@@ -43,10 +43,10 @@ function ColourWheelCanvas({ baseHue, setBaseHue, schemeKey }) {
 
   useEffect(() => draw(baseHue, schemeKey), [baseHue, schemeKey]);
 
-  function getHue(e) {
+  function getHueFromPoint(clientX, clientY) {
     const c = canvasRef.current; if (!c) return null;
     const rect = c.getBoundingClientRect(), sx=SZ/rect.width, sy=SZ/rect.height;
-    const x=(e.clientX-rect.left)*sx-CX, y=(e.clientY-rect.top)*sy-CY;
+    const x=(clientX-rect.left)*sx-CX, y=(clientY-rect.top)*sy-CY;
     const d = Math.sqrt(x*x+y*y);
     if (d<IR-5 || d>OR+20) return null;
     let a = Math.atan2(y,x)*180/Math.PI+90;
@@ -54,15 +54,19 @@ function ColourWheelCanvas({ baseHue, setBaseHue, schemeKey }) {
     return Math.round(a/30)*30%360;
   }
 
+  function getHue(e) { return getHueFromPoint(e.clientX, e.clientY); }
+
   const drag = useRef(false);
   return (
     <div className="flex flex-col items-center">
-      <div className="relative">
-        <canvas ref={canvasRef} width={SZ} height={SZ} className="cursor-crosshair"
+      <div className="relative w-full max-w-[360px] mx-auto lg:mx-0">
+        <canvas ref={canvasRef} width={SZ} height={SZ} className="cursor-crosshair w-full h-auto touch-none"
           onMouseDown={e => { drag.current=true; const h=getHue(e); if(h!==null) setBaseHue(h); }}
           onMouseMove={e => { if(!drag.current) return; const h=getHue(e); if(h!==null) setBaseHue(h); }}
           onMouseUp={() => drag.current=false}
-          onMouseLeave={() => drag.current=false}/>
+          onMouseLeave={() => drag.current=false}
+          onTouchStart={e => { e.preventDefault(); const t=e.touches[0]; const h=getHueFromPoint(t.clientX,t.clientY); if(h!==null) setBaseHue(h); }}
+          onTouchMove={e => { e.preventDefault(); const t=e.touches[0]; const h=getHueFromPoint(t.clientX,t.clientY); if(h!==null) setBaseHue(h); }}/>
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="text-center">
             <div style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-xl font-semibold text-stone-800">{getNearestNode(baseHue).name}</div>
@@ -70,7 +74,7 @@ function ColourWheelCanvas({ baseHue, setBaseHue, schemeKey }) {
           </div>
         </div>
       </div>
-      <p className="text-xs text-stone-400 mt-2 font-light">Click or drag to choose a colour</p>
+      <p className="text-xs text-stone-400 mt-2 font-light">Tap or drag to choose a colour</p>
     </div>
   );
 }
@@ -84,10 +88,10 @@ export default function ColourWheelPage() {
     <div>
       <Hero eyebrow="UK Floristry · Colour Theory" title="The" em="Colour Wheel" sub="Click or drag the wheel to select a base colour and explore harmony schemes with suggested flowers for each."/>
       <InfoBand items={[['How to use','Click any part of the colour ring to set your base colour. Markers update to show your chosen harmony scheme.'],['Colour temperature','Warm colours advance visually. Cool colours recede. Mix both for depth and interest.'],['In floristry','Analogous for bridal work. Complementary for bold statements. Triadic for seasonal displays.']]}/>
-      <div className="max-w-[1100px] mx-auto px-10 py-10">
-        <div className="grid gap-10" style={{gridTemplateColumns:'360px 1fr'}}>
+      <div className="max-w-[1100px] mx-auto px-4 sm:px-10 py-8 sm:py-10">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-10 items-start">
           <ColourWheelCanvas baseHue={baseHue} setBaseHue={setBaseHue} schemeKey={schemeKey}/>
-          <div className="flex flex-col gap-5">
+          <div className="flex flex-col gap-5 flex-1 w-full">
             <div>
               <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-2">Harmony scheme</p>
               <div className="flex flex-col gap-1.5">

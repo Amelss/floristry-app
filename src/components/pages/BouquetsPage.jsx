@@ -43,7 +43,7 @@ function BouquetsSection({ title, subtitle, flowers, roleLabel, roleColour }) {
         </div>
         <p className="text-[13px] text-stone-500 font-light mt-2 max-w-2xl">{subtitle}</p>
       </div>
-      <div className="grid grid-cols-5 gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5">
         {flowers.map(f => <WikiFlowerCard key={f.name} flower={f} roleColour={roleColour} roleLabel={roleLabel}/>)}
       </div>
     </section>
@@ -55,7 +55,7 @@ export default function BouquetsPage() {
     <div>
       <Hero eyebrow="UK Floristry · Bouquet Building" title="Top 30 Flowers for" em="Bouquets" sub="The essential focal flowers, foliage, and filler flowers for building beautiful hand-tied bouquets — the cornerstone skill of UK floristry."/>
       <InfoBand items={[['Focal flowers','The stars of the bouquet — choose one dominant focal and build everything else around it.'],['Foliage','The frame that makes focal flowers sing. Good foliage adds depth, movement, and texture.'],['Filler flowers','Fill the gaps, add texture, and create a sense of abundance. Great filler separates good from great.']]}/>
-      <div className="max-w-[1300px] mx-auto px-10 py-12">
+      <div className="max-w-[1300px] mx-auto px-4 sm:px-10 py-8 sm:py-12">
         <BouquetsSection title="Top 10 Focal Flowers" subtitle="The stars of the bouquet — the first flowers the eye is drawn to. Choose one dominant focal and build everything else around it." flowers={FOCAL} roleLabel="Focal" roleColour="#3D5C3A"/>
         <BouquetsSection title="Top 10 Foliage" subtitle="The frame that makes focal flowers sing. Good foliage adds depth, movement, and texture that no flower alone can provide." flowers={FOLIAGE} roleLabel="Foliage" roleColour="#6B8A66"/>
         <BouquetsSection title="Top 10 Filler Flowers" subtitle="Fill the gaps, add texture, and create a sense of abundance. Great filler flowers are often what separates a good bouquet from a great one." flowers={FILLER} roleLabel="Filler" roleColour="#C9948E"/>

@@ -5,8 +5,8 @@ export default function TechniquesPage() {
   return (
     <div>
       <Hero eyebrow="UK Floristry · Practical Skills" title="Techniques &" em="Skills Guide" sub="Step-by-step guides to the core practical skills every UK floristry student needs — from the hand-tied bouquet to foam-free mechanics."/>
-      <div className="max-w-[1200px] mx-auto px-10 py-10">
-        <div className="grid grid-cols-2 gap-6">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-10 py-8 sm:py-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 sm:gap-6">
           {TECHNIQUES_DATA.map(({emoji, title, sub, steps, meta}) => (
             <div key={title} className="bg-white rounded-xl border border-stone-100 overflow-hidden hover:shadow-md transition-all">
               <div className="bg-[#3D5C3A]/5 border-b border-stone-100 px-5 py-4">

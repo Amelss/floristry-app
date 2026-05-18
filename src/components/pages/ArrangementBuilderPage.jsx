@@ -267,10 +267,10 @@ export default function ArrangementBuilderPage() {
     <div className="bg-[#FAF8F4] min-h-screen">
 
       {/* Header */}
-      <div className="bg-[#3D5C3A] px-14 py-14 relative overflow-hidden">
+      <div className="bg-[#3D5C3A] px-5 sm:px-14 py-10 sm:py-14 relative overflow-hidden">
         <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full border border-white/5 pointer-events-none"/>
         <p className="text-[10px] tracking-[0.22em] uppercase text-[#B8CEAE] mb-4 font-medium">UK Floristry · Design Tool</p>
-        <h1 style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[52px] font-semibold text-white leading-[1.1] mb-4 max-w-2xl">
+        <h1 style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[36px] sm:text-[52px] font-semibold text-white leading-[1.1] mb-4 max-w-2xl">
           Arrangement <em className="italic text-[#D4B8B5]">Builder</em>
         </h1>
         <p className="text-[13px] text-white/55 font-light max-w-lg leading-relaxed">
@@ -278,15 +278,15 @@ export default function ArrangementBuilderPage() {
         </p>
       </div>
 
-      <div className="flex gap-0 items-start">
+      <div className="flex flex-col lg:flex-row gap-0 lg:items-start">
 
-        {/* ── Left builder panel ── */}
-        <div className="flex-1 min-w-0 px-10 py-8 overflow-y-auto">
+        {/* ── Builder panel ── */}
+        <div className="flex-1 min-w-0 px-5 sm:px-10 py-6 sm:py-8">
 
           {/* Step 1 — Type */}
           <div className="mb-8">
             <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-3">Step 1 · Arrangement type</p>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {ARRANGEMENT_TYPES.map(t => (
                 <button key={t.id} onClick={() => changeType(t.id)}
                   className={`text-left px-4 py-3.5 rounded-xl border transition-all cursor-pointer
@@ -348,8 +348,8 @@ export default function ArrangementBuilderPage() {
           </div>
         </div>
 
-        {/* ── Right recipe card ── */}
-        <div className="w-72 flex-shrink-0 sticky top-[49px] p-6">
+        {/* ── Recipe card ── */}
+        <div className="w-full lg:w-72 lg:flex-shrink-0 lg:sticky lg:top-[49px] px-5 sm:px-6 pb-6 lg:py-6">
           <RecipeCard type={type} size={size} picks={picks} recipe={recipe} cost={cost}/>
         </div>
       </div>

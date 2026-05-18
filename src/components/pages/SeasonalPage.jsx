@@ -7,8 +7,8 @@ export default function SeasonalPage() {
     <div>
       <Hero eyebrow="UK Floristry · Seasonal Guide" title="UK Flower" em="Seasonal Calendar" sub="What's growing when — a month-by-month guide to British cut flowers and foliage, from January snowdrops to December amaryllis."/>
       <InfoBand items={[['UK grown only','This calendar covers flowers grown in Britain. Many additional varieties are available via import year-round.'],['Why seasonality matters','Seasonal flowers are fresher, cheaper, more sustainable, and support British flower farmers.'],["Ipswich & Suffolk","Your location has one of the longest growing seasons in the UK thanks to East Anglia's low rainfall and sunshine."]]}/>
-      <div className="max-w-[1300px] mx-auto px-10 py-10">
-        <div className="grid grid-cols-4 gap-5">
+      <div className="max-w-[1300px] mx-auto px-4 sm:px-10 py-8 sm:py-10">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
           {MONTHS_CAL.map(m => (
             <div key={m.name} className="bg-white rounded-xl border border-stone-100 overflow-hidden hover:shadow-md transition-all">
               <div className="px-4 py-3 flex items-center gap-3" style={{background:`${m.colour}20`,borderBottom:`1px solid ${m.colour}30`}}>
