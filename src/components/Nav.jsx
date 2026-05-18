@@ -95,7 +95,7 @@ export default function Nav({ page, go }) {
       </div>
 
       {/* ── Desktop nav tabs ── */}
-      <nav className="hidden md:flex items-stretch px-4 border-b border-stone-100">
+      <nav className="hidden md:flex items-stretch justify-center px-4 border-b border-stone-100">
         <button
           onClick={() => handleGo('home')}
           className={`px-4 py-3 text-[11px] font-medium tracking-wide cursor-pointer border-b-2 transition-all bg-transparent whitespace-nowrap flex-shrink-0
