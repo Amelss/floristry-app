@@ -11,6 +11,8 @@ import ConditioningPage from './components/pages/ConditioningPage';
 import StyleGuidePage from './components/pages/StyleGuidePage';
 import QuizPage from './components/pages/QuizPage';
 import ArrangementBuilderPage from './components/pages/ArrangementBuilderPage';
+import GlossaryPage from './components/pages/GlossaryPage';
+import StemCalculatorPage from './components/pages/StemCalculatorPage';
 
 export default function App() {
   const { page, go } = useNav();
@@ -26,6 +28,8 @@ export default function App() {
     builder: <ArrangementBuilderPage/>,
     wedding: <WeddingPage/>,
     conditioning: <ConditioningPage/>,
+    glossary: <GlossaryPage/>,
+    stemcalc: <StemCalculatorPage/>,
   };
   return (
     <div className="min-h-screen bg-[#FAF8F4]" style={{fontFamily:'Jost, sans-serif'}}>

@@ -9,6 +9,7 @@ const MENUS = [
       { key: 'wheel',    label: 'Colour Wheel',      desc: 'Interactive harmony schemes' },
       { key: 'bouquets', label: 'Bouquet Flowers',   desc: 'Focal, foliage & filler guide' },
       { key: 'seasonal', label: 'Seasonal Calendar', desc: 'Month-by-month UK flowers' },
+      { key: 'glossary', label: 'Glossary',          desc: 'A–Z of floristry terms' },
     ],
   },
   {
@@ -25,8 +26,9 @@ const MENUS = [
     key: 'tools',
     label: 'Tools',
     items: [
-      { key: 'builder', label: 'Arrangement Builder', desc: 'Recipe & cost calculator' },
-      { key: 'quiz',    label: 'Knowledge Quiz',      desc: 'Test yourself on floristry' },
+      { key: 'builder',  label: 'Arrangement Builder', desc: 'Recipe & cost calculator' },
+      { key: 'stemcalc', label: 'Stem Calculator',     desc: 'Single or event stem counts' },
+      { key: 'quiz',     label: 'Knowledge Quiz',      desc: 'Test yourself on floristry' },
     ],
   },
 ];
