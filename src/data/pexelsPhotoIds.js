@@ -29,7 +29,7 @@ export const PINNED_PEXELS_PHOTO_IDS = {
   "peony flower": 34591256,
   "tulip flower": 31628440,
   "sunflower flower": 34537615,
-  "sweet pea flower": 12617323,
+  "sweet pea flower": 9890569,
   "freesia flower": 36507832,
   "anemone flower": 36563841,
   "delphinium flower": 25328815,
