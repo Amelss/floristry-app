@@ -43,24 +43,6 @@ export default function FlowersPage() {
           names, seasonal availability, native origins, and care notes for the
           30 most essential cut flowers and foliages.
         </p>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 sm:gap-0 sm:divide-x sm:divide-[#B8CEAE]">
-          {[
-            ["30", "Flowers & foliages"],
-            ["12", "Plant families"],
-            ["4", "Seasonal groups"],
-            ["6", "Flower roles"],
-          ].map(([n, l]) => (
-            <div key={n} className="sm:px-4">
-              <div
-                style={{ fontFamily: '"Cormorant Garamond",serif' }}
-                className="text-3xl text-white"
-              >
-                {n}
-              </div>
-              <div className="text-[11px] text-white/45 font-light">{l}</div>
-            </div>
-          ))}
-        </div>
       </div>
       <InfoBand
         items={[
@@ -75,10 +57,6 @@ export default function FlowersPage() {
           [
             "Flower roles",
             "Each flower is tagged: Focal, Secondary, Filler, Line, Foliage or Texture.",
-          ],
-          [
-            "Photos",
-            "Images load from Wikipedia for some flowers — requires an internet connection.",
           ],
         ]}
       />

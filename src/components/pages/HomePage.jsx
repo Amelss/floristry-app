@@ -128,24 +128,7 @@ export default function HomePage({ go }) {
           A free comprehensive self-study resource for beginner to intermediate
           floristry students in the United Kingdom. No sign-up. No cost.
         </p>
-        <div className="flex flex-wrap gap-5 sm:gap-10">
-          {[
-            ["7", "Learning modules"],
-            ["30", "Core flowers"],
-            ["5", "Key techniques"],
-            ["£0", "Total cost"],
-          ].map(([n, l]) => (
-            <div key={n} className="border-l border-[#B8CEAE] pl-4">
-              <div
-                style={{ fontFamily: '"Cormorant Garamond",serif' }}
-                className="text-3xl text-white"
-              >
-                {n}
-              </div>
-              <div className="text-[11px] text-white/45 font-light">{l}</div>
-            </div>
-          ))}
-        </div>
+
       </div>
       <main className="max-w-[1200px] mx-auto px-5 sm:px-10 py-8 sm:py-12">
         <p className="text-[9px] font-medium tracking-[0.22em] uppercase text-stone-400 mb-6">
@@ -157,13 +140,19 @@ export default function HomePage({ go }) {
           ))}
         </div>
       </main>
-      <footer className="bg-[#3D5C3A] text-white/50 px-5 sm:px-14 py-8 text-[12px] font-light">
+      <footer className="bg-[#3D5C3A] text-white/50 px-5 sm:px-14 py-8 text-[12px] font-light flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <p>
           <strong className="text-white/80 font-medium">
             UK Floristry Reference
           </strong>{" "}
           · A free self-study resource for beginner to intermediate floristry
           students.
+        </p>
+        <p>
+          Photos courtesy of{" "}
+          <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white underline transition-colors">
+            Pexels
+          </a>
         </p>
       </footer>
     </div>
