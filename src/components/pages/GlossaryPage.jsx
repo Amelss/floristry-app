@@ -4,12 +4,12 @@ import GLOSSARY from '../../data/glossary';
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 const CATEGORY_COLOURS = {
-  'Design':          { bg: '#3D5C3A', text: '#3D5C3A' },
-  'Mechanics':       { bg: '#6B8A66', text: '#6B8A66' },
-  'Technique':       { bg: '#8B9DC0', text: '#8B9DC0' },
-  'Care':            { bg: '#C9948E', text: '#C9948E' },
-  'Flower Anatomy':  { bg: '#8B7355', text: '#8B7355' },
-  'Business':        { bg: '#948C82', text: '#948C82' },
+  'Design':          { text: '#3D5C3A' },
+  'Mechanics':       { text: '#6B8A66' },
+  'Technique':       { text: '#8B9DC0' },
+  'Care':            { text: '#C9948E' },
+  'Flower Anatomy':  { text: '#8B7355' },
+  'Business':        { text: '#948C82' },
 };
 
 function CategoryBadge({ category }) {
@@ -23,8 +23,11 @@ function CategoryBadge({ category }) {
 }
 
 export default function GlossaryPage() {
-  const [search, setSearch] = useState('');
-  const [activeLetter, setActiveLetter] = useState(null);
+  const [search, setSearch]               = useState('');
+  const [activeLetter, setActiveLetter]   = useState(null);
+  const [activeCategory, setActiveCategory] = useState(null);
+
+  function clearAll() { setSearch(''); setActiveLetter(null); setActiveCategory(null); }
 
   const filtered = useMemo(() => {
     let list = [...GLOSSARY].sort((a, b) => a.term.localeCompare(b.term));
@@ -32,16 +35,23 @@ export default function GlossaryPage() {
       const q = search.toLowerCase();
       list = list.filter(g => g.term.toLowerCase().includes(q) || g.def.toLowerCase().includes(q));
     }
+    if (activeCategory) {
+      list = list.filter(g => g.category === activeCategory);
+    }
     if (activeLetter && !search) {
       list = list.filter(g => g.term[0].toUpperCase() === activeLetter);
     }
     return list;
-  }, [search, activeLetter]);
+  }, [search, activeLetter, activeCategory]);
 
-  // Which letters have entries
-  const presentLetters = new Set(GLOSSARY.map(g => g.term[0].toUpperCase()));
+  // Letters present in the current filtered set (respects category filter)
+  const presentLetters = useMemo(() => {
+    const base = activeCategory
+      ? GLOSSARY.filter(g => g.category === activeCategory)
+      : GLOSSARY;
+    return new Set(base.map(g => g.term[0].toUpperCase()));
+  }, [activeCategory]);
 
-  // Group by first letter for display
   const grouped = useMemo(() => {
     const map = {};
     filtered.forEach(g => {
@@ -52,7 +62,7 @@ export default function GlossaryPage() {
     return map;
   }, [filtered]);
 
-  function clearFilters() { setSearch(''); setActiveLetter(null); }
+  const anyFilter = search || activeLetter || activeCategory;
 
   return (
     <div>
@@ -83,25 +93,52 @@ export default function GlossaryPage() {
             className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 bg-white text-[13px] text-stone-700 placeholder:text-stone-400 outline-none focus:border-[#6B8A66] transition-colors"
           />
           {search && (
-            <button onClick={clearFilters} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 cursor-pointer bg-transparent border-none text-lg leading-none">×</button>
+            <button onClick={() => setSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 cursor-pointer bg-transparent border-none text-lg leading-none">×</button>
           )}
         </div>
 
-        {/* Category legend */}
+        {/* Category filter pills */}
         <div className="flex flex-wrap gap-2 mb-6">
-          {Object.entries(CATEGORY_COLOURS).map(([cat, col]) => (
-            <span key={cat} className="text-[10px] font-medium px-2.5 py-1 rounded-full border"
-              style={{ color: col.text, borderColor: col.text + '40', background: col.text + '12' }}>
-              {cat}
-            </span>
-          ))}
+          {Object.entries(CATEGORY_COLOURS).map(([cat, col]) => {
+            const isActive = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(prev => prev === cat ? null : cat)}
+                className="flex items-center gap-1.5 text-[10px] font-medium px-2.5 py-1 rounded-full border transition-all cursor-pointer"
+                style={isActive
+                  ? { color: '#fff', background: col.text, borderColor: col.text }
+                  : { color: col.text, borderColor: col.text + '40', background: col.text + '12' }
+                }
+              >
+                {cat}
+                {isActive && (
+                  <span className="text-white/80 text-[11px] leading-none font-light ml-0.5">×</span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
-        {/* A–Z letter nav */}
+        {/* Active category banner */}
+        {activeCategory && !search && (
+          <div className="flex items-center justify-between mb-5 px-4 py-3 rounded-xl border"
+            style={{ background: (CATEGORY_COLOURS[activeCategory]?.text ?? '#948C82') + '0D', borderColor: (CATEGORY_COLOURS[activeCategory]?.text ?? '#948C82') + '30' }}>
+            <p className="text-[12px] font-medium" style={{ color: CATEGORY_COLOURS[activeCategory]?.text }}>
+              Showing {filtered.length} {activeCategory} {filtered.length === 1 ? 'term' : 'terms'}
+            </p>
+            <button onClick={() => setActiveCategory(null)}
+              className="text-[11px] font-medium text-stone-400 hover:text-stone-600 cursor-pointer bg-transparent border-none flex items-center gap-1">
+              Show all ×
+            </button>
+          </div>
+        )}
+
+        {/* A–Z letter nav — hidden when searching */}
         {!search && (
           <div className="flex flex-wrap gap-1 mb-8">
             <button
-              onClick={clearFilters}
+              onClick={() => setActiveLetter(null)}
               className={`text-[11px] font-medium px-2.5 py-1 rounded-lg transition-all cursor-pointer
                 ${!activeLetter ? 'bg-[#3D5C3A] text-white' : 'bg-stone-100 text-stone-500 hover:bg-stone-200'}`}
             >
@@ -121,18 +158,21 @@ export default function GlossaryPage() {
           </div>
         )}
 
-        {/* Results count */}
-        {(search || activeLetter) && (
+        {/* Results count for search or letter */}
+        {(search || (activeLetter && !activeCategory)) && (
           <p className="text-[11px] text-stone-400 font-light mb-5">
-            {filtered.length} {filtered.length === 1 ? 'term' : 'terms'}{search ? ` matching "${search}"` : ` starting with ${activeLetter}`}
-            <button onClick={clearFilters} className="ml-2 text-[#6B8A66] hover:underline cursor-pointer bg-transparent border-none font-medium">Clear</button>
+            {filtered.length} {filtered.length === 1 ? 'term' : 'terms'}
+            {search ? ` matching "${search}"` : ` starting with ${activeLetter}`}
+            {anyFilter && (
+              <button onClick={clearAll} className="ml-2 text-[#6B8A66] hover:underline cursor-pointer bg-transparent border-none font-medium">Clear all</button>
+            )}
           </p>
         )}
 
         {/* Glossary entries */}
         {filtered.length === 0 ? (
           <div className="text-center py-16 text-stone-400 text-[14px] font-light">
-            No terms match your search.
+            No terms match your filters.
           </div>
         ) : (
           <div className="flex flex-col gap-8">
@@ -140,16 +180,13 @@ export default function GlossaryPage() {
               .sort(([a], [b]) => a.localeCompare(b))
               .map(([letter, terms]) => (
                 <div key={letter}>
-                  {/* Letter heading */}
                   <div className="flex items-center gap-3 mb-3">
                     <span style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[28px] font-semibold text-[#3D5C3A] leading-none">{letter}</span>
                     <div className="flex-1 h-px bg-stone-100"/>
                   </div>
                   <div className="flex flex-col gap-0 border border-stone-100 rounded-xl overflow-hidden">
                     {terms.map((g, i) => (
-                      <div key={g.term}
-                        className={`px-5 py-4 ${i < terms.length - 1 ? 'border-b border-stone-50' : ''}`}
-                      >
+                      <div key={g.term} className={`px-5 py-4 ${i < terms.length - 1 ? 'border-b border-stone-50' : ''}`}>
                         <div className="flex items-start gap-3 flex-wrap mb-1.5">
                           <span style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[17px] font-semibold text-stone-800 leading-tight">{g.term}</span>
                           <CategoryBadge category={g.category}/>
