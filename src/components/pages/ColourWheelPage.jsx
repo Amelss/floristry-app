@@ -171,7 +171,8 @@ export default function ColourWheelPage() {
     <div>
       <Hero
         eyebrow="UK Floristry · Colour Theory"
-        title="The Colour Wheel"
+        title="Interactive"
+        em="Colour Wheel"
         sub="Click or drag the wheel to select a base colour and explore harmony schemes with suggested flowers for each."
       />
       <InfoBand

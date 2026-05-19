@@ -1,4 +1,4 @@
-export default function Hero({ eyebrow, title, em, sub, subClassName }) {
+export default function Hero({ eyebrow, title, em, sub, subClassName, inline = false }) {
   const subClasses =
     subClassName ??
     "text-[12px] sm:text-[13px] text-white/70 font-light max-w-lg leading-relaxed";
@@ -13,11 +13,20 @@ export default function Hero({ eyebrow, title, em, sub, subClassName }) {
         style={{ fontFamily: '"Cormorant Garamond",serif' }}
         className="text-[36px] sm:text-[52px] font-semibold leading-[1.1] mb-4 max-w-2xl"
       >
-        <span className="block italic text-[#D4B8B5]">{title}</span>
-        {em && (
-          <em className="block text-white font-normal mt-3 text-[26px] sm:text-[32px]">
-            {em}
-          </em>
+        {inline ? (
+          <>
+            <span className="italic text-[#D4B8B5]">{title} </span>
+            {em && <span className="text-white font-normal not-italic">{em}</span>}
+          </>
+        ) : (
+          <>
+            <span className="block italic text-[#D4B8B5]">{title}</span>
+            {em && (
+              <em className="block text-white font-normal mt-3 text-[26px] sm:text-[32px]">
+                {em}
+              </em>
+            )}
+          </>
         )}
       </h1>
       <p className={subClasses}>{sub}</p>

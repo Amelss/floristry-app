@@ -6,7 +6,9 @@ export default function ConditioningPage() {
     <div>
       <Hero
         eyebrow="UK Floristry · Post-Harvest Care"
-        title="Conditioning and Care"
+        title="Conditioning &"
+        em="Care Guide"
+        inline
         sub="How to maximise the vase life of every flower you buy — the difference between a professional and an amateur is almost always in the conditioning."
       />
       <div className="max-w-[1200px] mx-auto px-4 sm:px-10 py-8 sm:py-10">

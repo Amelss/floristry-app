@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import MONTHS_CAL from "../../data/seasonal";
 import Hero from "../shared/Hero";
-import InfoBand from "../shared/InfoBand";
 
 function getRegionDesc(city, region) {
   const combined = `${region || ""} ${city || ""}`.toLowerCase();
@@ -48,26 +47,46 @@ function getRegionDesc(city, region) {
   return "Growing seasons vary across the UK — southern and coastal areas typically enjoy earlier springs and longer flowering windows than northern and inland regions.";
 }
 
+const TIMEOUT_MS = 5000;
+
 function useLocation() {
-  const [info, setInfo] = useState({ label: "Location Not Found", desc: getRegionDesc("", "") });
+  const [info, setInfo] = useState({ status: 'loading' });
 
   useEffect(() => {
-    fetch("https://ipapi.co/json/")
-      .then((r) => r.json())
-      .then((d) => {
-        const city = d.city || "";
-        const region = d.region || "";
-        const label = city && region ? `${city}, ${region}` : city || region || "Location Not Found";
-        setInfo({ label, desc: getRegionDesc(city, region) });
+    const timer = setTimeout(() => {
+      setInfo(prev =>
+        prev.status === 'loading'
+          ? { status: 'failed', label: 'Location Not Found', desc: getRegionDesc('', '') }
+          : prev
+      );
+    }, TIMEOUT_MS);
+
+    fetch('https://ipapi.co/json/')
+      .then(r => r.json())
+      .then(d => {
+        clearTimeout(timer);
+        const city = d.city || '';
+        const region = d.region || '';
+        const label = city && region ? `${city}, ${region}` : city || region || null;
+        if (!label) {
+          setInfo({ status: 'failed', label: 'Location Not Found', desc: getRegionDesc('', '') });
+        } else {
+          setInfo({ status: 'resolved', label, desc: getRegionDesc(city, region) });
+        }
       })
-      .catch(() => {});
+      .catch(() => {
+        clearTimeout(timer);
+        setInfo({ status: 'failed', label: 'Location Not Found', desc: getRegionDesc('', '') });
+      });
+
+    return () => clearTimeout(timer);
   }, []);
 
   return info;
 }
 
 export default function SeasonalPage() {
-  const { label, desc } = useLocation();
+  const location = useLocation();
 
   return (
     <div>
@@ -77,19 +96,34 @@ export default function SeasonalPage() {
         em="UK Flowers"
         sub="What's growing when — a month-by-month guide to British cut flowers and foliage, from January snowdrops to December amaryllis."
       />
-      <InfoBand
-        items={[
-          [
-            "UK grown only",
-            "This calendar covers flowers grown in Britain. Many additional varieties are available via import year-round.",
-          ],
-          [
-            "Why seasonality matters",
-            "Seasonal flowers are fresher, cheaper, more sustainable, and support British flower farmers.",
-          ],
-          [label, desc],
-        ]}
-      />
+
+      {/* Info band — third slot is skeleton-aware */}
+      <div className="bg-white border-b border-stone-100 px-5 sm:px-14 py-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-0">
+        {[
+          ['UK grown only', 'This calendar covers flowers grown in Britain. Many additional varieties are available via import year-round.'],
+          ['Why seasonality matters', 'Seasonal flowers are fresher, cheaper, more sustainable, and support British flower farmers.'],
+        ].map(([t, d], i) => (
+          <div key={i} className="sm:border-r sm:border-stone-100 sm:pr-6 sm:mr-6">
+            <p className="text-[12px] font-medium text-stone-700 mb-0.5">{t}</p>
+            <p className="text-[11.5px] text-stone-500 font-light leading-relaxed">{d}</p>
+          </div>
+        ))}
+
+        {/* Location slot */}
+        {location.status === 'loading' ? (
+          <div>
+            <div className="h-3 w-24 rounded bg-stone-200 animate-pulse mb-2" />
+            <div className="h-2.5 w-full rounded bg-stone-100 animate-pulse mb-1.5" />
+            <div className="h-2.5 w-5/6 rounded bg-stone-100 animate-pulse mb-1.5" />
+            <div className="h-2.5 w-4/6 rounded bg-stone-100 animate-pulse" />
+          </div>
+        ) : (
+          <div>
+            <p className="text-[12px] font-medium text-stone-700 mb-0.5">{location.label}</p>
+            <p className="text-[11.5px] text-stone-500 font-light leading-relaxed">{location.desc}</p>
+          </div>
+        )}
+      </div>
       <div className="max-w-[1300px] mx-auto px-4 sm:px-10 py-8 sm:py-10">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
           {MONTHS_CAL.map((m) => (

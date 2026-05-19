@@ -114,6 +114,7 @@ export default function EquipmentPage() {
         eyebrow="UK Floristry · Kit & Equipment"
         title="Tools &"
         em="Equipment Guide"
+        inline
         sub={`Everything in a professional florist's kit explained — what each tool does, when to use it, and what to prioritise when building your kit from scratch.`}
       />
       <InfoBand items={[

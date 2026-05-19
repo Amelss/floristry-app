@@ -45,15 +45,20 @@ function grade(score, total) {
 function StartScreen({ onStart }) {
   const [cat, setCat] = useState('all');
   return (
-    <div className="max-w-[700px] mx-auto px-5 sm:px-10 py-10 sm:py-16">
-      <p className="text-[10px] tracking-[0.22em] uppercase text-stone-400 mb-3 font-medium">UK Floristry · Self-Assessment</p>
-      <h1 style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[38px] sm:text-[52px] font-semibold text-stone-800 leading-[1.05] mb-4">
-        Test your <em className="italic text-[#3D5C3A]">Floristry Knowledge</em>
-      </h1>
-      <p className="text-[14px] text-stone-500 font-light leading-relaxed mb-10">
-        {QUIZ_LENGTH} questions drawn from across the reference guide. Covers Latin names, seasonality, colour theory, care and design styles.
-      </p>
+    <div>
+      {/* Hero — consistent with all other pages */}
+      <div className="bg-[#3D5C3A] px-5 sm:px-14 py-10 sm:py-14 relative overflow-hidden">
+        <div className="absolute -top-20 -right-20 w-96 h-96 rounded-full border border-white/5 pointer-events-none"/>
+        <p className="text-[10px] tracking-[0.22em] uppercase text-[#B8CEAE] mb-4 font-medium">UK Floristry · Self-Assessment</p>
+        <h1 style={{fontFamily:'"Cormorant Garamond",serif'}} className="text-[36px] sm:text-[52px] font-semibold leading-[1.1] mb-4 max-w-2xl">
+          <span className="italic text-[#D4B8B5]">Knowledge </span><span className="text-white font-normal">Quiz</span>
+        </h1>
+        <p className="text-[12px] sm:text-[13px] text-white/70 font-light max-w-lg leading-relaxed">
+          {QUIZ_LENGTH} questions drawn from across the reference guide — Latin names, seasonality, colour theory, design styles, and care.
+        </p>
+      </div>
 
+      <div className="max-w-[700px] mx-auto px-5 sm:px-10 py-8 sm:py-10">
       <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-3">Choose a topic</p>
       <div className="flex flex-col gap-2 mb-10">
         {CATEGORIES.map(c => (
@@ -74,6 +79,7 @@ function StartScreen({ onStart }) {
         className="w-full bg-[#3D5C3A] text-white py-4 rounded-xl text-[13px] font-medium tracking-wide hover:bg-[#2D4A2D] transition-colors cursor-pointer">
         Start Quiz — {QUIZ_LENGTH} Questions
       </button>
+      </div>
     </div>
   );
 }

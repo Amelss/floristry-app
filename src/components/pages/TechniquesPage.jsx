@@ -6,7 +6,9 @@ export default function TechniquesPage() {
     <div>
       <Hero
         eyebrow="UK Floristry · Practical Skills"
-        title="Techniques & Skills Guide"
+        title="Techniques &"
+        em="Skills Guide"
+        inline
         sub="Step-by-step guides to the core practical skills every UK floristry student needs — from the hand-tied bouquet to foam-free mechanics."
       />
       <div className="max-w-[1200px] mx-auto px-4 sm:px-10 py-8 sm:py-10">
