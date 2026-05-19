@@ -1,8 +1,22 @@
+import { PINNED_PEXELS_PHOTO_IDS } from "../data/pexelsPhotoIds";
+
 const API_KEY = import.meta.env.VITE_PEXELS_API_KEY;
-const CACHE_PREFIX = 'pexels_v1_';
+const CACHE_PREFIX = "pexels_v1_";
+
+function pinnedPhotoUrl(photoId) {
+  return `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&h=650&w=940`;
+}
 
 export async function fetchPexelsPhoto(query) {
-  const cacheKey = CACHE_PREFIX + query.toLowerCase();
+  if (!query || typeof query !== "string") return null;
+
+  const normalizedQuery = query.trim().toLowerCase();
+  const pinnedId = PINNED_PEXELS_PHOTO_IDS[normalizedQuery];
+  if (pinnedId) {
+    return pinnedPhotoUrl(pinnedId);
+  }
+
+  const cacheKey = CACHE_PREFIX + normalizedQuery;
   const cached = localStorage.getItem(cacheKey);
   if (cached) return cached;
 
@@ -11,7 +25,7 @@ export async function fetchPexelsPhoto(query) {
   try {
     const res = await fetch(
       `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
-      { headers: { Authorization: API_KEY } }
+      { headers: { Authorization: API_KEY } },
     );
     const data = await res.json();
     const photo = data.photos?.[0];
