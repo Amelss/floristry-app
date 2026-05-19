@@ -13,6 +13,8 @@ import QuizPage from './components/pages/QuizPage';
 import ArrangementBuilderPage from './components/pages/ArrangementBuilderPage';
 import GlossaryPage from './components/pages/GlossaryPage';
 import StemCalculatorPage from './components/pages/StemCalculatorPage';
+import TroubleshootingPage from './components/pages/TroubleshootingPage';
+import EquipmentPage from './components/pages/EquipmentPage';
 
 export default function App() {
   const { page, go } = useNav();
@@ -30,6 +32,8 @@ export default function App() {
     conditioning: <ConditioningPage/>,
     glossary: <GlossaryPage/>,
     stemcalc: <StemCalculatorPage/>,
+    troubleshooting: <TroubleshootingPage/>,
+    equipment: <EquipmentPage/>,
   };
   return (
     <div className="min-h-screen bg-[#FAF8F4]" style={{fontFamily:'Jost, sans-serif'}}>

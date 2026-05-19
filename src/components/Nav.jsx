@@ -9,7 +9,8 @@ const MENUS = [
       { key: 'wheel',    label: 'Colour Wheel',      desc: 'Interactive harmony schemes' },
       { key: 'bouquets', label: 'Bouquet Flowers',   desc: 'Focal, foliage & filler guide' },
       { key: 'seasonal', label: 'Seasonal Calendar', desc: 'Month-by-month UK flowers' },
-      { key: 'glossary', label: 'Glossary',          desc: 'A–Z of floristry terms' },
+      { key: 'glossary',   label: 'Glossary',           desc: 'A–Z of floristry terms' },
+      { key: 'equipment', label: 'Tools & Equipment',  desc: 'Kit guide for every level' },
     ],
   },
   {
@@ -19,7 +20,8 @@ const MENUS = [
       { key: 'styles',       label: 'Style Guide',        desc: 'Dutch Masters to Ikebana' },
       { key: 'techniques',   label: 'Techniques & Skills', desc: 'Step-by-step practical guides' },
       { key: 'wedding',      label: 'Wedding Floristry',   desc: 'Bouquets, arches & tributes' },
-      { key: 'conditioning', label: 'Conditioning & Care', desc: 'Maximise vase life' },
+      { key: 'conditioning',     label: 'Conditioning & Care',  desc: 'Maximise vase life' },
+      { key: 'troubleshooting', label: 'Troubleshooting',       desc: 'Fix common floristry problems' },
     ],
   },
   {
