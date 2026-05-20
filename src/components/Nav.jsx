@@ -160,6 +160,14 @@ export default function Nav({ page, go }) {
                       <p className="text-[10px] text-stone-400 font-light mt-0.5">{item.desc}</p>
                     </button>
                   ))}
+                  <div className="border-t border-stone-100 mt-1 pt-1">
+                    <button
+                      onClick={() => handleGo(menu.key)}
+                      className="w-full text-left px-4 py-2 text-[11px] font-medium text-[#3D5C3A] hover:bg-[#3D5C3A]/5 transition-colors cursor-pointer"
+                    >
+                      View all {menu.label} →
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -225,6 +233,12 @@ export default function Nav({ page, go }) {
                         <p className="text-[11px] text-stone-400 font-light mt-0.5">{item.desc}</p>
                       </button>
                     ))}
+                    <button
+                      onClick={() => handleGo(menu.key)}
+                      className="w-full text-left pl-8 pr-5 py-3 border-t border-stone-100/60 text-[12px] font-medium text-[#3D5C3A] hover:bg-stone-100/60 transition-colors cursor-pointer"
+                    >
+                      View all {menu.label} →
+                    </button>
                   </div>
                 )}
               </div>

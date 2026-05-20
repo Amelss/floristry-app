@@ -67,4 +67,13 @@ export const PINNED_PEXELS_PHOTO_IDS = {
   "baby blue eucalyptus flower": 1026237,
   "seeded eucalyptus flower": 5797909,
   "bupleurum flower": 16845943,
+  // Category pages & homepage tiles
+  "study notebook pen desk open journal": 36198392,
+  "scissors garden pruning shears tools workshop": 18566999,
+  "garden scissors pruning shears tools": 18566999,
+  "elegant minimal flower arrangement": 7814395,
+  "wilting drooping flowers vase": 9963077,
+  "pencil paper exam study test": 31115182,
+  "flower stems bundle market flowers": 16093774,
+  "flower arrangement recipe planning notes": 8715602,
 };

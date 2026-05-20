@@ -1,12 +1,12 @@
 const NAV_LINKS = [
-  { label: '30 Core Flowers',     key: 'flowers'     },
+  { label: 'Foundations',         key: 'foundations'  },
+  { label: 'Learn',               key: 'learn'        },
+  { label: 'Tools',               key: 'tools'        },
+  { label: '30 Core Flowers',     key: 'flowers'      },
   { label: 'Colour Wheel',        key: 'wheel'        },
   { label: 'Seasonal Calendar',   key: 'seasonal'     },
   { label: 'Techniques & Skills', key: 'techniques'   },
-  { label: 'Wedding Floristry',   key: 'wedding'      },
-  { label: 'Sustainability Guide',key: 'sustainability'},
   { label: 'Study Companion',     key: 'workbook'     },
-  { label: 'Arrangement Builder', key: 'builder'      },
   { label: 'Knowledge Quiz',      key: 'quiz'         },
 ];
 

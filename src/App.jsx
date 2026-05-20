@@ -19,6 +19,9 @@ import EquipmentPage from './components/pages/EquipmentPage';
 import MeaningsPage from './components/pages/MeaningsPage';
 import SustainabilityPage from './components/pages/SustainabilityPage';
 import WorkbookPage from './components/pages/WorkbookPage';
+import FoundationsPage from './components/pages/FoundationsPage';
+import LearnPage from './components/pages/LearnPage';
+import ToolsPage from './components/pages/ToolsPage';
 export default function App() {
   const { page, go } = useNav();
   const pages = {
@@ -40,6 +43,9 @@ export default function App() {
     meanings: <MeaningsPage/>,
     sustainability: <SustainabilityPage/>,
     workbook: <WorkbookPage/>,
+    foundations: <FoundationsPage go={go}/>,
+    learn: <LearnPage go={go}/>,
+    tools: <ToolsPage go={go}/>,
   };
   return (
     <div className="min-h-screen bg-[#FAF8F4] flex flex-col" style={{fontFamily:'Jost, sans-serif'}}>
