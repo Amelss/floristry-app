@@ -318,7 +318,7 @@ function WorkbookDownloadSection() {
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <a
               href="/my-floristry-workbook.pdf"
-              download="My Floristry Workbook.pdf"
+              download="My Floristry Workbook"
               className="inline-flex items-center gap-2.5 px-6 py-3 rounded-lg text-[13px] font-medium transition-colors"
               style={{ background: 'white', color: '#3D5C3A' }}
               onMouseEnter={e => e.currentTarget.style.background = '#f0f4f0'}
