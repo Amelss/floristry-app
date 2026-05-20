@@ -131,7 +131,7 @@ export default function StyleGuidePage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Design Styles"
+        eyebrow="Floral Foundations · Design Styles"
         title="The Floristry"
         em="Style Guide"
         sub="Eight essential design styles every UK floristry student should know — from the loose romance of English Garden to the restrained precision of Ikebana."

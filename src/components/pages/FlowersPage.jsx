@@ -33,7 +33,7 @@ export default function FlowersPage() {
           style={{ fontFamily: '"Cormorant Garamond",serif' }}
           className="text-[36px] sm:text-[52px] font-semibold leading-[1.05] mb-4 max-w-lg"
         >
-          <span className="block italic text-[#D4B8B5]">UK Floristry</span>
+          <span className="block italic text-[#D4B8B5]">Floral Foundations</span>
           <span className="block text-[26px] sm:text-[40px] text-white font-normal mt-1">
             The 30 Core Flowers
           </span>

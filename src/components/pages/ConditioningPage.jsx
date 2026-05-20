@@ -5,7 +5,7 @@ export default function ConditioningPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Post-Harvest Care"
+        eyebrow="Floral Foundations · Post-Harvest Care"
         title="Conditioning &"
         em="Care Guide"
         inline

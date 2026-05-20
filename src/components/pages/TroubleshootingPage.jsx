@@ -92,7 +92,7 @@ export default function TroubleshootingPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Problem Solving"
+        eyebrow="Floral Foundations · Problem Solving"
         title="Floristry"
         em="Troubleshooting Guide"
         sub="Common floristry problems explained — symptoms, causes, and step-by-step fixes for wilting, browning, wiring issues, and more."

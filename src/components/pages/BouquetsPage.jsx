@@ -107,7 +107,7 @@ export default function BouquetsPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Bouquet Building"
+        eyebrow="Floral Foundations · Bouquet Building"
         title="Bouquets"
         em="The Top Flowers"
         sub="The essential focal flowers, foliage, and filler flowers for building beautiful hand-tied bouquets — the cornerstone skill of UK floristry."

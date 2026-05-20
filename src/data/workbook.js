@@ -2,7 +2,7 @@ export const INTRO = {
   heading: 'My Floristry Learning Workbook',
   subheading: 'A self-guided study companion for UK floristry students',
   body: [
-    'This workbook is your personal space to reflect, practise, and track your progress as you work through the materials in UK Floristry Reference. There are no deadlines and no grades — only the flowers, your hands, and the joy of learning.',
+    'This workbook is your personal space to reflect, practise, and track your progress as you work through your floristry studies. There are no deadlines and no grades — only the flowers, your hands, and the joy of learning.',
     'Work through the weekly study plans in order, or dip into individual topics as they become relevant to you. Complete the practice exercises with real flowers where possible, use the checklists to mark off skills as you build confidence, and return to the reflection prompts after each week — they become a record of your growth.',
   ],
   howToUse: [

@@ -53,9 +53,9 @@ const HOME_PAGES = [
   },
   {
     page: "workbook",
-    label: "Study Workbook",
+    label: "Study Companion",
     tag: "Self-guided learning",
-    desc: "A printable six-week learning companion with topic checklists, practice exercises, and guidance on the RHS.",
+    desc: "A printable learning companion with topic checklists, practice exercises, and guidance on the RHS.",
     query: "study notebook journal writing desk",
   },
 ];
@@ -129,18 +129,16 @@ export default function HomePage({ go }) {
           style={{ fontFamily: '"Cormorant Garamond",serif' }}
           className="text-[42px] sm:text-[64px] font-semibold text-[#D4B8B5] leading-[1.05] mb-5 max-w-xl"
         >
-          UK Floristry <em className="italic">Reference</em>
+          Floral <em className="italic">Foundations</em>
         </h1>
         <p className="text-[13px] sm:text-[14px] text-white/55 font-light max-w-lg leading-relaxed mb-8 sm:mb-10">
           A free comprehensive self-study resource for beginner to intermediate
-          floristry students in the United Kingdom. No sign-up. No cost.
+          floristry students in the United Kingdom.
         </p>
 
       </div>
       <main className="max-w-[1200px] mx-auto px-5 sm:px-10 py-8 sm:py-12">
-        <p className="text-[9px] font-medium tracking-[0.22em] uppercase text-stone-400 mb-6">
-          All modules
-        </p>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {HOME_PAGES.map((p) => (
             <HomeCard key={p.page} p={p} go={go} />

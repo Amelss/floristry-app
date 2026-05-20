@@ -111,7 +111,7 @@ export default function EquipmentPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Kit & Equipment"
+        eyebrow="Floral Foundations · Kit & Equipment"
         title="Tools &"
         em="Equipment Guide"
         inline

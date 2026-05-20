@@ -5,7 +5,7 @@ export default function TechniquesPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Practical Skills"
+        eyebrow="Floral Foundations · Practical Skills"
         title="Techniques &"
         em="Skills Guide"
         inline

@@ -5,7 +5,7 @@ const NAV_LINKS = [
   { label: 'Techniques & Skills', key: 'techniques'   },
   { label: 'Wedding Floristry',   key: 'wedding'      },
   { label: 'Sustainability Guide',key: 'sustainability'},
-  { label: 'Study Workbook',      key: 'workbook'     },
+  { label: 'Study Companion',     key: 'workbook'     },
   { label: 'Arrangement Builder', key: 'builder'      },
   { label: 'Knowledge Quiz',      key: 'quiz'         },
 ];
@@ -49,7 +49,7 @@ export default function Footer({ go }) {
       <div className="border-t border-white/10">
         <div className="max-w-[1200px] mx-auto px-5 sm:px-14 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="text-[11px] text-white/35 font-light">
-            No sign-up. No cost. No tracking.
+            Completely Free.
           </p>
           <p className="text-[11px] text-white/35 font-light">
             Photos courtesy of{' '}

@@ -91,7 +91,7 @@ export default function SeasonalPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Seasonal Guide"
+        eyebrow="Floral Foundations · Seasonal Guide"
         title="Seasonal Calendar"
         em="UK Flowers"
         sub="What's growing when — a month-by-month guide to British cut flowers and foliage, from January snowdrops to December amaryllis."

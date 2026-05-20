@@ -131,7 +131,7 @@ export default function SustainabilityPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Sustainability"
+        eyebrow="Floral Foundations · Sustainability"
         title="Sustainable"
         em="Floristry Guide"
         inline

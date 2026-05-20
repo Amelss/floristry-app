@@ -5,7 +5,7 @@ export default function WeddingPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Event Work"
+        eyebrow="Floral Foundations · Event Work"
         title="Weddings"
         em="A Beginners Guide"
         sub="An introduction to the styles, structures, and personal flowers that make up a complete UK wedding floristry package."

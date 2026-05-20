@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 const MENUS = [
   {
     key: 'reference',
-    label: 'Reference',
+    label: 'Foundations',
     items: [
       { key: 'flowers',  label: '30 Core Flowers',  desc: 'Latin names, seasons & care notes' },
       { key: 'wheel',    label: 'Colour Wheel',      desc: 'Interactive harmony schemes' },
@@ -24,7 +24,7 @@ const MENUS = [
       { key: 'conditioning',     label: 'Conditioning & Care',  desc: 'Maximise vase life' },
       { key: 'troubleshooting',  label: 'Troubleshooting',        desc: 'Fix common floristry problems' },
       { key: 'sustainability',   label: 'Sustainability Guide',   desc: 'Eco-friendly floristry practices' },
-      { key: 'workbook',         label: 'Study Workbook',         desc: 'Six-week self-guided learning plan' },
+      { key: 'workbook',         label: 'Study Companion',        desc: 'Roadmap, checklists & further reading' },
     ],
   },
   {

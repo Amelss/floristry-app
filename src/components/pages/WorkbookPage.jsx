@@ -253,9 +253,9 @@ export default function WorkbookPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Self-Guided Learning"
+        eyebrow="Floral Foundations · Self-Guided Learning"
         title="Study"
-        em="Workbook"
+        em="Companion"
         inline
         sub="A six-week self-guided learning companion — a roadmap, topic checklists, RHS guidance, and further reading to support your floristry journey."
       />

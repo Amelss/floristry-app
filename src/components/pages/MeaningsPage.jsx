@@ -136,7 +136,7 @@ export default function MeaningsPage() {
   return (
     <div>
       <Hero
-        eyebrow="UK Floristry · Floriography"
+        eyebrow="Floral Foundations · Floriography"
         title="Flower"
         em="Meanings"
         inline
