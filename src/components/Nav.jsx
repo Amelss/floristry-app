@@ -42,8 +42,9 @@ function menuForPage(page) {
 }
 
 export default function Nav({ page, go }) {
-  const [open, setOpen] = useState(null);       // desktop dropdown
+  const [open, setOpen] = useState(null);                          // desktop dropdown
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSection, setMobileSection] = useState(menuForPage(page)); // mobile accordion
   const navRef = useRef(null);
 
   useEffect(() => {
@@ -167,35 +168,69 @@ export default function Nav({ page, go }) {
 
       {/* ── Mobile menu ── */}
       {mobileOpen && (
-        <div className="md:hidden border-b border-stone-100 bg-white overflow-y-auto" style={{maxHeight:'calc(100dvh - 88px)'}}>
+        <div className="md:hidden bg-white overflow-y-auto border-b border-stone-100" style={{maxHeight:'calc(100dvh - 88px)'}}>
+
+          {/* Home */}
           <button
             onClick={() => handleGo('home')}
-            className={`w-full text-left px-5 py-3 text-[13px] font-medium border-b border-stone-50 cursor-pointer transition-colors
-              ${page === 'home' ? 'text-[#3D5C3A] bg-[#3D5C3A]/5' : 'text-stone-600 hover:bg-stone-50'}`}
+            className={`w-full text-left px-5 py-3.5 text-[13px] font-medium border-b border-stone-100 cursor-pointer transition-colors flex items-center gap-2
+              ${page === 'home' ? 'text-[#3D5C3A] bg-[#3D5C3A]/5' : 'text-stone-700 hover:bg-stone-50'}`}
           >
+            {page === 'home' && <span className="w-1.5 h-1.5 rounded-full bg-[#3D5C3A] flex-shrink-0"/>}
             Home
           </button>
-          {MENUS.map(menu => (
-            <div key={menu.key}>
-              <p className="px-5 pt-3 pb-1 text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400">
-                {menu.label}
-              </p>
-              {menu.items.map(item => (
+
+          {/* Accordion groups */}
+          {MENUS.map(menu => {
+            const isExpanded = mobileSection === menu.key;
+            const hasActive  = menu.items.some(i => i.key === page);
+            return (
+              <div key={menu.key} className="border-b border-stone-100">
+
+                {/* Group header — tap to expand/collapse */}
                 <button
-                  key={item.key}
-                  onClick={() => handleGo(item.key)}
-                  className={`w-full text-left px-5 py-2.5 transition-colors cursor-pointer
-                    ${page === item.key ? 'bg-[#3D5C3A]/5' : 'hover:bg-stone-50'}`}
+                  onClick={e => { e.stopPropagation(); setMobileSection(prev => prev === menu.key ? null : menu.key); }}
+                  className={`w-full flex items-center justify-between px-5 py-3.5 cursor-pointer transition-colors
+                    ${hasActive ? 'bg-[#3D5C3A]/5' : 'hover:bg-stone-50'}`}
                 >
-                  <p className={`text-[13px] font-medium ${page === item.key ? 'text-[#3D5C3A]' : 'text-stone-700'}`}>
-                    {item.label}
-                  </p>
-                  <p className="text-[11px] text-stone-400 font-light">{item.desc}</p>
+                  <div className="flex items-center gap-2">
+                    {hasActive && <span className="w-1.5 h-1.5 rounded-full bg-[#3D5C3A] flex-shrink-0"/>}
+                    <span className={`text-[13px] font-semibold ${hasActive ? 'text-[#3D5C3A]' : 'text-stone-700'}`}>
+                      {menu.label}
+                    </span>
+                  </div>
+                  <svg
+                    width="14" height="14" viewBox="0 0 14 14" fill="none"
+                    className={`transition-transform duration-200 flex-shrink-0 ${isExpanded ? 'rotate-180' : ''}`}
+                    style={{ color: hasActive ? '#3D5C3A' : '#a8a29e' }}
+                  >
+                    <path d="M2.5 5L7 9.5L11.5 5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
                 </button>
-              ))}
-            </div>
-          ))}
-          <div className="h-3"/>
+
+                {/* Items — visible when expanded */}
+                {isExpanded && (
+                  <div className="bg-stone-50/60">
+                    {menu.items.map(item => (
+                      <button
+                        key={item.key}
+                        onClick={() => handleGo(item.key)}
+                        className={`w-full text-left pl-8 pr-5 py-3 transition-colors cursor-pointer border-t border-stone-100/60
+                          ${page === item.key ? 'bg-[#3D5C3A]/8' : 'hover:bg-stone-100/60'}`}
+                      >
+                        <p className={`text-[12.5px] font-medium leading-tight ${page === item.key ? 'text-[#3D5C3A]' : 'text-stone-700'}`}>
+                          {item.label}
+                        </p>
+                        <p className="text-[11px] text-stone-400 font-light mt-0.5">{item.desc}</p>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+
+          <div className="h-4"/>
         </div>
       )}
     </header>

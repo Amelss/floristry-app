@@ -140,38 +140,6 @@ export default function HomePage({ go }) {
           ))}
         </div>
 
-        {/* ── Practical skills strip ── */}
-        <div className="mt-12 pt-10 border-t border-stone-100">
-          <p className="text-[9px] font-medium tracking-[0.22em] uppercase text-stone-400 mb-1.5">
-            Practical skills & tools
-          </p>
-          <p className="text-[12px] text-stone-500 font-light mb-5 max-w-xl">
-            Hands-on guides and interactive tools to help you develop technique, build your professional kit, and test your knowledge.
-          </p>
-          <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-none">
-            {[
-              { page: 'conditioning', label: 'Conditioning & Care Guide', icon: '💧' },
-              { page: 'equipment',    label: 'Tools & Equipment Guide',   icon: '✂️' },
-              { page: 'techniques',   label: 'Techniques & Skills Guide', icon: '🌿' },
-              { page: 'quiz',         label: 'Knowledge Quiz',            icon: '📋' },
-            ].map(({ page, label, icon }) => (
-              <button
-                key={page}
-                onClick={() => go(page)}
-                className="flex-shrink-0 flex items-center gap-2.5 px-4 py-3 rounded-xl border border-stone-200 bg-white hover:border-[#3D5C3A] hover:bg-[#3D5C3A]/5 hover:-translate-y-0.5 transition-all duration-200 cursor-pointer text-left group"
-              >
-                <span className="text-base leading-none">{icon}</span>
-                <span
-                  style={{ fontFamily: '"Cormorant Garamond",serif' }}
-                  className="text-[15px] font-semibold text-stone-700 group-hover:text-[#3D5C3A] transition-colors whitespace-nowrap"
-                >
-                  {label}
-                </span>
-                <span className="text-[11px] text-stone-300 group-hover:text-[#6B8A66] transition-colors ml-0.5">→</span>
-              </button>
-            ))}
-          </div>
-        </div>
       </main>
       <footer className="bg-[#3D5C3A] text-white/50 px-5 sm:px-14 py-8 text-[12px] font-light flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <p>

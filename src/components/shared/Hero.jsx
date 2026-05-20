@@ -11,7 +11,11 @@ export default function Hero({ eyebrow, title, em, sub, subClassName, inline = f
       </p>
       <h1
         style={{ fontFamily: '"Cormorant Garamond",serif' }}
-        className="text-[36px] sm:text-[52px] font-semibold leading-[1.1] mb-4 max-w-2xl"
+        className={
+          inline
+            ? 'text-[28px] sm:text-[42px] font-semibold leading-[1.1] mb-4 whitespace-nowrap'
+            : 'text-[36px] sm:text-[52px] font-semibold leading-[1.1] mb-4 max-w-2xl'
+        }
       >
         {inline ? (
           <>
