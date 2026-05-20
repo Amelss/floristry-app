@@ -249,6 +249,98 @@ function ResourcesSection() {
   );
 }
 
+/* ── Workbook download ── */
+function WorkbookDownloadSection() {
+  return (
+    <div className="rounded-2xl overflow-hidden" style={{ background: '#3D5C3A' }}>
+      <div className="flex flex-col sm:flex-row">
+
+        {/* Book mockup */}
+        <div className="sm:w-[220px] flex-shrink-0 flex items-center justify-center py-10 px-8"
+          style={{ background: '#2D4A2D' }}>
+          <div className="relative w-[108px]">
+            {/* Stacked page shadows */}
+            <div className="absolute top-2 left-2 w-full rounded-sm" style={{ background: 'rgba(255,255,255,0.12)', aspectRatio: '3/4' }} />
+            <div className="absolute top-1 left-1 w-full rounded-sm" style={{ background: 'rgba(255,255,255,0.18)', aspectRatio: '3/4' }} />
+            {/* Cover */}
+            <div className="relative bg-[#FAFAF7] rounded-sm shadow-2xl flex flex-col p-4"
+              style={{ aspectRatio: '3/4' }}>
+              <div className="border-b border-[#3D5C3A]/20 pb-2 mb-2">
+                <p style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: '6px', letterSpacing: '0.14em' }}
+                  className="uppercase text-[#6B8A66]">My Floristry Helper</p>
+              </div>
+              <p style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: '10px' }}
+                className="font-semibold text-[#3D5C3A] leading-tight flex-1">
+                My Floristry<br />Learning<br />Workbook
+              </p>
+              <div className="h-px w-full my-2" style={{ background: '#3D5C3A22' }} />
+              <p style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: '6.5px' }}
+                className="italic text-stone-400 leading-tight">
+                A self-guided<br />study companion
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 p-7 sm:p-10 flex flex-col justify-center">
+          <p className="text-[9.5px] font-medium tracking-[0.18em] uppercase mb-2"
+            style={{ color: '#6B8A66' }}>Free Download</p>
+
+          <h2 style={{ fontFamily: '"Cormorant Garamond",serif' }}
+            className="text-[26px] sm:text-[30px] font-semibold text-white leading-tight mb-3">
+            Your Floristry Learning Workbook
+          </h2>
+
+          <p className="text-[13px] font-light leading-relaxed mb-5"
+            style={{ color: 'rgba(255,255,255,0.72)' }}>
+            A printable A4 study journal designed to sit alongside your learning here.
+            Work through it week by week — fill in reflections, plan arrangements, track
+            your skills, and build your floristry confidence at your own pace.
+          </p>
+
+          <ul className="flex flex-col gap-2 mb-7">
+            {[
+              'Six structured weekly study plans (Monday–Friday)',
+              'Bouquet planning sheets & floral observation logs',
+              'Colour palette studio & skill confidence tracker',
+              'Topic checklists, RHS exercises & personal glossary',
+              'Conditioning notes, supplier log & sketch pages',
+            ].map((item, i) => (
+              <li key={i} className="flex items-center gap-2.5 text-[12px] font-light"
+                style={{ color: 'rgba(255,255,255,0.78)' }}>
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#6B8A66' }} />
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <a
+              href="/my-floristry-workbook.pdf"
+              download="My Floristry Workbook.pdf"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-lg text-[13px] font-medium transition-colors"
+              style={{ background: 'white', color: '#3D5C3A' }}
+              onMouseEnter={e => e.currentTarget.style.background = '#f0f4f0'}
+              onMouseLeave={e => e.currentTarget.style.background = 'white'}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 1v8M3.5 6.5L7 10l3.5-3.5M1.5 12.5h11" stroke="currentColor"
+                  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Download Workbook — PDF
+            </a>
+            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.38)' }}>
+              Free · A4 · Print or use digitally
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 export default function WorkbookPage() {
   return (
     <div>
@@ -266,6 +358,7 @@ export default function WorkbookPage() {
       ]}/>
 
       <div className="max-w-[960px] mx-auto px-4 sm:px-10 py-10 flex flex-col gap-12">
+        <WorkbookDownloadSection />
         <RoadmapSection />
         <ChecklistsSection />
         <RHSSection />
