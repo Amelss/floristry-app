@@ -49,9 +49,6 @@ export default function Footer({ go }) {
       <div className="border-t border-white/10">
         <div className="max-w-[1200px] mx-auto px-5 sm:px-14 py-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
           <p className="text-[11px] text-white/35 font-light">
-            Completely Free.
-          </p>
-          <p className="text-[11px] text-white/35 font-light">
             Photos courtesy of{' '}
             <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer"
               className="text-white/50 hover:text-white/80 underline transition-colors">
