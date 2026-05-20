@@ -1,5 +1,6 @@
 import useNav from './hooks/useNav';
 import Nav from './components/Nav';
+import Footer from './components/shared/Footer';
 import HomePage from './components/pages/HomePage';
 import FlowersPage from './components/pages/FlowersPage';
 import ColourWheelPage from './components/pages/ColourWheelPage';
@@ -17,7 +18,7 @@ import TroubleshootingPage from './components/pages/TroubleshootingPage';
 import EquipmentPage from './components/pages/EquipmentPage';
 import MeaningsPage from './components/pages/MeaningsPage';
 import SustainabilityPage from './components/pages/SustainabilityPage';
-
+import WorkbookPage from './components/pages/WorkbookPage';
 export default function App() {
   const { page, go } = useNav();
   const pages = {
@@ -38,11 +39,15 @@ export default function App() {
     equipment: <EquipmentPage/>,
     meanings: <MeaningsPage/>,
     sustainability: <SustainabilityPage/>,
+    workbook: <WorkbookPage/>,
   };
   return (
-    <div className="min-h-screen bg-[#FAF8F4]" style={{fontFamily:'Jost, sans-serif'}}>
+    <div className="min-h-screen bg-[#FAF8F4] flex flex-col" style={{fontFamily:'Jost, sans-serif'}}>
       <Nav page={page} go={go}/>
-      {pages[page] || pages.home}
+      <div className="flex-1">
+        {pages[page] || pages.home}
+      </div>
+      <Footer go={go}/>
     </div>
   );
 }

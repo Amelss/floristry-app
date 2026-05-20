@@ -51,6 +51,13 @@ const HOME_PAGES = [
     desc: "How to condition, store and extend the vase life of cut flowers — from recutting stems to managing ethylene exposure.",
     query: "fresh cut flowers vase water",
   },
+  {
+    page: "workbook",
+    label: "Study Workbook",
+    tag: "Self-guided learning",
+    desc: "A printable six-week learning companion with topic checklists, practice exercises, and guidance on the RHS.",
+    query: "study notebook journal writing desk",
+  },
 ];
 
 function HomeCard({ p, go }) {
@@ -141,21 +148,6 @@ export default function HomePage({ go }) {
         </div>
 
       </main>
-      <footer className="bg-[#3D5C3A] text-white/50 px-5 sm:px-14 py-8 text-[12px] font-light flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <p>
-          <strong className="text-white/80 font-medium">
-            UK Floristry Reference
-          </strong>{" "}
-          · A free self-study resource for beginner to intermediate floristry
-          students.
-        </p>
-        <p>
-          Photos courtesy of{" "}
-          <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" className="text-white/70 hover:text-white underline transition-colors">
-            Pexels
-          </a>
-        </p>
-      </footer>
     </div>
   );
 }

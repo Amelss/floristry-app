@@ -24,6 +24,7 @@ const MENUS = [
       { key: 'conditioning',     label: 'Conditioning & Care',  desc: 'Maximise vase life' },
       { key: 'troubleshooting',  label: 'Troubleshooting',        desc: 'Fix common floristry problems' },
       { key: 'sustainability',   label: 'Sustainability Guide',   desc: 'Eco-friendly floristry practices' },
+      { key: 'workbook',         label: 'Study Workbook',         desc: 'Six-week self-guided learning plan' },
     ],
   },
   {
