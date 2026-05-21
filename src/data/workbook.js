@@ -36,6 +36,7 @@ export const ROADMAP = {
         'Identify focal, filler, and foliage categories',
         'Understand the colour wheel and the five harmony schemes',
         'Apply colour theory to a simple arrangement',
+        'Understand basic plant anatomy as it relates to cut flower care',
       ],
     },
     {
@@ -48,6 +49,7 @@ export const ROADMAP = {
         'Understand basic wiring and taping',
         'Study at least two historical floristry styles',
         'Research the symbolism of ten flowers',
+        'Know the seven elements and six principles of floral design by name',
       ],
     },
     {
@@ -60,6 +62,8 @@ export const ROADMAP = {
         'Study sustainable sourcing and foam-free alternatives',
         'Identify three tools still missing from your kit',
         'Complete the Knowledge Quiz with a score of 70% or above',
+        'Understand the fundamentals of sympathy and funeral floristry',
+        'Grasp the basic cost structure for pricing floristry work',
       ],
     },
   ],
@@ -80,6 +84,7 @@ export const WEEKLY_PLANS = [
           'Five flowers I already know well:',
           'Five flowers I have never worked with:',
           'The flower I most want to try:',
+          'Note the stem type for two flowers you studied — hollow, woody, or milky-sapped — and what this means for their care:',
         ],
       },
       {
@@ -186,7 +191,11 @@ export const WEEKLY_PLANS = [
         day: 'Wednesday',
         topic: 'Conditioning & Care',
         instruction: 'Study the Conditioning & Care module in full. Before your next practice session, properly condition your stems: recut at a 45° angle, strip lower leaves, and leave in fresh water for a minimum of four hours.',
-        prompts: ['What difference does conditioning make to how stems handle?'],
+        prompts: [
+          'What difference does conditioning make to how stems handle?',
+          'Were any of your stems hollow, woody, or milky-sapped? Note how this changed your conditioning approach:',
+          'Which flowers in your selection are ethylene-sensitive? Note where and how you will store them:',
+        ],
       },
       {
         day: 'Thursday',
@@ -220,6 +229,10 @@ export const WEEKLY_PLANS = [
         topic: 'The Style Guide',
         instruction: 'Read through the Style Guide module. Note the name and key visual characteristics of three styles that interest or intrigue you most.',
         exercise: 'Exercise: Three styles, their defining characteristics, and one word that captures each one\'s mood.',
+        prompts: [
+          'List the seven elements of floral design (Line, Form, Space, Texture, Colour, Size/Scale, Pattern) and note one example of each in the styles you studied:',
+          'Which of the six design principles — balance, proportion, dominance, rhythm, contrast, unity — do you find most challenging to apply, and why?',
+        ],
       },
       {
         day: 'Tuesday',
@@ -245,6 +258,9 @@ export const WEEKLY_PLANS = [
         topic: 'The Victorian Nosegay Exercise',
         instruction: 'Design a small posy using only flowers with meaningful symbolism. Choose five flowers, identify their traditional meanings, and write the collective message your posy conveys.',
         exercise: 'Exercise: Five flowers, five meanings, one coherent message.',
+        prompts: [
+          'Reflecting on floristry\'s progression — from ancient Egyptian garlands through Victorian floriography to today\'s sustainable movement — which era\'s approach most resonates with you, and why?',
+        ],
       },
       {
         day: 'Friday',
@@ -288,12 +304,20 @@ export const WEEKLY_PLANS = [
         topic: 'Bridal Bouquet Styles',
         instruction: 'Review the four main bridal bouquet shapes. Sketch or describe each one, noting which styles would suit which dress silhouettes or themes.',
         exercise: 'Exercise: Four bouquet shapes — a brief description and best-suited occasion for each.',
+        prompts: [
+          'Beyond the four main shapes, which further bouquet styles (composite/glamellia, nosegay, single stem) would you most like to learn to construct?',
+          'How might a couple\'s dress silhouette, venue scale, or personal style influence your bouquet recommendation?',
+        ],
       },
       {
         day: 'Thursday',
         topic: 'Troubleshooting Common Problems',
         instruction: 'Read the Troubleshooting Guide. Identify three problems you have already encountered — or are most likely to face — and write the correct diagnosis and solution.',
         exercise: 'Exercise: Three problems, three solutions.',
+        prompts: [
+          'Beyond technical problems, what different considerations apply when designing for sympathy or funeral occasions — in terms of flower choices, etiquette, and how you communicate with clients?',
+          'Note the key tribute types used in funeral floristry (coffin spray, wreath, sheaf, heart, letters) and any cultural or religious considerations you would want to keep in mind:',
+        ],
       },
       {
         day: 'Friday',
@@ -335,6 +359,7 @@ export const WEEKLY_PLANS = [
         prompts: [
           'Tools I already own:',
           'Tools I need to buy (in priority order):',
+          'Three professional standards I want to uphold in my practice (e.g. punctuality for events, clear client communication, care card with every arrangement):',
         ],
       },
       {
@@ -344,6 +369,7 @@ export const WEEKLY_PLANS = [
         prompts: [
           'My score:',
           'Topics to review:',
+          'Using the cost-of-goods × 3 rule of thumb, estimate a fair retail price for one arrangement you have made this week:',
         ],
       },
       {
@@ -374,6 +400,8 @@ export const CHECKLISTS = [
       'I know the traditional meaning of at least 10 common flowers',
       'I can describe the colour wheel and all five harmony schemes',
       'I understand how colour symbolism varies across cultures',
+      'I understand the seven elements of floral design and can give an example of each',
+      'I understand basic plant anatomy — including how stem structure affects conditioning and handling',
     ],
   },
   {
@@ -388,6 +416,8 @@ export const CHECKLISTS = [
       'I have worked with at least three different foliage types',
       'I have cleaned and maintained my cutting tools properly',
       'I understand how to manage ethylene exposure to extend vase life',
+      'I know how to treat hollow, woody, and milky-sapped stems correctly during conditioning',
+      'I am familiar with the etiquette and flower choices specific to sympathy and funeral work',
     ],
   },
   {
@@ -400,6 +430,8 @@ export const CHECKLISTS = [
       'I have created at least one mood board for a design project',
       'I understand the difference between garden, structured, and Ikebana styles',
       'I can identify a Dutch Masters floral painting and describe its characteristics',
+      'I can name at least three Western arrangement styles beyond the hand-tied (e.g. triangular, Hogarth curve, Biedermeier, crescent)',
+      'I understand the role of container choice and mechanics in achieving different arrangement styles',
     ],
   },
   {
@@ -413,6 +445,9 @@ export const CHECKLISTS = [
       'I understand why conditioning is a professional standard, not an optional step',
       'I have read the Troubleshooting Guide and can apply it to common problems',
       'I am aware of the RHS and the plant knowledge resources it offers',
+      'I understand the basic pricing structure: cost of goods, labour, overheads, and a minimum target margin',
+      'I know the key peak trading seasons (Valentine\'s Day, Mother\'s Day, Christmas, wedding season) and why advance planning matters',
+      'I am aware of the different types of floristry business model — retail shop, home studio, events specialist, online — and their respective demands',
     ],
   },
 ];
@@ -503,6 +538,7 @@ export const FURTHER_RESOURCES = {
     { name: 'New Covent Garden Flower Market', note: 'The UK\'s largest wholesale flower market. Open to the public on selected dates.', url: 'https://www.newcoventgardenmarket.com' },
     { name: 'RHS Flower Shows', note: 'Chelsea, Hampton Court, and Tatton Park — the calendar highlights of the UK floristry and horticulture year.', url: 'https://www.rhs.org.uk/shows-events' },
     { name: '#ukfloristry on Instagram', note: 'A genuine community of working UK florists sharing daily work, technique, and seasonal inspiration.', url: 'https://www.instagram.com/explore/tags/ukfloristry/' },
+    { name: 'Floramondo', note: 'An online platform for buying wholesale directly from Dutch flower auctions — useful for understanding trade pricing and the global cut-flower supply chain.', url: 'https://www.floramondo.com' },
   ],
 };
 
@@ -511,4 +547,7 @@ export const NOTES_PAGES = [
   'Sketching Pages — rough arrangement plans, mood board ideas, or flower studies.',
   'Supplier Notes — growers, markets, and stockists you want to remember.',
   'Questions for Further Research — things you want to understand better.',
+  'Funeral & Sympathy Notes — tribute types, appropriate flower choices, etiquette guidelines, and cultural considerations.',
+  'Design Principles Reference — the seven elements and six principles of arrangement design with your own examples.',
+  'Career & Business Notes — floristry pathways, pricing models, and your professional development goals.',
 ];
