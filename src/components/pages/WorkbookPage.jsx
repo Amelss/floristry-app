@@ -249,6 +249,88 @@ function ResourcesSection() {
   );
 }
 
+/* ── Revision Guide download ── */
+function RevisionGuideDownloadSection() {
+  return (
+    <div className="rounded-2xl overflow-hidden border border-stone-200" style={{ background: '#FDFCF9' }}>
+      <div className="flex flex-col sm:flex-row">
+
+        {/* Book mockup */}
+        <div className="sm:w-[220px] flex-shrink-0 flex items-center justify-center py-10 px-8"
+          style={{ background: '#2D4A2D' }}>
+          <div className="relative w-[108px]">
+            <div className="absolute top-2 left-2 w-full rounded-sm" style={{ background: 'rgba(255,255,255,0.07)', aspectRatio: '3/4' }} />
+            <div className="absolute top-1 left-1 w-full rounded-sm" style={{ background: 'rgba(255,255,255,0.10)', aspectRatio: '3/4' }} />
+            <div className="relative rounded-sm shadow-2xl flex flex-col p-4"
+              style={{ background: '#1E3A1E', aspectRatio: '3/4', border: '1px solid rgba(255,255,255,0.12)' }}>
+              <div className="pb-2 mb-2" style={{ borderBottom: '1px solid rgba(255,255,255,0.15)' }}>
+                <p style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: '5.5px', letterSpacing: '0.14em', color: '#6B8A66' }}
+                  className="uppercase">The Florist's Companion</p>
+              </div>
+              <p style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: '9px', color: 'white', lineHeight: 1.3 }}
+                className="font-semibold flex-1">
+                Revision<br />Guide
+              </p>
+              <div className="h-px w-full my-2" style={{ background: 'rgba(255,255,255,0.12)' }} />
+              <p style={{ fontFamily: '"Cormorant Garamond",serif', fontSize: '6px', color: 'rgba(255,255,255,0.45)', lineHeight: 1.3 }}
+                className="italic">All modules<br />covered</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex-1 p-7 sm:p-10 flex flex-col justify-center">
+          <p className="text-[9.5px] font-medium tracking-[0.18em] uppercase mb-2 text-stone-400">Free Download</p>
+
+          <h2 style={{ fontFamily: '"Cormorant Garamond",serif' }}
+            className="text-[26px] sm:text-[30px] font-semibold text-stone-800 leading-tight mb-3">
+            The Florist's Companion — Revision Guide
+          </h2>
+
+          <p className="text-[13px] font-light leading-relaxed mb-5 text-stone-500">
+            A concise quick-reference companion to your learning. All core course modules
+            distilled into tables, key concept summaries, checklists, and knowledge-check
+            questions — designed for efficient, focused review.
+          </p>
+
+          <ul className="flex flex-col gap-2 mb-7">
+            {[
+              'All core modules condensed into quick-reference tables',
+              'Interactive checklists — tick off what you know',
+              'Knowledge-check questions to test your recall',
+              'Typeable study notes space for your own observations',
+            ].map((item, i) => (
+              <li key={i} className="flex items-center gap-2.5 text-[12px] font-light text-stone-500">
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#6B8A66' }} />
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-wrap">
+            <a
+              href="/my-floristry-revision-guide.pdf"
+              download="The Florist's Companion — Revision Guide"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-lg text-[13px] font-medium transition-colors"
+              style={{ background: '#2D4A2D', color: 'white' }}
+              onMouseEnter={e => e.currentTarget.style.background = '#1E3A1E'}
+              onMouseLeave={e => e.currentTarget.style.background = '#2D4A2D'}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 1v8M3.5 6.5L7 10l3.5-3.5M1.5 12.5h11" stroke="currentColor"
+                  strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Download Revision Guide — PDF
+            </a>
+            <p className="text-[11px] font-light text-stone-400">Free · A4 · Print or use digitally</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
 /* ── Workbook download ── */
 function WorkbookDownloadSection() {
   return (
@@ -315,7 +397,7 @@ function WorkbookDownloadSection() {
             ))}
           </ul>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 flex-wrap">
             <a
               href="/my-floristry-workbook.pdf"
               download="My Floristry Workbook"
@@ -330,7 +412,7 @@ function WorkbookDownloadSection() {
               </svg>
               Download Workbook — PDF
             </a>
-            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.38)' }}>
+<p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.38)' }}>
               Free · A4 · Print or use digitally
             </p>
           </div>
@@ -359,6 +441,7 @@ export default function WorkbookPage() {
 
       <div className="max-w-[960px] mx-auto px-4 sm:px-10 py-10 flex flex-col gap-12">
         <WorkbookDownloadSection />
+        <RevisionGuideDownloadSection />
         <RoadmapSection />
         <ChecklistsSection />
         <RHSSection />
