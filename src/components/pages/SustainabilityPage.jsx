@@ -71,7 +71,7 @@ function GuideCard({ item }) {
             <ImpactBadge impact={item.impact} />
           </div>
           <DifficultyDots difficulty={item.difficulty} />
-          <p className="text-[12px] text-stone-500 font-light leading-relaxed mt-1.5 line-clamp-2">{item.summary}</p>
+          <p className={`text-[12px] text-stone-500 font-light leading-relaxed mt-1.5 ${open ? '' : 'line-clamp-2'}`}>{item.summary}</p>
         </div>
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"
           className={`flex-shrink-0 mt-1.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}

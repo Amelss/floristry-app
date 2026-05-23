@@ -337,15 +337,18 @@ export function generateQuiz(category = 'all', count = 10) {
 
   const questions = [];
   const usedGenerators = new Set();
+  const usedQuestions = new Set();
   let attempts = 0;
 
-  while (questions.length < count && attempts < count * 6) {
+  while (questions.length < count && attempts < count * 10) {
     attempts++;
     const gen = pick(pool);
     if (usedGenerators.has(gen) && questions.length < pool.length) continue;
     const q = gen();
     if (!q) continue;
+    if (usedQuestions.has(q.question)) continue;
     usedGenerators.add(gen);
+    usedQuestions.add(q.question);
     questions.push(q);
   }
 
