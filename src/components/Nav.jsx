@@ -33,7 +33,7 @@ const MENUS = [
     items: [
       { key: 'builder',  label: 'Arrangement Builder', desc: 'Recipe & cost calculator' },
       { key: 'stemcalc', label: 'Stem Calculator',     desc: 'Single or event stem counts' },
-      { key: 'quiz',     label: 'Knowledge Quiz',      desc: 'Test yourself on floristry' },
+      { key: 'quiz',     label: 'Floristry Quiz',       desc: 'Quick or in-depth knowledge test' },
     ],
   },
 ];
