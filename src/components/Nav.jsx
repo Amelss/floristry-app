@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 
 const MENUS = [
   {
-    key: 'reference',
+    key: 'foundations',
     label: 'Foundations',
     items: [
       { key: 'flowers',  label: '30 Core Flowers',  desc: 'Latin names, seasons & care notes' },

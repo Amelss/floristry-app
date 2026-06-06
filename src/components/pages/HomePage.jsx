@@ -99,7 +99,6 @@ export default function HomePage({ go }) {
       {/* Hero */}
       <div className="bg-[#3D5C3A] px-5 sm:px-14 py-12 sm:py-20 relative overflow-hidden">
         <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full border border-white/5 pointer-events-none" />
-        <div className="hidden md:block absolute bottom-0 left-1/3 w-64 h-64 rounded-full border border-white/4 translate-y-1/2 pointer-events-none" />
         <p className="text-[10px] tracking-[0.22em] uppercase text-[#B8CEAE] mb-5 font-medium">
           Free Online Learning Resource · UK
         </p>
