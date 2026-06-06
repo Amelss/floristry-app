@@ -146,7 +146,7 @@ export default function Nav({ page, go }) {
               </button>
 
               {isOpen && (
-                <div className="absolute top-full left-0 mt-0 bg-white border border-stone-100 rounded-xl shadow-lg py-2 min-w-[220px] z-50">
+                <div className="absolute top-full left-0 mt-0 bg-white border-x border-b border-stone-100 rounded-b-xl shadow-lg py-2 min-w-[220px] z-50">
                   {menu.items.map(item => (
                     <button
                       key={item.key}
