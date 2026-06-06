@@ -67,6 +67,20 @@ export const PINNED_PEXELS_PHOTO_IDS = {
   "baby blue eucalyptus flower": 1026237,
   "seeded eucalyptus flower": 5797909,
   "bupleurum flower": 16845943,
+  // Proportion & Scale — all vessel images pinned (original first-result IDs)
+  "clear glass vase white flowers minimalist": 2317920,      // Glass Vase — new image
+  "tall cylinder glass vase single flower": 6069724,         // Tall Cylinder — new true cylinder image
+  "tall cylinder vase flowers elegant": 34329441,            // Tall Statement Vessel — original cylinder image
+  "ceramic vase flowers arrangement": 32555688,              // original
+  "bud vase single stem flower minimalist": 4272607,         // original
+  "low bowl flower arrangement table centerpiece": 16120226, // original
+  "urn pedestal vase flowers wedding": 34862050,             // original
+  "pitcher jug flowers rustic country": 28510882,            // original
+  "wicker basket flowers arrangement garden": 575738,        // original
+  "wooden crate box flowers rustic wedding": 7409807,        // original
+  "terracotta pot flowers earthy natural": 6434814,          // original
+  "jam jar bottle flowers table rustic": 23355741,           // original
+  "lantern flowers wedding decoration": 15025753,            // original
   // Category pages & homepage tiles
   "study notebook pen desk open journal": 36198392,
   "scissors garden pruning shears tools workshop": 18566999,

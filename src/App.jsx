@@ -20,6 +20,7 @@ import MeaningsPage from './components/pages/MeaningsPage';
 import SustainabilityPage from './components/pages/SustainabilityPage';
 import WorkbookPage from './components/pages/WorkbookPage';
 import FoundationsPage from './components/pages/FoundationsPage';
+import ProportionScalePage from './components/pages/ProportionScalePage';
 import LearnPage from './components/pages/LearnPage';
 import ToolsPage from './components/pages/ToolsPage';
 export default function App() {
@@ -44,6 +45,7 @@ export default function App() {
     sustainability: <SustainabilityPage/>,
     workbook: <WorkbookPage/>,
     foundations: <FoundationsPage go={go}/>,
+    proportion: <ProportionScalePage/>,
     learn: <LearnPage go={go}/>,
     tools: <ToolsPage go={go}/>,
   };

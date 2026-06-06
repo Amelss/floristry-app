@@ -131,6 +131,14 @@ export const CATEGORIES = [
         tag: 'Self-guided',
         pexelsQuery: 'study notebook pen desk open journal', // will search & cache — non-flower
       },
+      {
+        key: 'proportion',
+        label: 'Proportion & Scale',
+        desc: 'How vessel size, shape, and style influence flower selection — interactive vessel selector with recommended flowers by role and proportion ratios.',
+        icon: '⚖️',
+        tag: 'Design',
+        pexelsQuery: 'flower arrangement vase elegant minimal',
+      },
     ],
   },
   {

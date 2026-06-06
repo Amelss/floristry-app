@@ -25,6 +25,7 @@ const MENUS = [
       { key: 'troubleshooting',  label: 'Troubleshooting',        desc: 'Fix common floristry problems' },
       { key: 'sustainability',   label: 'Sustainability Guide',   desc: 'Eco-friendly floristry practices' },
       { key: 'workbook',         label: 'Study Companion',        desc: 'Roadmap, checklists & further reading' },
+      { key: 'proportion',       label: 'Proportion & Scale',     desc: 'Vessel-to-flower size relationships' },
     ],
   },
   {
