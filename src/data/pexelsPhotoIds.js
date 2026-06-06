@@ -68,8 +68,8 @@ export const PINNED_PEXELS_PHOTO_IDS = {
   "seeded eucalyptus flower": 5797909,
   "bupleurum flower": 16845943,
   // Proportion & Scale — all vessel images pinned (original first-result IDs)
-  "clear glass vase white flowers minimalist": 2317920,      // Glass Vase — new image
-  "tall cylinder glass vase single flower": 6069724,         // Tall Cylinder — new true cylinder image
+  "glass vase flowers elegant interior wide": 7304852,       // Flared Vase — user selected
+  "glass vase narcissus flowers contemporary interior": 6899533, // Tall Cylinder — landscape, wide negative space
   "tall cylinder vase flowers elegant": 34329441,            // Tall Statement Vessel — original cylinder image
   "ceramic vase flowers arrangement": 32555688,              // original
   "bud vase single stem flower minimalist": 4272607,         // original
@@ -79,7 +79,7 @@ export const PINNED_PEXELS_PHOTO_IDS = {
   "wicker basket flowers arrangement garden": 575738,        // original
   "wooden crate box flowers rustic wedding": 7409807,        // original
   "terracotta pot flowers earthy natural": 6434814,          // original
-  "jam jar bottle flowers table rustic": 23355741,           // original
+  "mason jar wildflowers outdoor rustic wide": 29500108,     // Bottle/Jar — landscape, airy outdoor
   "lantern flowers wedding decoration": 15025753,            // original
   // Category pages & homepage tiles
   "study notebook pen desk open journal": 36198392,

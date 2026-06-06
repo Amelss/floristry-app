@@ -1,9 +1,9 @@
 export const VESSELS = [
   {
     key: 'glass-vase',
-    name: 'Glass Vase',
+    name: 'Flared Vase',
     shape: 'glass-vase',
-    pexelsQuery: 'clear glass vase white flowers minimalist', // pinned: 2317920
+    pexelsQuery: 'glass vase flowers elegant interior wide', // pinned: 7304852
     heightCm: [20, 35],
     widthCm: [8, 14],
     description: 'A classic transparent vase with slightly tapered sides. The glass makes stems visible, so clean foliage below the waterline is essential.',
@@ -87,7 +87,7 @@ export const VESSELS = [
     key: 'cylinder',
     name: 'Tall Cylinder',
     shape: 'cylinder',
-    pexelsQuery: 'tall cylinder glass vase single flower', // pinned: 6069724
+    pexelsQuery: 'glass vase narcissus flowers contemporary interior', // pinned: 6899533
     heightCm: [30, 60],
     widthCm: [8, 12],
     description: 'A very tall, straight-sided vase. A statement piece that demands long-stemmed flowers and bold vertical design.',
@@ -311,7 +311,7 @@ export const VESSELS = [
     key: 'bottle',
     name: 'Bottle / Jam Jar',
     shape: 'bottle',
-    pexelsQuery: 'jam jar bottle flowers table rustic',
+    pexelsQuery: 'mason jar wildflowers outdoor rustic wide', // pinned: 29500108
     heightCm: [8, 20],
     widthCm: [4, 10],
     description: 'Repurposed bottles, jam jars, or small glass containers. Casual, sustainable, and ideal for intimate or grouped table displays.',
