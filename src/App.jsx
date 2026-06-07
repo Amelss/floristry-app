@@ -1,6 +1,8 @@
+import { useState, useEffect } from 'react';
 import useNav from './hooks/useNav';
 import Nav from './components/Nav';
 import Footer from './components/shared/Footer';
+import SearchModal from './components/SearchModal';
 import HomePage from './components/pages/HomePage';
 import FlowersPage from './components/pages/FlowersPage';
 import ColourWheelPage from './components/pages/ColourWheelPage';
@@ -21,10 +23,25 @@ import SustainabilityPage from './components/pages/SustainabilityPage';
 import WorkbookPage from './components/pages/WorkbookPage';
 import FoundationsPage from './components/pages/FoundationsPage';
 import ProportionScalePage from './components/pages/ProportionScalePage';
+import SympathyPage from './components/pages/SympathyPage';
 import LearnPage from './components/pages/LearnPage';
 import ToolsPage from './components/pages/ToolsPage';
 export default function App() {
   const { page, go } = useNav();
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  // Global Cmd+K / Ctrl+K shortcut
+  useEffect(() => {
+    function handleKey(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen(v => !v);
+      }
+    }
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, []);
+
   const pages = {
     home: <HomePage go={go}/>,
     flowers: <FlowersPage/>,
@@ -46,16 +63,18 @@ export default function App() {
     workbook: <WorkbookPage/>,
     foundations: <FoundationsPage go={go}/>,
     proportion: <ProportionScalePage/>,
+    sympathy: <SympathyPage/>,
     learn: <LearnPage go={go}/>,
     tools: <ToolsPage go={go}/>,
   };
   return (
     <div className="min-h-screen bg-[#FAF8F4] flex flex-col" style={{fontFamily:'Jost, sans-serif'}}>
-      <Nav page={page} go={go}/>
+      <Nav page={page} go={go} onSearchOpen={() => setSearchOpen(true)}/>
       <div className="flex-1">
         {pages[page] || pages.home}
       </div>
       <Footer go={go}/>
+      <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} go={go} />
     </div>
   );
 }

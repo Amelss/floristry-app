@@ -26,6 +26,7 @@ const MENUS = [
       { key: 'sustainability',   label: 'Sustainability Guide',   desc: 'Eco-friendly floristry practices' },
       { key: 'workbook',         label: 'Study Companion',        desc: 'Roadmap, checklists & further reading' },
       { key: 'proportion',       label: 'Proportion & Scale',     desc: 'Vessel-to-flower size relationships' },
+      { key: 'sympathy',         label: 'Sympathy & Funeral',     desc: 'Tributes, palettes & cultural guidance' },
     ],
   },
   {
@@ -43,7 +44,7 @@ function menuForPage(page) {
   return MENUS.find(m => m.items.some(i => i.key === page))?.key ?? null;
 }
 
-export default function Nav({ page, go }) {
+export default function Nav({ page, go, onSearchOpen }) {
   const [open, setOpen] = useState(null);                          // desktop dropdown
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileSection, setMobileSection] = useState(menuForPage(page)); // mobile accordion
@@ -84,23 +85,39 @@ export default function Nav({ page, go }) {
     <header ref={navRef} className="sticky top-0 z-50 bg-white shadow-sm" onClick={closeAll}>
 
       {/* ── Logo bar ── */}
-      <div className="flex items-center justify-center py-2.5 border-b border-stone-100 relative px-4">
+      <div className="flex items-center gap-3 px-4 py-2.5 border-b border-stone-100">
+
+        {/* Logo */}
         <button
           onClick={() => handleGo('home')}
-          className="cursor-pointer bg-transparent border-none"
+          className="cursor-pointer bg-transparent border-none flex-shrink-0"
         >
           <span
             style={{ fontFamily: '"Great Vibes", cursive', color: '#3D5C3A' }}
-            className="text-[28px] sm:text-[32px] leading-none select-none hover:opacity-80 transition-opacity"
+            className="text-[28px] sm:text-[32px] leading-none select-none hover:opacity-80 transition-opacity whitespace-nowrap"
           >
             My Floristry Helper
           </span>
         </button>
 
+        {/* Search bar — stretches to fill available space */}
+        <button
+          onClick={e => { e.stopPropagation(); onSearchOpen?.(); }}
+          className="flex-1 flex items-center gap-2.5 px-3.5 py-2 rounded-lg border border-stone-200 bg-stone-50 hover:bg-stone-100 hover:border-stone-300 transition-colors cursor-pointer text-stone-400 min-w-0"
+          aria-label="Search"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="flex-shrink-0">
+            <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M9.5 9.5L13 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <span className="text-[12px] font-light truncate flex-1 text-left">Search flowers, techniques, glossary…</span>
+          <kbd className="hidden sm:inline text-[9px] text-stone-400 border border-stone-200 rounded px-1.5 py-0.5 bg-white font-mono flex-shrink-0">⌘K</kbd>
+        </button>
+
         {/* Hamburger — mobile only */}
         <button
           onClick={e => { e.stopPropagation(); setMobileOpen(v => !v); }}
-          className="md:hidden absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-lg text-stone-500 hover:bg-stone-50 transition-colors cursor-pointer bg-transparent border-none"
+          className="md:hidden flex-shrink-0 p-2 rounded-lg text-stone-500 hover:bg-stone-50 transition-colors cursor-pointer bg-transparent border-none"
           aria-label="Menu"
         >
           {mobileOpen ? (

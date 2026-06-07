@@ -139,6 +139,14 @@ export const CATEGORIES = [
         tag: 'Design',
         pexelsQuery: 'flower arrangement vase elegant minimal',
       },
+      {
+        key: 'sympathy',
+        label: 'Sympathy & Funeral Floristry',
+        desc: 'Funeral tributes, casket sprays, wreaths and shaped pieces — with cultural guidance, colour palettes, and sustainable options.',
+        icon: '🕊️',
+        tag: 'Professional',
+        pexelsQuery: 'white flower arrangement elegant sympathy',
+      },
     ],
   },
   {

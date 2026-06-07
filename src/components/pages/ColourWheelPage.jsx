@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { COLOUR_NODES, SCHEMES } from "../../data/colourWheel";
+import { FLOWER_ROLES, SCHEME_FORMULAS } from "../../data/colourRecipes";
 import { getNearestNode, hsl } from "../../utils";
 import Hero from "../shared/Hero";
 import InfoBand from "../shared/InfoBand";
@@ -258,23 +259,22 @@ export default function ColourWheelPage() {
             </div>
           </div>
         </div>
+        {/* ── Section 1: Flowers available in these colours ── */}
         <div className="border-t border-stone-100 mt-10 pt-8">
-          <div className="flex items-baseline gap-3 mb-5">
+          <div className="flex items-baseline gap-3 mb-2">
             <h3
               style={{ fontFamily: '"Cormorant Garamond",serif' }}
               className="text-2xl font-semibold text-stone-800"
             >
-              Flowers in this palette
+              Flowers Available in These Colours
             </h3>
-            <span className="text-[11px] text-stone-400">
-              {bn.name} base · {sc.label.toLowerCase()} harmony
-            </span>
           </div>
+          <p className="text-[12px] text-stone-400 font-light mb-5">
+            {bn.name} base · {sc.label.toLowerCase()} harmony — all flowers that fall within your selected palette
+          </p>
           <div
             className="grid gap-4"
-            style={{
-              gridTemplateColumns: "repeat(auto-fit,minmax(180px,1fr))",
-            }}
+            style={{ gridTemplateColumns: "repeat(auto-fit,minmax(175px,1fr))" }}
           >
             {sH.map((h) => {
               const node = getNearestNode(h);
@@ -282,29 +282,246 @@ export default function ColourWheelPage() {
                 <div
                   key={h}
                   className="bg-white border border-stone-100 rounded-xl p-4"
-                  style={{
-                    borderTopColor: hsl(h, 75, 55),
-                    borderTopWidth: "4px",
-                  }}
+                  style={{ borderTopColor: hsl(h, 75, 55), borderTopWidth: "4px" }}
                 >
-                  <div className="flex items-center gap-2 mb-2.5">
+                  <div className="flex items-center gap-2 mb-3">
                     <div
                       className="w-4 h-4 rounded-full border border-black/10 flex-shrink-0"
                       style={{ background: hsl(h, 78, 58) }}
                     />
-                    <span className="text-[12px] font-medium text-stone-700">
-                      {node.name}
-                    </span>
+                    <span className="text-[12px] font-semibold text-stone-700">{node.name}</span>
                   </div>
-                  <ul className="text-[11.5px] text-stone-500 leading-7 font-light">
-                    {node.flowers.map((fl) => (
-                      <li key={fl}>{fl}</li>
-                    ))}
+                  <ul className="flex flex-col gap-1">
+                    {node.flowers.map((fl) => {
+                      const role = FLOWER_ROLES[fl];
+                      const roleColour =
+                        role === 'focal'     ? 'text-[#C9948E]' :
+                        role === 'secondary' ? 'text-[#6B8A66]' :
+                        role === 'filler'    ? 'text-amber-600'  :
+                        role === 'line'      ? 'text-blue-500'   :
+                        role === 'foliage'   ? 'text-[#3D5C3A]'  :
+                                               'text-stone-400';
+                      return (
+                        <li key={fl} className="flex items-center gap-1.5 text-[11.5px] text-stone-600 font-light">
+                          <span className={`text-[8px] font-semibold uppercase tracking-wide w-10 flex-shrink-0 ${roleColour}`}>
+                            {role ?? ''}
+                          </span>
+                          {fl}
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               );
             })}
           </div>
+
+          {/* Role legend */}
+          <div className="flex flex-wrap gap-3 mt-4">
+            {[
+              { role: 'focal',     colour: 'text-[#C9948E]', label: 'Focal — dominant statement flower' },
+              { role: 'secondary', colour: 'text-[#6B8A66]', label: 'Secondary — supporting bloom' },
+              { role: 'filler',    colour: 'text-amber-600',  label: 'Filler — texture & volume' },
+              { role: 'line',      colour: 'text-blue-500',   label: 'Line — height & movement' },
+              { role: 'foliage',   colour: 'text-[#3D5C3A]',  label: 'Foliage — backdrop & structure' },
+            ].map(({ role, colour, label }) => (
+              <div key={role} className="flex items-center gap-1.5">
+                <span className={`text-[8px] font-semibold uppercase tracking-wide ${colour}`}>{role}</span>
+                <span className="text-[10px] text-stone-400 font-light">{label.split('—')[1]}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ── Section 2: Recommended flower combinations ── */}
+        <div className="border-t border-stone-100 mt-10 pt-8">
+          <h3
+            style={{ fontFamily: '"Cormorant Garamond",serif' }}
+            className="text-2xl font-semibold text-stone-800 mb-2"
+          >
+            Recommended Flower Combinations
+          </h3>
+          <p className="text-[12px] text-stone-400 font-light mb-6">
+            Curated pairings from your palette — chosen for contrast of form, texture, and scale, not just colour.
+          </p>
+
+          {(() => {
+            // Build role buckets from selected hue nodes
+            const buckets = { focal: [], secondary: [], filler: [], line: [], foliage: [] };
+            sH.forEach(h => {
+              const node = getNearestNode(h);
+              node.flowers.forEach(fl => {
+                const role = FLOWER_ROLES[fl];
+                if (role && buckets[role]) buckets[role].push({ flower: fl, hue: h, colour: node.name });
+              });
+            });
+
+            // Build 3 combination suggestions
+            const combos = [];
+
+            // Combo 1: Focal + Secondary + Filler
+            if (buckets.focal[0] && buckets.secondary[0] && (buckets.filler[0] || buckets.foliage[0])) {
+              combos.push({
+                label: 'Classic Arrangement',
+                icon: '🌸',
+                stems: [
+                  { flower: buckets.focal[0].flower, role: 'Focal', colour: buckets.focal[0].colour, hue: buckets.focal[0].hue },
+                  { flower: buckets.secondary[0].flower, role: 'Secondary', colour: buckets.secondary[0].colour, hue: buckets.secondary[0].hue },
+                  ...(buckets.filler[0] ? [{ flower: buckets.filler[0].flower, role: 'Filler', colour: buckets.filler[0].colour, hue: buckets.filler[0].hue }] : []),
+                  ...(buckets.foliage[0] ? [{ flower: buckets.foliage[0].flower, role: 'Foliage', colour: buckets.foliage[0].colour, hue: buckets.foliage[0].hue }] : []),
+                ],
+                note: 'A well-rounded, balanced combination. The focal commands attention; the secondary reinforces the palette; filler and foliage add texture and softness.',
+              });
+            }
+
+            // Combo 2: Different focal + different secondary + filler/line
+            const focal2 = buckets.focal[1] || buckets.focal[0];
+            const sec2 = buckets.secondary[1] || buckets.secondary[0];
+            if (focal2 && sec2) {
+              combos.push({
+                label: 'Contemporary Pairing',
+                icon: '✨',
+                stems: [
+                  { flower: focal2.flower, role: 'Focal', colour: focal2.colour, hue: focal2.hue },
+                  { flower: sec2.flower, role: 'Secondary', colour: sec2.colour, hue: sec2.hue },
+                  ...(buckets.line[0] ? [{ flower: buckets.line[0].flower, role: 'Line', colour: buckets.line[0].colour, hue: buckets.line[0].hue }] : []),
+                  ...(buckets.filler[1] ? [{ flower: buckets.filler[1].flower, role: 'Filler', colour: buckets.filler[1].colour, hue: buckets.filler[1].hue }] : buckets.filler[0] ? [{ flower: buckets.filler[0].flower, role: 'Filler', colour: buckets.filler[0].colour, hue: buckets.filler[0].hue }] : []),
+                ],
+                note: 'A pairing that leans into texture contrast — a strong structural flower beside a softer bloom, with line elements adding height and movement.',
+              });
+            }
+
+            // Combo 3: Tonal — same hue group, different roles
+            const tonal = sH.flatMap(h => {
+              const node = getNearestNode(h);
+              return node.flowers.map(fl => ({ flower: fl, role: FLOWER_ROLES[fl], hue: h, colour: node.name }));
+            }).filter(f => f.role);
+
+            const tonalFocal = tonal.find(f => f.role === 'focal');
+            const tonalSec   = tonal.find(f => f.role === 'secondary' && f.hue === tonalFocal?.hue);
+            const tonalFill  = tonal.find(f => (f.role === 'filler' || f.role === 'foliage') && f.hue !== tonalFocal?.hue);
+            if (tonalFocal && tonalSec && combos.length < 3) {
+              combos.push({
+                label: 'Monochromatic Moment',
+                icon: '🎨',
+                stems: [
+                  { flower: tonalFocal.flower, role: 'Focal', colour: tonalFocal.colour, hue: tonalFocal.hue },
+                  { flower: tonalSec.flower,   role: 'Secondary', colour: tonalSec.colour, hue: tonalSec.hue },
+                  ...(tonalFill ? [{ flower: tonalFill.flower, role: tonalFill.role.charAt(0).toUpperCase() + tonalFill.role.slice(1), colour: tonalFill.colour, hue: tonalFill.hue }] : []),
+                ],
+                note: 'Flowers from the same part of the palette — different forms and textures within a single tonal family. Sophisticated and cohesive.',
+              });
+            }
+
+            if (combos.length === 0) {
+              return (
+                <p className="text-[12px] text-stone-400 font-light italic">
+                  Select a colour with more flower options to see combination suggestions.
+                </p>
+              );
+            }
+
+            return (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {combos.map(combo => (
+                  <div key={combo.label} className="bg-white rounded-xl border border-stone-100 p-4 hover:shadow-sm transition-shadow">
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-xl">{combo.icon}</span>
+                      <h4 style={{ fontFamily: '"Cormorant Garamond",serif' }} className="text-[16px] font-semibold text-stone-800">
+                        {combo.label}
+                      </h4>
+                    </div>
+                    <div className="flex flex-col gap-1.5 mb-3">
+                      {combo.stems.map((s, i) => (
+                        <div key={i} className="flex items-center gap-2">
+                          <div className="w-3 h-3 rounded-full flex-shrink-0 border border-black/10" style={{ background: hsl(s.hue, 75, 60) }} />
+                          <span className="text-[11px] font-medium text-stone-700">{s.flower}</span>
+                          <span className="text-[9px] text-stone-400 ml-auto">{s.role}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="text-[10.5px] text-stone-500 font-light leading-relaxed border-t border-stone-100 pt-2.5">
+                      {combo.note}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* ── Section 3: Suggested arrangement formula ── */}
+        <div className="border-t border-stone-100 mt-10 pt-8">
+          <h3
+            style={{ fontFamily: '"Cormorant Garamond",serif' }}
+            className="text-2xl font-semibold text-stone-800 mb-2"
+          >
+            Suggested Arrangement Formula
+          </h3>
+          <p className="text-[12px] text-stone-400 font-light mb-6">
+            A stem count guide for your chosen harmony scheme — professional ratios that ensure balance without guesswork.
+          </p>
+
+          {(() => {
+            const formula = SCHEME_FORMULAS[schemeKey];
+            if (!formula) return null;
+            return (
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-5">
+                {/* Stem count cards */}
+                <div className="flex flex-col gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    {[
+                      { role: 'Focal',    stems: formula.stems.focal,     colour: '#C9948E', desc: 'Statement bloom' },
+                      { role: 'Secondary',stems: formula.stems.secondary,  colour: '#6B8A66', desc: 'Supporting flower' },
+                      { role: 'Filler',   stems: formula.stems.filler,     colour: '#D4B870', desc: 'Texture & volume' },
+                      { role: 'Foliage',  stems: formula.stems.foliage,    colour: '#3D5C3A', desc: 'Backdrop & structure' },
+                    ].map(({ role, stems, colour, desc }) => (
+                      <div key={role} className="bg-white rounded-xl border border-stone-100 p-4 text-center">
+                        <p className="text-[26px] font-semibold leading-none mb-1" style={{ color: colour }}>{stems}</p>
+                        <p className="text-[10px] font-semibold text-stone-700 uppercase tracking-wide mb-0.5">{role}</p>
+                        <p className="text-[10px] text-stone-400 font-light">{desc}</p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Ratio visualisation */}
+                  <div className="bg-white rounded-xl border border-stone-100 p-4">
+                    <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-2">Colour ratio</p>
+                    <div className="flex gap-1 h-6 rounded-full overflow-hidden mb-1.5">
+                      {formula.ratio.split(' / ').map((pct, i) => {
+                        const colours = ['#C9948E', '#6B8A66', '#D4B870', '#3D5C3A'];
+                        return (
+                          <div
+                            key={i}
+                            className="h-full transition-all"
+                            style={{ width: `${pct}%`, background: colours[i] ?? '#B8CEAE' }}
+                          />
+                        );
+                      })}
+                    </div>
+                    <p className="text-[10px] text-stone-500 font-light">{formula.ratio} — {formula.ratioLabel}</p>
+                  </div>
+                </div>
+
+                {/* Scheme tip card */}
+                <div className="bg-[#3D5C3A] rounded-xl p-5 text-white flex flex-col gap-3">
+                  <div>
+                    <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-[#B8CEAE] mb-1">
+                      {sc.label} — design tip
+                    </p>
+                    <p className="text-[13px] font-light leading-relaxed text-white/90">
+                      {formula.tip}
+                    </p>
+                  </div>
+                  <div className="border-t border-white/10 pt-3">
+                    <p className="text-[11px] text-[#B8CEAE] font-light leading-relaxed">
+                      {formula.combination}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </div>
     </div>
