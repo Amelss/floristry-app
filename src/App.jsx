@@ -48,7 +48,7 @@ export default function App() {
     wheel: <ColourWheelPage/>,
     bouquets: <BouquetsPage/>,
     seasonal: <SeasonalPage/>,
-    techniques: <TechniquesPage/>,
+    techniques: <TechniquesPage go={go}/>,
     styles: <StyleGuidePage/>,
     quiz:    <QuizPage/>,
     builder: <ArrangementBuilderPage/>,
