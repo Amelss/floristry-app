@@ -303,7 +303,7 @@ export default function ColourWheelPage() {
                                                'text-stone-400';
                       return (
                         <li key={fl} className="flex items-center gap-1.5 text-[11.5px] text-stone-600 font-light">
-                          <span className={`text-[8px] font-semibold uppercase tracking-wide w-10 flex-shrink-0 ${roleColour}`}>
+                          <span className={`text-[8px] font-semibold uppercase tracking-wide w-14 flex-shrink-0 ${roleColour}`}>
                             {role ?? ''}
                           </span>
                           {fl}
@@ -326,7 +326,7 @@ export default function ColourWheelPage() {
               { role: 'foliage',   colour: 'text-[#3D5C3A]',  label: 'Foliage — backdrop & structure' },
             ].map(({ role, colour, label }) => (
               <div key={role} className="flex items-center gap-1.5">
-                <span className={`text-[8px] font-semibold uppercase tracking-wide ${colour}`}>{role}</span>
+                <span className={`text-[8px] font-semibold uppercase tracking-wide w-14 flex-shrink-0 ${colour}`}>{role}</span>
                 <span className="text-[10px] text-stone-400 font-light">{label.split('—')[1]}</span>
               </div>
             ))}
