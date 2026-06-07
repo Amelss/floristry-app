@@ -182,6 +182,14 @@ export const CATEGORIES = [
         tag: 'Quiz',
         pexelsQuery: 'pencil paper exam study test', // will search & cache — non-flower
       },
+      {
+        key: 'flowertimer',
+        label: 'Flower Care Timer',
+        desc: 'Step-by-step conditioning workflow with persistent timers. Search any flower, work through each stage, and track multiple batches at once.',
+        icon: '⏱️',
+        tag: 'Workbench',
+        pexelsQuery: 'fresh cut flowers vase water', // Pexels ID: 35334169
+      },
     ],
   },
 ];

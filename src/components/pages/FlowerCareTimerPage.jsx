@@ -1,24 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Hero from '../shared/Hero';
+import { searchFlowers } from '../../data/flowerConditioningData';
 
-/* ── Flower data ─────────────────────────────────────────────── */
-const FLOWERS = [
-  { name: 'Rose',          emoji: '🌹', minHours: 12, water: 'Cold (8–12°C)',          tip: 'Hammer or split woody stems. Remove damaged guard petals. Cut under water if possible for best uptake.' },
-  { name: 'Peony',         emoji: '🌸', minHours: 24, water: 'Cold (6–10°C)',          tip: 'Condition from tight bud only — open peonies won\'t survive a full event day. Keep very cool. Do not mist.' },
-  { name: 'Tulip',         emoji: '🌷', minHours: 4,  water: 'Ice cold (4–8°C)',       tip: 'Plain cold water only — no flower food. Wrap in paper to keep stems straight. They continue growing after cutting.' },
-  { name: 'Hydrangea',     emoji: '💐', minHours: 12, water: 'Cold (8–12°C)',          tip: 'Submerge the entire head in cold water for 20–30 minutes first, then stand in bucket. Hammer the stem end.' },
-  { name: 'Gerbera',       emoji: '🌼', minHours: 2,  water: 'Shallow cold (5–8cm)',   tip: 'Shallow water only — gerbera stems rot if fully submerged. Change water daily. Keep upright.' },
-  { name: 'Lily',          emoji: '🌺', minHours: 12, water: 'Cool (10–14°C)',         tip: 'Remove pollen stamens as soon as buds open — pollen permanently stains fabric, including bridal gowns.' },
-  { name: 'Sweet Pea',     emoji: '🪷', minHours: 4,  water: 'Cold (6–10°C)',          tip: 'Handle very gently — stems bruise easily. Do not crowd in the bucket. Best cut in the morning.' },
-  { name: 'Dahlia',        emoji: '🌻', minHours: 12, water: 'Boiling sear, then cold', tip: 'Sear cut ends in boiling water for 10 seconds immediately after cutting, then move to cold water. Prevents rapid wilting.' },
-  { name: 'Ranunculus',    emoji: '🌸', minHours: 8,  water: 'Cold (6–10°C)',          tip: 'Remove all foliage — it rots quickly and contaminates the water. Keep very cool. Heat-sensitive: avoid warm venues.' },
-  { name: 'Lisianthus',    emoji: '🌸', minHours: 12, water: 'Cold (8–12°C)',          tip: 'One of the most reliable conditioning flowers. Strip lower foliage carefully — the stems are delicate.' },
-  { name: 'Sunflower',     emoji: '🌻', minHours: 8,  water: 'Cold (8–12°C)',          tip: 'Hammer the thick stem end. Remove all leaves — they transpire rapidly and dehydrate the head quickly.' },
-  { name: 'Anemone',       emoji: '🌸', minHours: 8,  water: 'Cold (6–10°C)',          tip: 'Keep cool and dark to slow opening. Anemones open fast in warmth and light — condition overnight in a cool room.' },
-  { name: 'Scabiosa',      emoji: '🌸', minHours: 6,  water: 'Cold (8–12°C)',          tip: 'Delicate stems — handle gently. Remove all lower foliage. Best used within 24 hours of conditioning.' },
-  { name: 'Foliage / Greenery', emoji: '🌿', minHours: 8, water: 'Cold (8–12°C)',     tip: 'Hammer or slit woody stems. Strip any foliage that will sit below the waterline — it rots within hours and poisons the water.' },
-];
-
+/* ── Constants ───────────────────────────────────────────────── */
 const TARGET_OPTIONS = [
   { label: '2h',  hours: 2,  note: 'Minimum — adequate for robust foliage and resilient stems only' },
   { label: '12h', hours: 12, note: 'Recommended — standard for most flowers before an event' },
@@ -40,7 +24,7 @@ const PREP_ITEMS = [
 ];
 
 /* ── Persistence ─────────────────────────────────────────────── */
-const KEY = 'floristry_batches_v1';
+const KEY   = 'floristry_batches_v1';
 const load  = () => { try { return JSON.parse(localStorage.getItem(KEY)) ?? []; } catch { return []; } };
 const save  = b => localStorage.setItem(KEY, JSON.stringify(b));
 const uid   = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
@@ -94,12 +78,11 @@ function Countdown({ timerStart, targetHours }) {
           )}
         </div>
       </div>
-
       {done ? (
         <p className="text-[13px] font-semibold text-[#3D5C3A]">Conditioning complete</p>
       ) : (
         <p className="text-[11px] text-stone-400 text-center">
-          {Math.round(progress * 100)}% · ready at <span className="font-medium text-stone-500">{readyTime}</span>
+          {Math.round(progress * 100)}% &middot; ready at <span className="font-medium text-stone-500">{readyTime}</span>
         </p>
       )}
     </div>
@@ -124,16 +107,142 @@ function CheckItem({ label, checked, onToggle }) {
   );
 }
 
+/* ── Flower search input ─────────────────────────────────────── */
+function FlowerSearch({ selected, onAdd, onRemove }) {
+  const [query, setQuery]     = useState('');
+  const [open, setOpen]       = useState(false);
+  const [cursor, setCursor]   = useState(-1);
+  const inputRef              = useRef(null);
+  const listRef               = useRef(null);
+
+  const results = query.length >= 2
+    ? searchFlowers(query, selected.map(f => f.name))
+    : [];
+
+  // Reset cursor when results change
+  useEffect(() => setCursor(-1), [results.length]);
+
+  function pick(flower) {
+    onAdd(flower);
+    setQuery('');
+    setOpen(false);
+    inputRef.current?.focus();
+  }
+
+  function handleKey(e) {
+    if (!results.length) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); setCursor(c => Math.min(c + 1, results.length - 1)); }
+    if (e.key === 'ArrowUp')   { e.preventDefault(); setCursor(c => Math.max(c - 1, 0)); }
+    if (e.key === 'Enter' && cursor >= 0) { e.preventDefault(); pick(results[cursor]); }
+    if (e.key === 'Escape') { setOpen(false); setQuery(''); }
+  }
+
+  const CATEGORY_COLOUR = {
+    Focal:     'text-[#5C4535] bg-[#D4B8B5]/30',
+    Secondary: 'text-amber-700 bg-amber-50',
+    Filler:    'text-[#3D5C3A] bg-[#B8CEAE]/30',
+    Line:      'text-stone-500 bg-stone-100',
+    Foliage:   'text-[#3D5C3A] bg-[#3D5C3A]/8',
+  };
+
+  return (
+    <div>
+      {/* Search input */}
+      <div className="relative">
+        <div className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl border border-stone-200 bg-stone-50 focus-within:border-[#3D5C3A]/50 focus-within:bg-white transition-all">
+          <svg width="13" height="13" viewBox="0 0 14 14" fill="none" className="flex-shrink-0 text-stone-400">
+            <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.5"/>
+            <path d="M9.5 9.5L13 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          <input
+            ref={inputRef}
+            value={query}
+            onChange={e => { setQuery(e.target.value); setOpen(true); }}
+            onFocus={() => setOpen(true)}
+            onBlur={() => setTimeout(() => setOpen(false), 160)}
+            onKeyDown={handleKey}
+            placeholder="Search for a flower or foliage..."
+            className="flex-1 bg-transparent text-[12px] text-stone-700 placeholder-stone-400 outline-none"
+          />
+          {query && (
+            <button onClick={() => { setQuery(''); inputRef.current?.focus(); }} className="text-stone-300 hover:text-stone-500 cursor-pointer bg-transparent border-none p-0">
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
+            </button>
+          )}
+        </div>
+
+        {/* Dropdown */}
+        {open && results.length > 0 && (
+          <div ref={listRef} className="absolute top-full left-0 right-0 mt-1 bg-white border border-stone-100 rounded-xl shadow-lg z-20 overflow-y-auto max-h-64">
+            {results.map((flower, i) => (
+              <button
+                key={flower.id}
+                onMouseDown={() => pick(flower)}
+                className={`w-full text-left px-4 py-2.5 flex items-center gap-3 transition-colors cursor-pointer border-none ${i === cursor ? 'bg-[#3D5C3A]/5' : 'hover:bg-stone-50'} ${i > 0 ? 'border-t border-stone-50' : ''}`}
+              >
+                <span className="text-base flex-shrink-0">{flower.emoji}</span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-[12px] font-medium text-stone-700">{flower.name}</span>
+                  <span className={`ml-2 text-[8px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-full ${CATEGORY_COLOUR[flower.category] ?? 'text-stone-400 bg-stone-100'}`}>
+                    {flower.category}
+                  </span>
+                </div>
+                <span className="text-[10px] text-stone-400 flex-shrink-0">{flower.minHours}h min</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* No results */}
+        {open && query.length >= 2 && results.length === 0 && (
+          <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-stone-100 rounded-xl shadow-lg z-20 px-4 py-3">
+            <p className="text-[11px] text-stone-400 font-light">No match for &ldquo;{query}&rdquo;</p>
+            <button
+              onMouseDown={() => pick({ id: uid(), name: query, emoji: '🌸', category: 'Other', minHours: 8, water: 'Cold (8–12°C)', tip: 'Recut stems at 45° and place in clean cold water. Strip lower foliage. Condition for a minimum of 8 hours.' })}
+              className="mt-1.5 text-[10px] font-medium text-[#3D5C3A] hover:underline cursor-pointer bg-transparent border-none p-0"
+            >
+              Add &ldquo;{query}&rdquo; with standard conditioning &rarr;
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Selected chips */}
+      {selected.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mt-3">
+          {selected.map(f => (
+            <span key={f.name} className="flex items-center gap-1.5 pl-2.5 pr-1.5 py-1 bg-[#3D5C3A] text-white rounded-full text-[11px] font-medium">
+              {f.emoji} {f.name}
+              <button
+                onClick={() => onRemove(f.name)}
+                className="flex-shrink-0 w-4 h-4 rounded-full bg-white/20 hover:bg-white/40 flex items-center justify-center cursor-pointer border-none transition-colors"
+                aria-label={`Remove ${f.name}`}
+              >
+                <svg width="7" height="7" viewBox="0 0 10 10" fill="none">
+                  <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" stroke="white" strokeWidth="1.8" strokeLinecap="round"/>
+                </svg>
+              </button>
+            </span>
+          ))}
+        </div>
+      )}
+
+      {selected.length === 0 && (
+        <p className="text-[10px] text-stone-400 font-light mt-2">Type at least 2 characters to search. Try &ldquo;ran&rdquo;, &ldquo;baby&rdquo;, &ldquo;mums&rdquo;, &ldquo;lizzies&rdquo;...</p>
+      )}
+    </div>
+  );
+}
+
 /* ── Batch card ──────────────────────────────────────────────── */
 function BatchCard({ batch, onChange, onDelete }) {
   const { stage, flowers, setupChecked, prepChecked, timerStart, targetHours, waterCheckDismissed } = batch;
 
-  const selectedFlowers = FLOWERS.filter(f => flowers.includes(f.name));
+  const selectedFlowers = flowers ?? [];
   const recommendedHours = selectedFlowers.length > 0
-    ? Math.max(...selectedFlowers.map(f => f.minHours))
+    ? Math.max(...selectedFlowers.map(f => f.minHours ?? 8))
     : 12;
 
-  // Water check fires after 4h elapsed, while timer is running and not yet dismissed
   const [now, setNow] = useState(Date.now);
   useEffect(() => {
     if (stage !== 'hydrating' || !timerStart) return;
@@ -160,18 +269,19 @@ function BatchCard({ batch, onChange, onDelete }) {
     ? 'bg-[#6B8A66]/20 text-[#3D5C3A]'
     : 'bg-stone-100 text-stone-500';
 
-  return (
-    <div className="bg-white rounded-2xl border border-stone-100 overflow-hidden shadow-sm mb-4">
+  const flowerLabel = selectedFlowers.length > 0
+    ? selectedFlowers.map(f => `${f.emoji} ${f.name}`).join(', ')
+    : 'No flowers selected';
 
+  return (
+    <div className="bg-white rounded-2xl border border-stone-100 shadow-sm mb-4">
       {/* Header */}
-      <div className="flex items-center justify-between px-5 py-3 border-b border-stone-100 bg-stone-50/60">
+      <div className="flex items-center justify-between px-5 py-3 border-b border-stone-100 bg-stone-50/60 rounded-t-2xl">
         <div className="flex items-center gap-2.5 min-w-0">
           <span className={`text-[9px] font-semibold uppercase tracking-widest px-2.5 py-1 rounded-full flex-shrink-0 ${stageColour}`}>
             {STAGE_LABELS[stage]}
           </span>
-          <span className="text-[11px] text-stone-500 font-light truncate">
-            {selectedFlowers.map(f => f.emoji).join(' ')} {flowers.join(', ')}
-          </span>
+          <span className="text-[11px] text-stone-500 font-light truncate">{flowerLabel}</span>
         </div>
         <button
           onClick={onDelete}
@@ -212,7 +322,7 @@ function BatchCard({ batch, onChange, onDelete }) {
               disabled={!allSetupDone}
               className="w-full py-3 rounded-xl text-[12px] font-semibold bg-[#3D5C3A] text-white transition-opacity disabled:opacity-25 cursor-pointer border-none hover:opacity-90"
             >
-              Bucket ready — move to stem prep →
+              Bucket ready &mdash; move to stem prep &rarr;
             </button>
           </>
         )}
@@ -243,7 +353,7 @@ function BatchCard({ batch, onChange, onDelete }) {
               disabled={!allPrepDone}
               className="w-full py-3 rounded-xl text-[12px] font-semibold bg-[#3D5C3A] text-white transition-opacity disabled:opacity-25 cursor-pointer border-none hover:opacity-90"
             >
-              Stems in water — set conditioning timer →
+              Stems in water &mdash; set conditioning timer &rarr;
             </button>
           </>
         )}
@@ -283,18 +393,17 @@ function BatchCard({ batch, onChange, onDelete }) {
           <>
             <Countdown timerStart={timerStart} targetHours={targetHours} />
 
-            {/* 4-hour water check */}
             {waterCheckActive && (
               <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mt-4 flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="text-[9px] font-semibold uppercase tracking-widest text-amber-600 mb-1">⏰ 4-hour water check</p>
+                  <p className="text-[9px] font-semibold uppercase tracking-widest text-amber-600 mb-1">&#9200; 4-hour water check</p>
                   <p className="text-[11px] text-amber-800 font-light leading-relaxed">Top up the water level. Check all stems are submerged. Remove any wilting or shedding material.</p>
                 </div>
                 <button
                   onClick={() => onChange({ ...batch, waterCheckDismissed: true })}
                   className="flex-shrink-0 text-[10px] font-semibold text-amber-700 bg-amber-100 hover:bg-amber-200 rounded-lg px-3 py-1.5 cursor-pointer border-none transition-colors whitespace-nowrap"
                 >
-                  Done ✓
+                  Done &#10003;
                 </button>
               </div>
             )}
@@ -319,9 +428,7 @@ function BatchCard({ batch, onChange, onDelete }) {
             <p className="text-[17px] font-semibold text-stone-800 mb-1" style={{ fontFamily: '"Cormorant Garamond",serif' }}>
               Ready to build
             </p>
-            <p className="text-[11px] text-stone-400 font-light mb-5">
-              {selectedFlowers.map(f => `${f.emoji} ${f.name}`).join(' · ')}
-            </p>
+            <p className="text-[11px] text-stone-400 font-light mb-5">{flowerLabel}</p>
             <button
               onClick={() => onChange({ ...batch, stage: 'setup', timerStart: null, setupChecked: [], prepChecked: [], waterCheckDismissed: false })}
               className="text-[10px] text-stone-400 hover:text-stone-600 transition-colors cursor-pointer bg-transparent border-none underline underline-offset-2"
@@ -330,7 +437,6 @@ function BatchCard({ batch, onChange, onDelete }) {
             </button>
           </div>
         )}
-
       </div>
     </div>
   );
@@ -340,13 +446,16 @@ function BatchCard({ batch, onChange, onDelete }) {
 function NewBatchForm({ onAdd, onCancel }) {
   const [selected, setSelected] = useState([]);
 
-  function toggle(name) {
-    setSelected(prev => prev.includes(name) ? prev.filter(n => n !== name) : [...prev, name]);
+  function addFlower(flower) {
+    setSelected(prev => prev.find(f => f.name === flower.name) ? prev : [...prev, flower]);
+  }
+  function removeFlower(name) {
+    setSelected(prev => prev.filter(f => f.name !== name));
   }
 
   function create() {
     if (!selected.length) return;
-    const maxHours = Math.max(...FLOWERS.filter(f => selected.includes(f.name)).map(f => f.minHours));
+    const maxHours = Math.max(...selected.map(f => f.minHours ?? 8));
     onAdd({
       id: uid(),
       flowers: selected,
@@ -361,35 +470,25 @@ function NewBatchForm({ onAdd, onCancel }) {
   }
 
   const maxHours = selected.length > 0
-    ? Math.max(...FLOWERS.filter(f => selected.includes(f.name)).map(f => f.minHours))
+    ? Math.max(...selected.map(f => f.minHours ?? 8))
     : null;
 
   return (
-    <div className="bg-white rounded-2xl border-2 border-[#3D5C3A]/20 overflow-hidden mb-4">
-      <div className="px-5 py-4 border-b border-stone-100 bg-[#3D5C3A]/5">
+    <div className="bg-white rounded-2xl border-2 border-[#3D5C3A]/20 mb-4">
+      <div className="px-5 py-4 border-b border-stone-100 bg-[#3D5C3A]/5 rounded-t-2xl">
         <p className="text-[13px] font-semibold text-stone-700">What are you conditioning?</p>
-        <p className="text-[10px] text-stone-400 font-light mt-0.5">Select all flower types in this batch</p>
+        <p className="text-[10px] text-stone-400 font-light mt-0.5">Search by name, common name, or synonym</p>
       </div>
       <div className="px-5 py-5">
-        <div className="flex flex-wrap gap-2 mb-4">
-          {FLOWERS.map(f => (
-            <button
-              key={f.name}
-              onClick={() => toggle(f.name)}
-              className={`text-[11px] px-3 py-1.5 rounded-full border font-medium transition-all cursor-pointer ${selected.includes(f.name) ? 'bg-[#3D5C3A] text-white border-[#3D5C3A]' : 'bg-white text-stone-500 border-stone-200 hover:border-[#3D5C3A]/40'}`}
-            >
-              {f.emoji} {f.name}
-            </button>
-          ))}
-        </div>
+        <FlowerSearch selected={selected} onAdd={addFlower} onRemove={removeFlower} />
 
         {maxHours && (
-          <p className="text-[11px] text-[#3D5C3A] font-medium mb-4">
+          <p className="text-[11px] text-[#3D5C3A] font-medium mt-4 mb-1">
             Recommended conditioning time: <span className="font-bold">{maxHours} hours minimum</span>
           </p>
         )}
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 mt-4">
           <button
             onClick={onCancel}
             className="flex-1 py-2.5 rounded-xl text-[12px] font-medium border border-stone-200 text-stone-500 cursor-pointer bg-white hover:bg-stone-50 transition-colors"
@@ -416,26 +515,25 @@ export default function FlowerCareTimerPage({ go }) {
 
   useEffect(() => save(batches), [batches]);
 
-  function addBatch(b)   { setBatches(prev => [b, ...prev]); setShowForm(false); }
-  function updateBatch(u){ setBatches(prev => prev.map(b => b.id === u.id ? u : b)); }
+  function addBatch(b)    { setBatches(prev => [b, ...prev]); setShowForm(false); }
+  function updateBatch(u) { setBatches(prev => prev.map(b => b.id === u.id ? u : b)); }
   function deleteBatch(id){ setBatches(prev => prev.filter(b => b.id !== id)); }
 
   const active = batches.filter(b => b.stage !== 'ready');
   const ready  = batches.filter(b => b.stage === 'ready');
 
   return (
-    <div>
+    <div className="min-h-screen">
       <Hero
-        eyebrow="Tools · Workbench"
+        eyebrow="Tools &middot; Workbench"
         title="Flower Care"
         em="Timer"
         inline
-        sub="Step-by-step conditioning workflow with persistent timers. Select your flowers, work through each stage, and track multiple batches at once — even if you close the tab."
+        sub="Step-by-step conditioning workflow with persistent timers. Search for any flower, work through each stage, and track multiple batches at once."
       />
 
       <div className="max-w-[640px] mx-auto px-4 sm:px-8 py-8">
 
-        {/* New batch button / form */}
         {showForm ? (
           <NewBatchForm onAdd={addBatch} onCancel={() => setShowForm(false)} />
         ) : (
@@ -450,7 +548,6 @@ export default function FlowerCareTimerPage({ go }) {
           </button>
         )}
 
-        {/* Active batches */}
         {active.length > 0 && (
           <div className="mb-2">
             {batches.length > 1 && (
@@ -462,7 +559,6 @@ export default function FlowerCareTimerPage({ go }) {
           </div>
         )}
 
-        {/* Ready batches */}
         {ready.length > 0 && (
           <div>
             <p className="text-[9px] font-medium tracking-[0.2em] uppercase text-stone-400 mb-3">Ready to build</p>
@@ -472,7 +568,6 @@ export default function FlowerCareTimerPage({ go }) {
           </div>
         )}
 
-        {/* Empty state */}
         {batches.length === 0 && !showForm && (
           <div className="text-center py-14">
             <span className="text-5xl block mb-4">🌿</span>
@@ -480,7 +575,7 @@ export default function FlowerCareTimerPage({ go }) {
               No active batches
             </p>
             <p className="text-[12px] text-stone-400 font-light max-w-xs mx-auto leading-relaxed">
-              Tap the button above to start a conditioning batch. Timers persist if you navigate away or close the tab.
+              Tap above to start a conditioning batch. Timers persist if you close the tab or navigate away.
             </p>
           </div>
         )}
