@@ -35,7 +35,8 @@ const MENUS = [
     items: [
       { key: 'builder',  label: 'Arrangement Builder', desc: 'Recipe & cost calculator' },
       { key: 'stemcalc', label: 'Stem Calculator',     desc: 'Single or event stem counts' },
-      { key: 'quiz',     label: 'Floristry Quiz',       desc: 'Quick or in-depth knowledge test' },
+      { key: 'quiz',        label: 'Floristry Quiz',       desc: 'Quick or in-depth knowledge test' },
+      { key: 'flowertimer', label: 'Flower Care Timer',  desc: 'Step-by-step conditioning with timers' },
     ],
   },
 ];

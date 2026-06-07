@@ -35,6 +35,7 @@ import TableArrangementsPage from './components/pages/TableArrangementsPage';
 import WeddingStylesPage from './components/pages/WeddingStylesPage';
 import WeddingPricingPage from './components/pages/WeddingPricingPage';
 import WeddingCareerPage from './components/pages/WeddingCareerPage';
+import FlowerCareTimerPage from './components/pages/FlowerCareTimerPage';
 export default function App() {
   const { page, go } = useNav();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -71,6 +72,7 @@ export default function App() {
     conditioning: <ConditioningPage/>,
     glossary: <GlossaryPage/>,
     stemcalc: <StemCalculatorPage/>,
+    flowertimer: <FlowerCareTimerPage go={go}/>,
     troubleshooting: <TroubleshootingPage/>,
     equipment: <EquipmentPage/>,
     meanings: <MeaningsPage/>,
