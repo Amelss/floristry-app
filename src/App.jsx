@@ -26,6 +26,9 @@ import ProportionScalePage from './components/pages/ProportionScalePage';
 import SympathyPage from './components/pages/SympathyPage';
 import LearnPage from './components/pages/LearnPage';
 import ToolsPage from './components/pages/ToolsPage';
+import HandTiedPage from './components/pages/HandTiedPage';
+import FoamFreePage from './components/pages/FoamFreePage';
+import WreathMakingPage from './components/pages/WreathMakingPage';
 export default function App() {
   const { page, go } = useNav();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -66,6 +69,9 @@ export default function App() {
     sympathy: <SympathyPage/>,
     learn: <LearnPage go={go}/>,
     tools: <ToolsPage go={go}/>,
+    handtied: <HandTiedPage go={go}/>,
+    foamfree: <FoamFreePage go={go}/>,
+    wreathmaking: <WreathMakingPage go={go}/>,
   };
   return (
     <div className="min-h-screen bg-[#FAF8F4] flex flex-col" style={{fontFamily:'Jost, sans-serif'}}>

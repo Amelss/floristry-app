@@ -1,39 +1,41 @@
 import { useState } from 'react';
-import TECHNIQUES_DATA, { WIRE_GAUGES, WIRING_METHODS, TAPING_TIPS } from '../../data/techniques';
+import { CORE_TECHNIQUES, WIRE_GAUGES, WIRING_METHODS, TAPING_TIPS } from '../../data/techniques';
 import Hero from '../shared/Hero';
 
-/* ─── Technique card ────────────────────────────────────────── */
-function TechniqueCard({ emoji, title, sub, steps, meta }) {
+/* ─── Core technique nav card ────────────────────────────────── */
+function TechNavCard({ emoji, title, sub, desc, onOpen }) {
   return (
-    <div className="bg-white rounded-xl border border-stone-100 overflow-hidden hover:shadow-md transition-all">
-      <div className="bg-[#3D5C3A]/5 border-b border-stone-100 px-5 py-4">
-        <div className="flex items-center gap-3 mb-1">
-          <span className="text-2xl">{emoji}</span>
-          <h3
-            style={{ fontFamily: '"Cormorant Garamond",serif' }}
-            className="text-[22px] font-semibold text-stone-800 leading-tight"
+    <button
+      onClick={onOpen}
+      className="group rounded-xl border border-stone-100 overflow-hidden hover:border-[#3D5C3A]/30 hover:shadow-md transition-all text-left w-full h-full p-0 flex flex-col"
+    >
+      <div className="bg-[#3D5C3A]/5 border-b border-stone-100 px-5 py-4 rounded-t-xl">
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">{emoji}</span>
+            <div>
+              <h3
+                style={{ fontFamily: '"Cormorant Garamond",serif' }}
+                className="text-[20px] font-semibold text-stone-800 leading-tight"
+              >
+                {title}
+              </h3>
+              <p className="text-[11px] text-stone-500 font-light mt-0.5">{sub}</p>
+            </div>
+          </div>
+          <svg
+            width="16" height="16" viewBox="0 0 16 16" fill="none"
+            className="flex-shrink-0 text-[#3D5C3A] opacity-50 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all"
           >
-            {title}
-          </h3>
-        </div>
-        <p className="text-[12px] text-stone-500 font-light">{sub}</p>
-      </div>
-      <div className="px-5 py-4">
-        <ol className="flex flex-col gap-2 mb-4">
-          {steps.map((s, i) => (
-            <li key={i} className="flex gap-2.5 text-[12px] text-stone-600 font-light leading-relaxed">
-              <span className="text-[#6B8A66] font-semibold flex-shrink-0 mt-0.5 w-4">{i + 1}.</span>
-              {s}
-            </li>
-          ))}
-        </ol>
-        <div className="flex gap-4 pt-3 border-t border-stone-100 flex-wrap">
-          {meta.map(m => (
-            <span key={m} className="text-[10px] text-stone-400 font-light">{m}</span>
-          ))}
+            <path d="M5 3L10.5 8L5 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </div>
       </div>
-    </div>
+      <div className="bg-white px-5 py-4 rounded-b-xl flex-1">
+        <p className="text-[12px] text-stone-500 font-light leading-relaxed mb-3">{desc}</p>
+        <p className="text-[11px] text-[#3D5C3A] font-medium">Explore full guide →</p>
+      </div>
+    </button>
   );
 }
 
@@ -146,15 +148,22 @@ export default function TechniquesPage({ go }) {
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-10 py-8 sm:py-12">
 
-        {/* ── Core technique cards ── */}
+        {/* ── Core technique nav cards ── */}
         <div className="mb-14">
           <p className="text-[9px] font-medium tracking-[0.22em] uppercase text-stone-400 mb-1">Core techniques</p>
           <p className="text-[12px] text-stone-400 font-light mb-6">
-            The four hands-on skills that form the backbone of practical floristry training.
+            The three hands-on skills that form the backbone of practical floristry training. Each opens a full guide.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {TECHNIQUES_DATA.map(t => (
-              <TechniqueCard key={t.title} {...t} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {CORE_TECHNIQUES.map(t => (
+              <TechNavCard
+                key={t.page}
+                emoji={t.emoji}
+                title={t.title}
+                sub={t.sub}
+                desc={t.desc}
+                onOpen={() => go?.(t.page)}
+              />
             ))}
           </div>
         </div>

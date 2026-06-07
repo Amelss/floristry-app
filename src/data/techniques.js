@@ -1,64 +1,32 @@
-// ── Core technique cards ─────────────────────────────────────
-const TECHNIQUES_DATA = [
+// Core technique overview — used by TechniquesPage nav cards and search index
+export const CORE_TECHNIQUES = [
   {
+    page: 'handtied',
     emoji: '🌸',
-    title: 'Hand-Tied Bouquet',
+    title: 'Hand-Tied Bouquets',
     sub: 'The foundation skill of UK floristry.',
-    steps: [
-      'Strip all foliage that would fall below the binding point.',
-      'Hold your first stem in your non-dominant hand.',
-      'Add stems one at a time at a 45° angle, always rotating the bouquet toward you.',
-      'All stems should spiral in the same direction — this is non-negotiable.',
-      'Tie firmly with twine or raffia at the binding point. The bouquet should stand unsupported.',
-      'Recut all stems at a 45° angle and place immediately in clean water.',
-    ],
-    meta: ['⏱ 20–40 mins', '🌹 8–15 stems', '📚 RHS Level 2 core skill'],
+    desc: 'Master the spiral technique, bouquet styles, stem placement, proportion, and professional finishing — with step-by-step tutorials and practice exercises.',
+    topics: ['Bouquet styles', 'Spiral technique', 'Stem placement', 'Balance & proportion', 'Common mistakes', 'Practice exercises', 'Recommended flowers'],
   },
   {
-    emoji: '🌿',
+    page: 'foamfree',
+    emoji: '♻️',
     title: 'Foam-Free Mechanics',
-    sub: 'Modern UK floristry has moved away from single-use floral foam.',
-    steps: [
-      'Tape grid: stretch waterproof tape across the vessel opening in a 3×3 or 4×4 grid.',
-      'Chicken wire: scrunch a sheet and fit inside the vase for a flexible, reusable stem holder.',
-      'Flower frog (kenzan): a spiked pin holder — ideal for low bowl arrangements and Ikebana.',
-      'Moss base: pack damp sphagnum moss tightly into a vessel or frame for a natural hold.',
-      'Bud vase cluster: group five or more small vessels at varying heights for an organic look.',
-      'All of these mechanics are washable and can be reused indefinitely.',
-    ],
-    meta: ['⏱ 10–20 mins setup', '♻️ Reusable', '📚 RHS Level 2 — mechanics'],
+    sub: 'Sustainable arrangement mechanics for modern UK floristry.',
+    desc: 'Chicken wire, tape grids, kenzan, mossing, branch structures, vessel selection, and large-scale installation — all without single-use floral foam.',
+    topics: ['Sustainability principles', 'Chicken wire', 'Tape grids', 'Pin frogs & kenzan', 'Mossing', 'Vessel selection', 'Event installation'],
   },
   {
+    page: 'wreathmaking',
     emoji: '🪴',
     title: 'Wreath Making',
     sub: 'A classic UK seasonal skill — sold year-round as workshop content.',
-    steps: [
-      'Start with a wire ring or a pre-formed willow/wicker frame.',
-      'For wire frames: bind damp sphagnum moss onto the frame with reel wire, building an even pad.',
-      'Work in small bundles, moving consistently in one direction around the ring.',
-      'Bind each bundle with reel wire before adding the next — overlap to hide binds.',
-      'Vary texture throughout: mix fine foliage, berries, cones, and seed heads.',
-      'Add focal flowers last, securing them with a double leg mount and wiring into the moss base.',
-    ],
-    meta: ['⏱ 60–90 mins', '🌿 Wire or willow frame', '📚 RHS Level 2 — seasonal work'],
-  },
-  {
-    emoji: '💐',
-    title: 'Buttonhole & Corsage',
-    sub: 'Wired personal flowers for weddings, proms, and formal occasions.',
-    steps: [
-      'Select a focal flower and wire it using the appropriate method for its stem type (see Wiring Guide below).',
-      'Wire all additional flowers and foliage — nothing should retain its natural stem.',
-      'Tape every wired element individually before assembling.',
-      'Build the piece in your hand: focal first, foliage and secondary flowers framing it.',
-      'Bind all elements together at the binding point with reel wire, then tape over the wires.',
-      'Keep the finished piece in a cool damp environment — a sealed box in the fridge — until delivery.',
-    ],
-    meta: ['⏱ 45–60 mins', '✂️ Stub wire + floristry tape', '📚 RHS Level 2 — occasion work'],
+    desc: 'Wreath bases, moss construction, wiring methods, seasonal and sympathy wreaths, material selection, and construction techniques for all levels.',
+    topics: ['Wreath bases', 'Wiring techniques', 'Moss wreaths', 'Seasonal wreaths', 'Sympathy wreaths', 'Decorative wreaths', 'Troubleshooting'],
   },
 ];
 
-export default TECHNIQUES_DATA;
+export default CORE_TECHNIQUES;
 
 // ── Wiring & Mechanics Guide ─────────────────────────────────
 export const WIRE_GAUGES = [

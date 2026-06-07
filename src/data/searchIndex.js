@@ -1,6 +1,9 @@
 import FLOWERS from './flowers';
 import GLOSSARY from './glossary';
-import TECHNIQUES_DATA from './techniques';
+import { CORE_TECHNIQUES } from './techniques';
+import HAND_TIED_DATA from './handTied';
+import FOAM_FREE_DATA from './foamFree';
+import WREATH_DATA from './wreathMaking';
 import WEDDING_DATA from './wedding';
 import COND_DATA from './conditioning';
 import SUSTAINABILITY from './sustainability';
@@ -48,16 +51,55 @@ export function buildSearchIndex() {
     });
   });
 
-  // ── Techniques ─────────────────────────────────────────────
-  TECHNIQUES_DATA.forEach(t => {
+  // ── Techniques overview (hub page) ─────────────────────────
+  CORE_TECHNIQUES.forEach(t => {
     items.push({
-      id: `technique-${t.title}`,
+      id: `technique-${t.page}`,
       title: t.title,
       subtitle: t.sub,
-      body: t.steps?.join(' '),
+      body: `${t.desc} ${t.topics.join(' ')}`,
       category: 'Techniques',
-      page: 'techniques',
+      page: t.page,
       icon: t.emoji || '✂️',
+    });
+  });
+
+  // ── Hand-Tied Bouquets ──────────────────────────────────────
+  HAND_TIED_DATA.forEach(s => {
+    items.push({
+      id: `handtied-${s.title}`,
+      title: s.title,
+      subtitle: s.sub,
+      body: s.tips?.join(' '),
+      category: 'Hand-Tied Bouquets',
+      page: 'handtied',
+      icon: '🌸',
+    });
+  });
+
+  // ── Foam-Free Mechanics ─────────────────────────────────────
+  FOAM_FREE_DATA.forEach(s => {
+    items.push({
+      id: `foamfree-${s.title}`,
+      title: s.title,
+      subtitle: s.sub,
+      body: s.tips?.join(' '),
+      category: 'Foam-Free Mechanics',
+      page: 'foamfree',
+      icon: '♻️',
+    });
+  });
+
+  // ── Wreath Making ───────────────────────────────────────────
+  WREATH_DATA.forEach(s => {
+    items.push({
+      id: `wreath-${s.title}`,
+      title: s.title,
+      subtitle: s.sub,
+      body: s.tips?.join(' '),
+      category: 'Wreath Making',
+      page: 'wreathmaking',
+      icon: '🪴',
     });
   });
 

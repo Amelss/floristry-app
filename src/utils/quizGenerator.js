@@ -1,7 +1,6 @@
 import FLOWERS from '../data/flowers';
 import STYLES from '../data/styles';
 import { COLOUR_NODES, SCHEMES } from '../data/colourWheel';
-import TECHNIQUES_DATA from '../data/techniques';
 import COND_DATA from '../data/conditioning';
 import MONTHS_CAL from '../data/seasonal';
 
