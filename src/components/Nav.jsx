@@ -85,51 +85,71 @@ export default function Nav({ page, go, onSearchOpen }) {
     <header ref={navRef} className="sticky top-0 z-50 bg-white shadow-sm" onClick={closeAll}>
 
       {/* ── Logo bar ── */}
-      <div className="flex items-center gap-3 px-4 py-2.5 border-b border-stone-100">
+      <div className="px-4 pt-2.5 pb-2.5 border-b border-stone-100">
 
-        {/* Logo */}
-        <button
-          onClick={() => handleGo('home')}
-          className="cursor-pointer bg-transparent border-none flex-shrink-0"
-        >
-          <span
-            style={{ fontFamily: '"Great Vibes", cursive', color: '#3D5C3A' }}
-            className="text-[28px] sm:text-[32px] leading-none select-none hover:opacity-80 transition-opacity whitespace-nowrap"
+        {/* Row 1: Logo + (desktop search) + hamburger */}
+        <div className="flex items-center gap-3">
+
+          {/* Logo */}
+          <button
+            onClick={() => handleGo('home')}
+            className="cursor-pointer bg-transparent border-none flex-shrink-0"
           >
-            My Floristry Helper
-          </span>
-        </button>
+            <span
+              style={{ fontFamily: '"Great Vibes", cursive', color: '#3D5C3A' }}
+              className="text-[28px] sm:text-[32px] leading-none select-none hover:opacity-80 transition-opacity whitespace-nowrap"
+            >
+              My Floristry Helper
+            </span>
+          </button>
 
-        {/* Search bar — stretches to fill available space */}
-        <button
-          onClick={e => { e.stopPropagation(); onSearchOpen?.(); }}
-          className="flex-1 flex items-center gap-2.5 px-3.5 py-2 rounded-lg border border-stone-200 bg-stone-50 hover:bg-stone-100 hover:border-stone-300 transition-colors cursor-pointer text-stone-400 min-w-0"
-          aria-label="Search"
-        >
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="flex-shrink-0">
-            <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M9.5 9.5L13 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-          <span className="text-[12px] font-light truncate flex-1 text-left">Search flowers, techniques, glossary…</span>
-          <kbd className="hidden sm:inline text-[9px] text-stone-400 border border-stone-200 rounded px-1.5 py-0.5 bg-white font-mono flex-shrink-0">⌘K</kbd>
-        </button>
+          {/* Search bar — desktop only in this row */}
+          <button
+            onClick={e => { e.stopPropagation(); onSearchOpen?.(); }}
+            className="hidden md:flex flex-1 items-center gap-2.5 px-3.5 py-2 rounded-lg border border-stone-200 bg-stone-50 hover:bg-stone-100 hover:border-stone-300 transition-colors cursor-pointer text-stone-400 min-w-0"
+            aria-label="Search"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="flex-shrink-0">
+              <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.5"/>
+              <path d="M9.5 9.5L13 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+            <span className="text-[12px] font-light truncate flex-1 text-left">Search flowers, techniques, glossary…</span>
+            <kbd className="text-[9px] text-stone-400 border border-stone-200 rounded px-1.5 py-0.5 bg-white font-mono flex-shrink-0">⌘K</kbd>
+          </button>
 
-        {/* Hamburger — mobile only */}
-        <button
-          onClick={e => { e.stopPropagation(); setMobileOpen(v => !v); }}
-          className="md:hidden flex-shrink-0 p-2 rounded-lg text-stone-500 hover:bg-stone-50 transition-colors cursor-pointer bg-transparent border-none"
-          aria-label="Menu"
-        >
-          {mobileOpen ? (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+          {/* Hamburger — mobile only */}
+          <button
+            onClick={e => { e.stopPropagation(); setMobileOpen(v => !v); }}
+            className="md:hidden ml-auto flex-shrink-0 p-2 rounded-lg text-stone-500 hover:bg-stone-50 transition-colors cursor-pointer bg-transparent border-none"
+            aria-label="Menu"
+          >
+            {mobileOpen ? (
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {/* Row 2: Search bar — mobile only */}
+        <div className="md:hidden mt-2">
+          <button
+            onClick={e => { e.stopPropagation(); onSearchOpen?.(); }}
+            className="w-full flex items-center gap-2.5 px-3.5 py-2 rounded-lg border border-stone-200 bg-stone-50 hover:bg-stone-100 hover:border-stone-300 transition-colors cursor-pointer text-stone-400"
+            aria-label="Search"
+          >
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" className="flex-shrink-0">
+              <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.5"/>
+              <path d="M9.5 9.5L13 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-            </svg>
-          )}
-        </button>
+            <span className="text-[12px] font-light flex-1 text-left">Search flowers, techniques, glossary…</span>
+          </button>
+        </div>
+
       </div>
 
       {/* ── Desktop nav tabs ── */}

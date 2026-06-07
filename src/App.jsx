@@ -29,6 +29,12 @@ import ToolsPage from './components/pages/ToolsPage';
 import HandTiedPage from './components/pages/HandTiedPage';
 import FoamFreePage from './components/pages/FoamFreePage';
 import WreathMakingPage from './components/pages/WreathMakingPage';
+import BridalBouquetsPage from './components/pages/BridalBouquetsPage';
+import CorsagesButtonholesPage from './components/pages/CorsagesButtonholesPage';
+import TableArrangementsPage from './components/pages/TableArrangementsPage';
+import WeddingStylesPage from './components/pages/WeddingStylesPage';
+import WeddingPricingPage from './components/pages/WeddingPricingPage';
+import WeddingCareerPage from './components/pages/WeddingCareerPage';
 export default function App() {
   const { page, go } = useNav();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -55,7 +61,13 @@ export default function App() {
     styles: <StyleGuidePage/>,
     quiz:    <QuizPage/>,
     builder: <ArrangementBuilderPage/>,
-    wedding: <WeddingPage/>,
+    wedding: <WeddingPage go={go}/>,
+    bridalBouquets: <BridalBouquetsPage go={go}/>,
+    corsagesButtonholes: <CorsagesButtonholesPage go={go}/>,
+    tableArrangements: <TableArrangementsPage go={go}/>,
+    weddingStyles: <WeddingStylesPage go={go}/>,
+    weddingPricing: <WeddingPricingPage go={go}/>,
+    weddingCareer: <WeddingCareerPage go={go}/>,
     conditioning: <ConditioningPage/>,
     glossary: <GlossaryPage/>,
     stemcalc: <StemCalculatorPage/>,
