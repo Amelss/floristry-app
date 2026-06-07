@@ -162,7 +162,8 @@ function FlowerSearch({ selected, onAdd, onRemove }) {
             onBlur={() => setTimeout(() => setOpen(false), 160)}
             onKeyDown={handleKey}
             placeholder="Search for a flower or foliage..."
-            className="flex-1 bg-transparent text-[12px] text-stone-700 placeholder-stone-400 outline-none"
+            className="flex-1 bg-transparent text-stone-700 placeholder-stone-400 outline-none"
+            style={{ fontSize: '16px' }}
           />
           {query && (
             <button onClick={() => { setQuery(''); inputRef.current?.focus(); }} className="text-stone-300 hover:text-stone-500 cursor-pointer bg-transparent border-none p-0">
@@ -523,7 +524,7 @@ export default function FlowerCareTimerPage({ go }) {
   const ready  = batches.filter(b => b.stage === 'ready');
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <Hero
         eyebrow="Tools &middot; Workbench"
         title="Flower Care"
