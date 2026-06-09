@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import FLOWERS from "../../data/flowers";
 import { FOLIAGE as BOUQUET_FOLIAGE } from "../../data/bouquets";
 import { ARRANGEMENT_TYPES, stemPrice } from "../../data/arrangementTypes";
@@ -14,6 +15,63 @@ const FOLIAGE_FLOWERS = BOUQUET_FOLIAGE.map((f, i) => ({
 
 /* ── helpers ─────────────────────────────────────────────── */
 const MONTHS_S = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+const ROLE_KEYS = ["focal", "secondary", "foliage", "filler"];
+const ALL_PICKABLE = [...FLOWERS, ...FOLIAGE_FLOWERS];
+
+/* ── shareable links ─────────────────────────────────────────
+   A recipe is encoded as flower ids + type + size in a base64url
+   query param, and rehydrated from the app's own flower data —
+   keeps URLs short and works with no backend. */
+function encodeRecipe({ name, typeId, size, picks }) {
+  const payload = {
+    n: name || "",
+    t: typeId,
+    s: size,
+    p: ROLE_KEYS.map((r) => picks[r].map((f) => f.num)),
+  };
+  const bytes = new TextEncoder().encode(JSON.stringify(payload));
+  return btoa(String.fromCharCode(...bytes))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+function decodeRecipe(param) {
+  try {
+    const b64 = param.replace(/-/g, "+").replace(/_/g, "/");
+    const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+    const data = JSON.parse(new TextDecoder().decode(bytes));
+    const type = ARRANGEMENT_TYPES.find((t) => t.id === data.t);
+    if (!type) return null;
+    const picks = {};
+    ROLE_KEYS.forEach((role, i) => {
+      picks[role] = (Array.isArray(data.p?.[i]) ? data.p[i] : [])
+        .map((num) => ALL_PICKABLE.find((f) => f.num === num))
+        .filter(Boolean);
+    });
+    return {
+      name: typeof data.n === "string" ? data.n : "",
+      typeId: data.t,
+      size: type.sizes[data.s] ? data.s : "medium",
+      picks,
+    };
+  } catch {
+    return null;
+  }
+}
+
+function sharedRecipeFromUrl() {
+  try {
+    const param = new URLSearchParams(window.location.search).get("r");
+    return param ? decodeRecipe(param) : null;
+  } catch {
+    return null; // no window during build-time prerendering
+  }
+}
+
+function shareUrl(recipe) {
+  return `${window.location.origin}/arrangement-builder?r=${encodeRecipe(recipe)}`;
+}
 const ROLE_CONFIG = {
   focal: {
     label: "Focal",
@@ -391,16 +449,120 @@ function RecipeCard({ type, size, picks, recipe, cost }) {
 }
 
 /* ── main page ───────────────────────────────────────────── */
+function SavedRecipesCard({ picks, saved, onSave, onLoad, onDelete }) {
+  const [name, setName] = useState("");
+  const [copiedId, setCopiedId] = useState(null);
+  const hasPicks = ROLE_KEYS.some((r) => picks[r].length > 0);
+
+  function copyLink(recipe) {
+    navigator.clipboard.writeText(shareUrl(recipe));
+    setCopiedId(recipe.id);
+    setTimeout(() => setCopiedId(null), 1500);
+  }
+
+  const btn =
+    "px-2.5 py-1 rounded-lg text-[10px] font-medium transition-colors cursor-pointer";
+
+  return (
+    <div className="bg-white border border-stone-200 rounded-2xl p-5 mt-4">
+      <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-3">
+        Saved recipes
+      </p>
+
+      <div className="flex gap-2">
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && hasPicks && name.trim()) {
+              onSave(name.trim());
+              setName("");
+            }
+          }}
+          placeholder="e.g. Sarah's wedding"
+          className="flex-1 min-w-0 px-3 py-2 rounded-lg border border-stone-200 text-[12px] font-light focus:outline-none focus:border-[#3D5C3A] bg-stone-50"
+        />
+        <button
+          disabled={!hasPicks || !name.trim()}
+          onClick={() => {
+            onSave(name.trim());
+            setName("");
+          }}
+          className="px-3.5 py-2 rounded-lg text-[11px] font-medium bg-[#3D5C3A] text-white hover:bg-[#2D4A2D] transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-default"
+        >
+          Save
+        </button>
+      </div>
+      {!hasPicks && (
+        <p className="text-[10px] text-stone-400 font-light mt-2">
+          Pick some flowers first, then name and save your recipe.
+        </p>
+      )}
+
+      {saved.length > 0 && (
+        <div className="divide-y divide-stone-100 mt-3">
+          {saved.map((r) => {
+            const typeName = ARRANGEMENT_TYPES.find((t) => t.id === r.typeId)?.name ?? "Recipe";
+            return (
+              <div key={r.id} className="py-2.5">
+                <p className="text-[12px] font-medium text-stone-700 truncate">{r.name}</p>
+                <p className="text-[10px] text-stone-400 font-light">
+                  {typeName} ·{" "}
+                  {new Date(r.savedAt).toLocaleDateString("en-GB", {
+                    day: "numeric",
+                    month: "short",
+                  })}
+                </p>
+                <div className="flex gap-1.5 mt-1.5">
+                  <button
+                    onClick={() => onLoad(r)}
+                    className={`${btn} bg-[#3D5C3A]/10 text-[#3D5C3A] hover:bg-[#3D5C3A]/20`}
+                  >
+                    Load
+                  </button>
+                  <button
+                    onClick={() => copyLink(r)}
+                    className={`${btn} bg-stone-100 text-stone-600 hover:bg-stone-200`}
+                  >
+                    {copiedId === r.id ? "Copied!" : "Copy link"}
+                  </button>
+                  <button
+                    onClick={() => onDelete(r.id)}
+                    className={`${btn} bg-stone-100 text-stone-400 hover:bg-[#C9948E]/20 hover:text-[#8B3A2A]`}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function ArrangementBuilderPage() {
-  const [typeId, setTypeId] = useState("hand-tied");
-  const [size, setSize] = useState("medium");
+  const [typeId, setTypeId] = useLocalStorage("builderTypeId", "hand-tied");
+  const [size, setSize] = useLocalStorage("builderSize", "medium");
   const [activeTab, setActiveTab] = useState("focal");
-  const [picks, setPicks] = useState({
+  const [picks, setPicks] = useLocalStorage("builderPicks", {
     focal: [],
     secondary: [],
     foliage: [],
     filler: [],
   });
+  const [savedRecipes, setSavedRecipes] = useLocalStorage("savedRecipes", []);
+
+  // A shared link (?r=...) loads its recipe into the builder, once
+  const [shared] = useState(sharedRecipeFromUrl);
+  const [sharedApplied, setSharedApplied] = useState(false);
+  if (shared && !sharedApplied) {
+    setSharedApplied(true);
+    setTypeId(shared.typeId);
+    setSize(shared.size);
+    setPicks(shared.picks);
+  }
 
   const type = ARRANGEMENT_TYPES.find((t) => t.id === typeId);
   const recipe = useMemo(
@@ -424,6 +586,23 @@ export default function ArrangementBuilderPage() {
   function changeType(id) {
     setTypeId(id);
     setPicks({ focal: [], secondary: [], foliage: [], filler: [] });
+  }
+
+  function saveRecipe(name) {
+    setSavedRecipes((rs) =>
+      [{ id: crypto.randomUUID(), name, typeId, size, picks, savedAt: Date.now() }, ...rs].slice(0, 30),
+    );
+  }
+
+  function loadRecipe(r) {
+    setTypeId(r.typeId);
+    setSize(r.size);
+    setPicks(r.picks);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function deleteRecipe(id) {
+    setSavedRecipes((rs) => rs.filter((r) => r.id !== id));
   }
 
   const tabs = ["focal", "foliage", "filler", "secondary"];
@@ -451,6 +630,12 @@ export default function ArrangementBuilderPage() {
       <div className="flex flex-col lg:flex-row gap-0 lg:items-start">
         {/* ── Builder panel ── */}
         <div className="flex-1 min-w-0 px-5 sm:px-10 py-6 sm:py-8">
+          {sharedApplied && (
+            <div className="mb-6 px-4 py-3 rounded-xl bg-[#3D5C3A]/8 border border-[#3D5C3A]/20 text-[12px] text-[#3D5C3A] font-light">
+              Loaded shared recipe{shared.name ? <> — <span className="font-medium">{shared.name}</span></> : null}.
+              You can edit it freely and save your own copy.
+            </div>
+          )}
           {/* Step 1 — Type */}
           <div className="mb-8">
             <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-3">
@@ -579,6 +764,13 @@ export default function ArrangementBuilderPage() {
             picks={picks}
             recipe={recipe}
             cost={cost}
+          />
+          <SavedRecipesCard
+            picks={picks}
+            saved={savedRecipes}
+            onSave={saveRecipe}
+            onLoad={loadRecipe}
+            onDelete={deleteRecipe}
           />
         </div>
       </div>

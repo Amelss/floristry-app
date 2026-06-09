@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
+import useLocalStorage from "../../hooks/useLocalStorage";
 import { ARRANGEMENT_TYPES } from "../../data/arrangementTypes";
 
 const AVG_PRICE = { focal: 1.6, secondary: 0.9, foliage: 0.95, filler: 0.8 };
@@ -180,11 +181,11 @@ function ratioNote(type) {
 
 /* ── Single Arrangement Mode ── */
 function SingleMode() {
-  const [typeId, setTypeId] = useState("hand-tied");
-  const [size, setSize] = useState("medium");
-  const [customStems, setCustomStems] = useState(30);
-  const [customRoles, setCustomRoles] = useState({ ...EMPTY_ROLES });
-  const [qty, setQty] = useState(1);
+  const [typeId, setTypeId] = useLocalStorage("stemcalcTypeId", "hand-tied");
+  const [size, setSize] = useLocalStorage("stemcalcSize", "medium");
+  const [customStems, setCustomStems] = useLocalStorage("stemcalcCustomStems", 30);
+  const [customRoles, setCustomRoles] = useLocalStorage("stemcalcCustomRoles", { ...EMPTY_ROLES });
+  const [qty, setQty] = useLocalStorage("stemcalcQty", 1);
 
   const isCustomType = typeId === "custom";
   const isCustomSize = !isCustomType && size === "custom";
@@ -404,10 +405,9 @@ function SingleMode() {
 }
 
 /* ── Event Planner Mode ── */
-let nextId = 1;
 function defaultRow(custom = false) {
   return {
-    id: nextId++,
+    id: crypto.randomUUID(),
     typeId: custom ? "custom" : "hand-tied",
     customName: "",
     size: custom ? "custom" : "medium",
@@ -437,7 +437,7 @@ function rowLabel(row) {
 }
 
 function EventMode() {
-  const [rows, setRows] = useState([defaultRow()]);
+  const [rows, setRows] = useLocalStorage("stemcalcEventRows", () => [defaultRow()]);
 
   function addRow(custom = false) {
     setRows((r) => [...r, defaultRow(custom)]);
@@ -818,7 +818,7 @@ function EventMode() {
 
 /* ── Main page ── */
 export default function StemCalculatorPage() {
-  const [tab, setTab] = useState("single");
+  const [tab, setTab] = useLocalStorage("stemcalcTab", "single");
 
   return (
     <div className="bg-[#FAF8F4] min-h-screen">

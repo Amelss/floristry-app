@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import useLocalStorage from '../../hooks/useLocalStorage';
 import { generateQuiz, CATEGORIES } from '../../utils/quizGenerator';
 import { generateDeepQuiz, DEEP_QUIZ_LENGTH, DEEP_CATEGORY_COLOURS } from '../../utils/deepQuizGenerator';
 
@@ -58,7 +59,48 @@ function gradeDeep(score, total) {
 /* ════════════════════════════════════════
    SELECTION SCREEN
    ════════════════════════════════════════ */
-function SelectScreen({ onSelectQuick, onSelectDeep }) {
+function scoreColour(score, total) {
+  const pct = score / total;
+  if (pct >= 0.8) return '#3D5C3A';
+  if (pct >= 0.6) return '#8B9DC0';
+  if (pct >= 0.4) return '#C9948E';
+  return '#8B7355';
+}
+
+function RecentResults({ history }) {
+  if (!history.length) return null;
+  return (
+    <div className="mt-8">
+      <p className="text-[9px] font-medium tracking-[0.18em] uppercase text-stone-400 mb-3">
+        Your recent results
+      </p>
+      <div className="bg-white border border-stone-200 rounded-2xl divide-y divide-stone-100 overflow-hidden">
+        {history.slice(0, 5).map((r, i) => {
+          const topic = r.mode === 'deep'
+            ? 'In-Depth Quiz'
+            : (CATEGORIES.find(c => c.id === r.category)?.label ?? 'Quick Quiz');
+          return (
+            <div key={`${r.ts}-${i}`} className="flex items-center gap-3 px-5 py-3">
+              <span className="text-[11px] text-stone-400 font-light w-14 flex-shrink-0">
+                {new Date(r.ts).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}
+              </span>
+              <span className={`text-[9px] font-medium px-2 py-0.5 rounded-full flex-shrink-0
+                ${r.mode === 'deep' ? 'text-[#8B7355] bg-[#8B7355]/10' : 'text-[#3D5C3A] bg-[#3D5C3A]/10'}`}>
+                {r.mode === 'deep' ? 'In-Depth' : 'Quick'}
+              </span>
+              <span className="text-[12px] text-stone-600 font-light flex-1 truncate">{topic}</span>
+              <span className="text-[13px] font-medium flex-shrink-0" style={{ color: scoreColour(r.score, r.total) }}>
+                {r.score}/{r.total}
+              </span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function SelectScreen({ onSelectQuick, onSelectDeep, history }) {
   return (
     <div>
       {/* Hero — original, unchanged */}
@@ -164,6 +206,8 @@ function SelectScreen({ onSelectQuick, onSelectDeep }) {
           </div>
 
         </div>
+
+        <RecentResults history={history} />
       </div>
     </div>
   );
@@ -625,6 +669,7 @@ export default function QuizPage() {
   const [score, setScore]       = useState(0);
   const [answers, setAnswers]   = useState([]);
   const [streak, setStreak]     = useState(0);
+  const [history, setHistory]   = useLocalStorage('quizHistory', []);
 
   function startQuick(cat) {
     setMode('quick');
@@ -656,8 +701,15 @@ export default function QuizPage() {
 
   function handleNext() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    if (current + 1 < questions.length) setCurrent(c => c + 1);
-    else setScreen('results');
+    if (current + 1 < questions.length) {
+      setCurrent(c => c + 1);
+    } else {
+      setHistory(h => [
+        { ts: Date.now(), mode, category: mode === 'quick' ? category : null, score, total: questions.length },
+        ...h,
+      ].slice(0, 20));
+      setScreen('results');
+    }
   }
 
   return (
@@ -667,6 +719,7 @@ export default function QuizPage() {
         <SelectScreen
           onSelectQuick={() => setScreen('topic')}
           onSelectDeep={startDeep}
+          history={history}
         />
       )}
 
