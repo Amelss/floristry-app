@@ -1,8 +1,11 @@
 /**
  * Single source of truth for the URL structure.
  * Each page key maps to its public path, document title, and meta description.
- * Add new pages here first — App.jsx maps the same keys to components.
+ * Add new pages here first — App.jsx maps the same keys to components, and
+ * scripts/prerender.mjs generates a static HTML file + sitemap entry per route.
  */
+export const SITE_URL = 'https://myfloristryhelper.netlify.app';
+
 export const ROUTES = {
   home: {
     path: '/',
