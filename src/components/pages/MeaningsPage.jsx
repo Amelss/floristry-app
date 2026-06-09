@@ -30,7 +30,7 @@ function CategoryBadge({ category }) {
   );
 }
 
-function ColourSwatch({ colour, meaning }) {
+function ColourSwatch({ colour }) {
   const isLight = colour.hex === '#F5F5F0';
   return (
     <div className="flex items-center gap-2.5">

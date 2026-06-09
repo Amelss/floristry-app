@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import Hero from '../shared/Hero';
 import {
-  BackLink, SectionHead, StepCard, Checklist,
-  TipCard, MistakeCard, PillGroup,
+  BackLink, SectionHead, Checklist,
+  TipCard, MistakeCard,
 } from '../shared/LearningPage';
 
 /* ── Data ─────────────────────────────────────────────────── */

@@ -3,10 +3,10 @@ import { wikiImg } from '../../utils';
 
 export default function WikiImage({ wiki, alt, className, placeholder = '#B8CEAE', size = 500 }) {
   const [src, setSrc] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!wiki);
 
   useEffect(() => {
-    if (!wiki) { setLoading(false); return; }
+    if (!wiki) return;
     fetch(wikiImg(wiki, size))
       .then(r => r.json())
       .then(data => {
@@ -14,7 +14,7 @@ export default function WikiImage({ wiki, alt, className, placeholder = '#B8CEAE
         if (p && p.thumbnail) setSrc(p.thumbnail.source);
         setLoading(false);
       }).catch(() => setLoading(false));
-  }, [wiki]);
+  }, [wiki, size]);
 
   if (loading) return (
     <div className={className + ' animate-pulse'} style={{background: placeholder}}>

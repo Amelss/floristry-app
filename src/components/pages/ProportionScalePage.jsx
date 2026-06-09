@@ -10,9 +10,15 @@ function VesselImage({ query, name, className }) {
   const [src, setSrc] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  // restart the loading state when the query changes
+  const [prevQuery, setPrevQuery] = useState(query);
+  if (query !== prevQuery) {
+    setPrevQuery(query);
     setLoading(true);
     setSrc(null);
+  }
+
+  useEffect(() => {
     fetchPexelsPhoto(query)
       .then(url => { setSrc(url); setLoading(false); })
       .catch(() => setLoading(false));

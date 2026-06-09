@@ -2,14 +2,12 @@ import FLOWERS from '../data/flowers';
 import STYLES from '../data/styles';
 import { COLOUR_NODES, SCHEMES } from '../data/colourWheel';
 import COND_DATA from '../data/conditioning';
-import MONTHS_CAL from '../data/seasonal';
 
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 function sample(arr, n) { return [...arr].sort(() => Math.random() - 0.5).slice(0, n); }
 function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
-function others(arr, exclude, n) { return sample(arr.filter(x => x !== exclude), n); }
 
 /* ─── Flower Knowledge ─── */
 
@@ -158,7 +156,7 @@ function qFlowersForColour() {
 
 function qHarmonyCount() {
   const entries = Object.entries(SCHEMES);
-  const [key, scheme] = pick(entries);
+  const [, scheme] = pick(entries);
   const count = scheme.offsets.length;
   const countWord = count === 2 ? 'two' : count === 3 ? 'three' : 'four';
   const opts = shuffle(['Two colours', 'Three colours', 'Four colours', 'Five colours']);
@@ -190,9 +188,6 @@ function qConditioningTip() {
 }
 
 function qEthyleneSensitivity() {
-  const sensitiveTitles = ['Roses','Daffodils & Narcissus'];
-  const sensitive = pick(COND_DATA.filter(c=>sensitiveTitles.includes(c.title)));
-  const allFlowers = FLOWERS.map(f=>f.common);
   const sens = pick(['roses', 'carnations', 'delphiniums', 'lilies', 'sweet peas']);
   const notSens = pick(['chrysanthemums', 'alstroemeria', 'gerbera', 'statice']);
   const opts = shuffle([sens, notSens, pick(['tulips','dahlias']), pick(['snapdragons','cornflowers'])]);
@@ -244,7 +239,6 @@ function qTropicalStorage() {
 
 function qStyleTechnique() {
   const s = pick(STYLES);
-  const allSubtitles = STYLES.map(st=>st.subtitle);
   const opts = shuffle([s.name, ...sample(STYLES.filter(st=>st.id!==s.id), 3).map(st=>st.name)]);
   return {
     question: `Which floral design style is described as "${s.subtitle}"?`,

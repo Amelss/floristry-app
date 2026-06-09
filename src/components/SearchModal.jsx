@@ -4,24 +4,6 @@ import { buildSearchIndex } from '../data/searchIndex';
 // Build once at module load — avoids re-building on every render
 const INDEX = buildSearchIndex();
 
-const CATEGORY_ORDER = [
-  'Flowers',
-  'Glossary',
-  'Techniques',
-  'Design Styles',
-  'Wedding Floristry',
-  'Sympathy & Funeral',
-  'Conditioning & Care',
-  'Troubleshooting',
-  'Sustainability',
-  'Tools & Equipment',
-  'Proportion & Scale',
-  'Bouquet Guide',
-  'Flower Meanings',
-  'Colour Wheel',
-  'Seasonal Calendar',
-];
-
 function highlight(text, query) {
   if (!query || !text) return text;
   const idx = text.toLowerCase().indexOf(query.toLowerCase());
@@ -43,13 +25,21 @@ export default function SearchModal({ open, onClose, go }) {
   const inputRef = useRef(null);
   const listRef = useRef(null);
 
-  // Focus input when opened
-  useEffect(() => {
+  // Reset search state when the modal opens
+  const [prevOpen, setPrevOpen] = useState(open);
+  if (open !== prevOpen) {
+    setPrevOpen(open);
     if (open) {
       setQuery('');
       setCursor(-1);
-      setTimeout(() => inputRef.current?.focus(), 60);
     }
+  }
+
+  // Focus input when opened
+  useEffect(() => {
+    if (!open) return;
+    const t = setTimeout(() => inputRef.current?.focus(), 60);
+    return () => clearTimeout(t);
   }, [open]);
 
   // Keyboard shortcuts
@@ -83,7 +73,7 @@ export default function SearchModal({ open, onClose, go }) {
       const subtitle = (item.subtitle ?? '').toLowerCase();
       const body     = (item.body ?? '').toLowerCase();
 
-      let score = 0;
+      let score;
       if (title === q)                     score = 100; // exact title match
       else if (title.startsWith(q))        score = 80;  // title starts with query
       else if (title.includes(q))          score = 60;  // title contains query

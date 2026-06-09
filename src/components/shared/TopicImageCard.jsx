@@ -3,10 +3,10 @@ import { fetchPexelsPhoto } from '../../utils/pexels';
 
 export default function TopicImageCard({ topic, go, accentColour = '#3D5C3A' }) {
   const [src, setSrc]       = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!topic.pexelsQuery);
 
   useEffect(() => {
-    if (!topic.pexelsQuery) { setLoading(false); return; }
+    if (!topic.pexelsQuery) return;
     fetchPexelsPhoto(topic.pexelsQuery)
       .then(url => { setSrc(url); setLoading(false); })
       .catch(() => setLoading(false));

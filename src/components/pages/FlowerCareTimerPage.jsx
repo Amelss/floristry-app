@@ -120,7 +120,11 @@ function FlowerSearch({ selected, onAdd, onRemove }) {
     : [];
 
   // Reset cursor when results change
-  useEffect(() => setCursor(-1), [results.length]);
+  const [prevResultCount, setPrevResultCount] = useState(results.length);
+  if (results.length !== prevResultCount) {
+    setPrevResultCount(results.length);
+    setCursor(-1);
+  }
 
   function pick(flower) {
     onAdd(flower);
@@ -510,7 +514,7 @@ function NewBatchForm({ onAdd, onCancel }) {
 }
 
 /* ── Page ────────────────────────────────────────────────────── */
-export default function FlowerCareTimerPage({ go }) {
+export default function FlowerCareTimerPage() {
   const [batches, setBatches]   = useState(load);
   const [showForm, setShowForm] = useState(false);
 

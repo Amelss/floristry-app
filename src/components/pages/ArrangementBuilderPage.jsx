@@ -520,7 +520,6 @@ export default function ArrangementBuilderPage() {
               {tabs.map((role) => {
                 const cfg = ROLE_CONFIG[role];
                 const sel = picks[role].length;
-                const ok = sel >= cfg.min && (cfg.min === 0 || sel > 0);
                 return (
                   <button
                     key={role}

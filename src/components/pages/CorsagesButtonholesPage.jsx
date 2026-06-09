@@ -1,7 +1,7 @@
 import Hero from '../shared/Hero';
 import {
   BackLink, SectionHead, StepCard,
-  TipCard, MistakeCard, PillGroup,
+  TipCard, PillGroup,
 } from '../shared/LearningPage';
 
 const BUTTONHOLE_TYPES = [

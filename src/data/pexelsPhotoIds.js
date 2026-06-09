@@ -44,7 +44,6 @@ export const PINNED_PEXELS_PHOTO_IDS = {
   "hypericum flower": 30498813,
   "oriental lily flower": 9109477,
   "protea flower": 4025374,
-  "baby blue eucalyptus flower": 28613093,
   "ruscus flower": 6530341,
   "salal flower": 33579158,
   "pittosporum flower": 37031660,

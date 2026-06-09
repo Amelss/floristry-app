@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { generateQuiz, CATEGORIES } from '../../utils/quizGenerator';
 import { generateDeepQuiz, DEEP_QUIZ_LENGTH, DEEP_CATEGORY_COLOURS } from '../../utils/deepQuizGenerator';
 
@@ -225,7 +225,12 @@ function QuickQuestionScreen({ questions, current, onAnswer, onNext, onExit }) {
   const q = questions[current];
   const [selected, setSelected] = useState(null);
 
-  useEffect(() => { setSelected(null); }, [current]);
+  // clear the chosen option when moving to the next question
+  const [prevCurrent, setPrevCurrent] = useState(current);
+  if (current !== prevCurrent) {
+    setPrevCurrent(current);
+    setSelected(null);
+  }
 
   function handleSelect(opt) {
     if (selected) return;
@@ -387,7 +392,12 @@ function DeepQuestionScreen({ questions, current, score, streak, onAnswer, onNex
   const [selected, setSelected] = useState(null);
   const colour = DEEP_CATEGORY_COLOURS[q.category] ?? '#948C82';
 
-  useEffect(() => { setSelected(null); }, [current]);
+  // clear the chosen option when moving to the next question
+  const [prevCurrent, setPrevCurrent] = useState(current);
+  if (current !== prevCurrent) {
+    setPrevCurrent(current);
+    setSelected(null);
+  }
 
   function handleSelect(opt) {
     if (selected) return;

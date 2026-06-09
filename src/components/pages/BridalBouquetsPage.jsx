@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Hero from '../shared/Hero';
 import {
-  BackLink, SectionHead, StepCard, Checklist,
+  BackLink, SectionHead, StepCard,
   TipCard, MistakeCard, PillGroup,
 } from '../shared/LearningPage';
 

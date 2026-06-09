@@ -1,20 +1,21 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { COLOUR_NODES, SCHEMES } from "../../data/colourWheel";
 import { FLOWER_ROLES, SCHEME_FORMULAS } from "../../data/colourRecipes";
 import { getNearestNode, hsl } from "../../utils";
 import Hero from "../shared/Hero";
 import InfoBand from "../shared/InfoBand";
 
+const SZ = 360,
+  CX = 180,
+  CY = 180,
+  OR = 148,
+  IR = 62,
+  MR = (OR + IR) / 2;
+
 function ColourWheelCanvas({ baseHue, setBaseHue, schemeKey }) {
   const canvasRef = useRef(null);
-  const SZ = 360,
-    CX = 180,
-    CY = 180,
-    OR = 148,
-    IR = 62,
-    MR = (OR + IR) / 2;
 
-  function draw(hue, sk) {
+  const draw = useCallback((hue, sk) => {
     const c = canvasRef.current;
     if (!c) return;
     const ctx = c.getContext("2d");
@@ -85,9 +86,9 @@ function ColourWheelCanvas({ baseHue, setBaseHue, schemeKey }) {
         ctx.stroke();
       }
     });
-  }
+  }, []);
 
-  useEffect(() => draw(baseHue, schemeKey), [baseHue, schemeKey]);
+  useEffect(() => draw(baseHue, schemeKey), [draw, baseHue, schemeKey]);
 
   function getHueFromPoint(clientX, clientY) {
     const c = canvasRef.current;

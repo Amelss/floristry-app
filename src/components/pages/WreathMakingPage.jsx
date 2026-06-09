@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Hero from '../shared/Hero';
 import {
   BackLink, SectionHead, StepCard, Checklist,
-  TipCard, MistakeCard, ExerciseCard, PillGroup,
+  TipCard, MistakeCard, PillGroup,
 } from '../shared/LearningPage';
 
 /* ── Data ─────────────────────────────────────────────────── */

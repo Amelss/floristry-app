@@ -36,10 +36,10 @@ export function SectionHead({ eyebrow, title, desc }) {
 /* ── Step photo ─────────────────────────────────────────────── */
 function StepPhoto({ query, fallbackEmoji = '🌸' }) {
   const [src, setSrc] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(!!query);
 
   useEffect(() => {
-    if (!query) { setLoading(false); return; }
+    if (!query) return;
     fetchPexelsPhoto(query)
       .then(url => { setSrc(url); setLoading(false); })
       .catch(() => setLoading(false));

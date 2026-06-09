@@ -1,41 +1,53 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import useNav from './hooks/useNav';
 import Nav from './components/Nav';
 import Footer from './components/shared/Footer';
 import SearchModal from './components/SearchModal';
-import HomePage from './components/pages/HomePage';
-import FlowersPage from './components/pages/FlowersPage';
-import ColourWheelPage from './components/pages/ColourWheelPage';
-import BouquetsPage from './components/pages/BouquetsPage';
-import SeasonalPage from './components/pages/SeasonalPage';
-import TechniquesPage from './components/pages/TechniquesPage';
-import WeddingPage from './components/pages/WeddingPage';
-import ConditioningPage from './components/pages/ConditioningPage';
-import StyleGuidePage from './components/pages/StyleGuidePage';
-import QuizPage from './components/pages/QuizPage';
-import ArrangementBuilderPage from './components/pages/ArrangementBuilderPage';
-import GlossaryPage from './components/pages/GlossaryPage';
-import StemCalculatorPage from './components/pages/StemCalculatorPage';
-import TroubleshootingPage from './components/pages/TroubleshootingPage';
-import EquipmentPage from './components/pages/EquipmentPage';
-import MeaningsPage from './components/pages/MeaningsPage';
-import SustainabilityPage from './components/pages/SustainabilityPage';
-import WorkbookPage from './components/pages/WorkbookPage';
-import FoundationsPage from './components/pages/FoundationsPage';
-import ProportionScalePage from './components/pages/ProportionScalePage';
-import SympathyPage from './components/pages/SympathyPage';
-import LearnPage from './components/pages/LearnPage';
-import ToolsPage from './components/pages/ToolsPage';
-import HandTiedPage from './components/pages/HandTiedPage';
-import FoamFreePage from './components/pages/FoamFreePage';
-import WreathMakingPage from './components/pages/WreathMakingPage';
-import BridalBouquetsPage from './components/pages/BridalBouquetsPage';
-import CorsagesButtonholesPage from './components/pages/CorsagesButtonholesPage';
-import TableArrangementsPage from './components/pages/TableArrangementsPage';
-import WeddingStylesPage from './components/pages/WeddingStylesPage';
-import WeddingPricingPage from './components/pages/WeddingPricingPage';
-import WeddingCareerPage from './components/pages/WeddingCareerPage';
-import FlowerCareTimerPage from './components/pages/FlowerCareTimerPage';
+import NotFoundPage from './components/pages/NotFoundPage';
+import { ROUTES } from './routes';
+
+const HomePage = lazy(() => import('./components/pages/HomePage'));
+const FlowersPage = lazy(() => import('./components/pages/FlowersPage'));
+const ColourWheelPage = lazy(() => import('./components/pages/ColourWheelPage'));
+const BouquetsPage = lazy(() => import('./components/pages/BouquetsPage'));
+const SeasonalPage = lazy(() => import('./components/pages/SeasonalPage'));
+const TechniquesPage = lazy(() => import('./components/pages/TechniquesPage'));
+const WeddingPage = lazy(() => import('./components/pages/WeddingPage'));
+const ConditioningPage = lazy(() => import('./components/pages/ConditioningPage'));
+const StyleGuidePage = lazy(() => import('./components/pages/StyleGuidePage'));
+const QuizPage = lazy(() => import('./components/pages/QuizPage'));
+const ArrangementBuilderPage = lazy(() => import('./components/pages/ArrangementBuilderPage'));
+const GlossaryPage = lazy(() => import('./components/pages/GlossaryPage'));
+const StemCalculatorPage = lazy(() => import('./components/pages/StemCalculatorPage'));
+const TroubleshootingPage = lazy(() => import('./components/pages/TroubleshootingPage'));
+const EquipmentPage = lazy(() => import('./components/pages/EquipmentPage'));
+const MeaningsPage = lazy(() => import('./components/pages/MeaningsPage'));
+const SustainabilityPage = lazy(() => import('./components/pages/SustainabilityPage'));
+const WorkbookPage = lazy(() => import('./components/pages/WorkbookPage'));
+const FoundationsPage = lazy(() => import('./components/pages/FoundationsPage'));
+const ProportionScalePage = lazy(() => import('./components/pages/ProportionScalePage'));
+const SympathyPage = lazy(() => import('./components/pages/SympathyPage'));
+const LearnPage = lazy(() => import('./components/pages/LearnPage'));
+const ToolsPage = lazy(() => import('./components/pages/ToolsPage'));
+const HandTiedPage = lazy(() => import('./components/pages/HandTiedPage'));
+const FoamFreePage = lazy(() => import('./components/pages/FoamFreePage'));
+const WreathMakingPage = lazy(() => import('./components/pages/WreathMakingPage'));
+const BridalBouquetsPage = lazy(() => import('./components/pages/BridalBouquetsPage'));
+const CorsagesButtonholesPage = lazy(() => import('./components/pages/CorsagesButtonholesPage'));
+const TableArrangementsPage = lazy(() => import('./components/pages/TableArrangementsPage'));
+const WeddingStylesPage = lazy(() => import('./components/pages/WeddingStylesPage'));
+const WeddingPricingPage = lazy(() => import('./components/pages/WeddingPricingPage'));
+const WeddingCareerPage = lazy(() => import('./components/pages/WeddingCareerPage'));
+const FlowerCareTimerPage = lazy(() => import('./components/pages/FlowerCareTimerPage'));
+
+function PageLoading() {
+  return (
+    <div className="py-32 flex justify-center">
+      <div className="w-8 h-8 rounded-full border-2 border-stone-200 border-t-[#3D5C3A] animate-spin" />
+    </div>
+  );
+}
+
 export default function App() {
   const { page, go } = useNav();
   const [searchOpen, setSearchOpen] = useState(false);
@@ -51,6 +63,14 @@ export default function App() {
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
   }, []);
+
+  // Per-page title + meta description
+  useEffect(() => {
+    const route = ROUTES[page];
+    document.title = route?.title ?? 'Page Not Found | My Floristry Helper';
+    const meta = document.querySelector('meta[name="description"]');
+    if (meta) meta.setAttribute('content', route?.description ?? ROUTES.home.description);
+  }, [page]);
 
   const pages = {
     home: <HomePage go={go}/>,
@@ -87,11 +107,14 @@ export default function App() {
     foamfree: <FoamFreePage go={go}/>,
     wreathmaking: <WreathMakingPage go={go}/>,
   };
+
   return (
     <div className="min-h-screen bg-[#FAF8F4] flex flex-col" style={{fontFamily:'Jost, sans-serif'}}>
       <Nav page={page} go={go} onSearchOpen={() => setSearchOpen(true)}/>
       <div className="flex-1">
-        {pages[page] || pages.home}
+        <Suspense fallback={<PageLoading/>}>
+          {pages[page] ?? <NotFoundPage go={go}/>}
+        </Suspense>
       </div>
       <Footer go={go}/>
       <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} go={go} />

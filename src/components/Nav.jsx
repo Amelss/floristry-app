@@ -66,8 +66,13 @@ export default function Nav({ page, go, onSearchOpen }) {
     };
   }, []);
 
-  // close mobile menu on page change
-  useEffect(() => { setMobileOpen(false); setOpen(null); }, [page]);
+  // close menus on page change
+  const [prevPage, setPrevPage] = useState(page);
+  if (page !== prevPage) {
+    setPrevPage(page);
+    setMobileOpen(false);
+    setOpen(null);
+  }
 
   // lock body scroll while mobile menu is open
   useEffect(() => {

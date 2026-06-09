@@ -1,5 +1,4 @@
 import MEANINGS from '../data/meanings';
-import SUSTAINABILITY from '../data/sustainability';
 import GLOSSARY from '../data/glossary';
 
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }

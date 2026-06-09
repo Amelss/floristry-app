@@ -4,8 +4,6 @@ import { fetchPexelsPhoto } from '../../utils/pexels';
 import Hero from '../shared/Hero';
 import InfoBand from '../shared/InfoBand';
 
-const DIFFICULTY_ORDER = ['Beginner', 'Beginner-Intermediate', 'Intermediate', 'Intermediate-Advanced', 'Advanced'];
-
 function StyleImage({ query, name }) {
   const [src, setSrc] = useState(null);
   const [loading, setLoading] = useState(true);
