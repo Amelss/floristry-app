@@ -4,6 +4,7 @@ import Nav from './components/Nav';
 import Footer from './components/shared/Footer';
 import SearchModal from './components/SearchModal';
 import NotFoundPage from './components/pages/NotFoundPage';
+import ErrorBoundary from './components/shared/ErrorBoundary';
 import { ROUTES } from './routes';
 
 const HomePage = lazy(() => import('./components/pages/HomePage'));
@@ -112,9 +113,11 @@ export default function App() {
     <div className="min-h-screen bg-[#FAF8F4] flex flex-col" style={{fontFamily:'Jost, sans-serif'}}>
       <Nav page={page} go={go} onSearchOpen={() => setSearchOpen(true)}/>
       <div className="flex-1">
-        <Suspense fallback={<PageLoading/>}>
-          {pages[page] ?? <NotFoundPage go={go}/>}
-        </Suspense>
+        <ErrorBoundary key={page}>
+          <Suspense fallback={<PageLoading/>}>
+            {pages[page] ?? <NotFoundPage go={go}/>}
+          </Suspense>
+        </ErrorBoundary>
       </div>
       <Footer go={go}/>
       <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} go={go} />

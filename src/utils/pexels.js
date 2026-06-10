@@ -1,38 +1,17 @@
 import { PINNED_PEXELS_PHOTO_IDS } from "../data/pexelsPhotoIds";
 
-const API_KEY = import.meta.env.VITE_PEXELS_API_KEY;
-const CACHE_PREFIX = "pexels_v1_";
-
-function pinnedPhotoUrl(photoId) {
-  return `https://images.pexels.com/photos/${photoId}/pexels-photo-${photoId}.jpeg?auto=compress&cs=tinysrgb&h=650&w=940`;
-}
-
+/**
+ * Resolve a photo query to its Pexels CDN URL via the pinned photo-id map.
+ * Every query the app uses is pinned, so there are no runtime API calls and
+ * no API key in the bundle. When new content adds a query, add it to
+ * scripts/pexels-queries.json and run `npm run pin-images` once.
+ *
+ * Kept async so the many existing call sites don't need to change. Unpinned
+ * queries return null and components show their coloured placeholder.
+ */
 export async function fetchPexelsPhoto(query) {
   if (!query || typeof query !== "string") return null;
-
-  const normalizedQuery = query.trim().toLowerCase();
-  const pinnedId = PINNED_PEXELS_PHOTO_IDS[normalizedQuery];
-  if (pinnedId) {
-    return pinnedPhotoUrl(pinnedId);
-  }
-
-  const cacheKey = CACHE_PREFIX + normalizedQuery;
-  const cached = localStorage.getItem(cacheKey);
-  if (cached) return cached;
-
-  if (!API_KEY) return null;
-
-  try {
-    const res = await fetch(
-      `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=1&orientation=landscape`,
-      { headers: { Authorization: API_KEY } },
-    );
-    const data = await res.json();
-    const photo = data.photos?.[0];
-    const url = photo?.src?.large || null;
-    if (url) localStorage.setItem(cacheKey, url);
-    return url;
-  } catch {
-    return null;
-  }
+  const id = PINNED_PEXELS_PHOTO_IDS[query.trim().toLowerCase()];
+  if (!id) return null;
+  return `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&h=650&w=940`;
 }
