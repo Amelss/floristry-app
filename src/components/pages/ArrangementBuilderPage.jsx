@@ -72,6 +72,23 @@ function sharedRecipeFromUrl() {
 function shareUrl(recipe) {
   return `${window.location.origin}/arrangement-builder?r=${encodeRecipe(recipe)}`;
 }
+
+const slugify = (s) =>
+  s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "recipe";
+
+// jsPDF is lazy-loaded so it never weighs down normal page visits
+async function downloadRecipePdf({ name, type, size, picks, recipe, cost }) {
+  const { generateRecipePdf } = await import("../../utils/recipePdf");
+  generateRecipePdf({
+    title: name || type.name,
+    subtitle: `${name ? `${type.name} · ` : ""}${type.sizes[size].label} · ${recipe.total} stems`,
+    recipe,
+    cost,
+    warnings: getWarnings(picks).map((w) => w.text),
+    shareLink: shareUrl({ name: name || "", typeId: type.id, size, picks }),
+    filename: `${slugify(name || `${type.name} recipe`)}.pdf`,
+  });
+}
 const ROLE_CONFIG = {
   focal: {
     label: "Focal",
@@ -441,6 +458,12 @@ function RecipeCard({ type, size, picks, recipe, cost }) {
             >
               Copy Recipe to Clipboard
             </button>
+            <button
+              onClick={() => downloadRecipePdf({ name: "", type, size, picks, recipe, cost })}
+              className="w-full mt-2 bg-[#3D5C3A] text-white py-2.5 rounded-xl text-[11.5px] font-medium tracking-wide hover:bg-[#2D4A2D] transition-colors cursor-pointer"
+            >
+              Download as PDF
+            </button>
           </>
         )}
       </div>
@@ -525,6 +548,24 @@ function SavedRecipesCard({ picks, saved, onSave, onLoad, onDelete }) {
                     className={`${btn} bg-stone-100 text-stone-600 hover:bg-stone-200`}
                   >
                     {copiedId === r.id ? "Copied!" : "Copy link"}
+                  </button>
+                  <button
+                    onClick={() => {
+                      const type = ARRANGEMENT_TYPES.find((t) => t.id === r.typeId);
+                      if (!type) return;
+                      const recipe = calcRecipe(type, r.size, r.picks);
+                      downloadRecipePdf({
+                        name: r.name,
+                        type,
+                        size: r.size,
+                        picks: r.picks,
+                        recipe,
+                        cost: calcCost(recipe),
+                      });
+                    }}
+                    className={`${btn} bg-stone-100 text-stone-600 hover:bg-stone-200`}
+                  >
+                    PDF
                   </button>
                   <button
                     onClick={() => onDelete(r.id)}
