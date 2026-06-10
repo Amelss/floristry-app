@@ -4,6 +4,9 @@ import { buildSearchIndex } from '../data/searchIndex';
 // Build once at module load — avoids re-building on every render
 const INDEX = buildSearchIndex();
 
+// Shown as chips in the empty state — one per kind of searchable content
+const POPULAR_SEARCHES = ['Peony', 'Conditioning', 'Hand-tied', 'Wiring', 'Complementary', 'Foam-free'];
+
 function highlight(text, query) {
   if (!query || !text) return text;
   const idx = text.toLowerCase().indexOf(query.toLowerCase());
@@ -175,7 +178,20 @@ export default function SearchModal({ open, onClose, go }) {
                 <p className="text-[13px] text-stone-500 font-light">
                   Search across all flowers, techniques, glossary terms, and more.
                 </p>
-                <p className="text-[11px] text-stone-400 mt-1">Type at least 2 characters to begin</p>
+                <p className="text-[10px] font-medium tracking-[0.16em] uppercase text-stone-400 mt-6 mb-2.5">
+                  Popular searches
+                </p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {POPULAR_SEARCHES.map(term => (
+                    <button
+                      key={term}
+                      onClick={() => { setQuery(term); setCursor(-1); inputRef.current?.focus(); }}
+                      className="px-3 py-1.5 rounded-full border border-stone-200 bg-stone-50 text-[12px] font-light text-stone-600 hover:border-[#3D5C3A] hover:text-[#3D5C3A] hover:bg-[#3D5C3A]/5 transition-colors cursor-pointer"
+                    >
+                      {term}
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
 
