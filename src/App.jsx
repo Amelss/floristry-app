@@ -40,6 +40,7 @@ const WeddingStylesPage = lazy(() => import('./components/pages/WeddingStylesPag
 const WeddingPricingPage = lazy(() => import('./components/pages/WeddingPricingPage'));
 const WeddingCareerPage = lazy(() => import('./components/pages/WeddingCareerPage'));
 const FlowerCareTimerPage = lazy(() => import('./components/pages/FlowerCareTimerPage'));
+const FlashcardsPage = lazy(() => import('./components/pages/FlashcardsPage'));
 
 function PageLoading() {
   return (
@@ -94,6 +95,7 @@ export default function App() {
     glossary: <GlossaryPage/>,
     stemcalc: <StemCalculatorPage/>,
     flowertimer: <FlowerCareTimerPage go={go}/>,
+    flashcards: <FlashcardsPage/>,
     troubleshooting: <TroubleshootingPage/>,
     equipment: <EquipmentPage/>,
     meanings: <MeaningsPage/>,

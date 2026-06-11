@@ -207,6 +207,12 @@ export const ROUTES = {
     description:
       'Quick or in-depth floristry quizzes covering Latin names, seasonality, colour theory, design styles and flower care.',
   },
+  flashcards: {
+    path: '/flashcards',
+    title: 'Daily 10 Flashcards — Floristry Spaced Repetition | My Floristry Helper',
+    description:
+      'Ten flashcards a day, scheduled by spaced repetition — master Latin flower names, flower meanings and floristry terms a little at a time.',
+  },
   flowertimer: {
     path: '/flower-care-timer',
     title: 'Flower Care Timer — Conditioning Steps & Timers | My Floristry Helper',

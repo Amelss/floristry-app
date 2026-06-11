@@ -183,6 +183,14 @@ export const CATEGORIES = [
         pexelsQuery: 'pencil paper exam study test', // will search & cache — non-flower
       },
       {
+        key: 'flashcards',
+        label: 'Daily 10 Flashcards',
+        desc: 'Ten spaced-repetition study cards a day — Latin names, flower meanings, and glossary terms, scheduled so you review each card right before you forget it.',
+        icon: '🗂️',
+        tag: 'Daily practice',
+        pexelsQuery: 'study notebook pen desk open journal', // already pinned
+      },
+      {
         key: 'flowertimer',
         label: 'Flower Care Timer',
         desc: 'Step-by-step conditioning workflow with persistent timers. Search any flower, work through each stage, and track multiple batches at once.',

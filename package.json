@@ -8,7 +8,8 @@
     "build": "vite build && vite build --ssr src/entry-prerender.jsx --outDir dist-ssr && node scripts/prerender.mjs",
     "pin-images": "node scripts/pin-pexels-images.mjs",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest run"
   },
   "dependencies": {
     "jspdf": "^4.2.1",
@@ -28,6 +29,7 @@
     "globals": "^17.6.0",
     "postcss": "^8.5.14",
     "tailwindcss": "^3.4.19",
-    "vite": "^5.4.21"
+    "vite": "^5.4.21",
+    "vitest": "^3.2.6"
   }
 }

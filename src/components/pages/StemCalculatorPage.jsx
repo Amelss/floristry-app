@@ -1,8 +1,7 @@
 import { useMemo } from "react";
 import useLocalStorage from "../../hooks/useLocalStorage";
 import { ARRANGEMENT_TYPES } from "../../data/arrangementTypes";
-
-const AVG_PRICE = { focal: 1.6, secondary: 0.9, foliage: 0.95, filler: 0.8 };
+import { AVG_PRICE, calcFromRatios, scaleByQty, stemCost } from "../../utils/stemMath";
 
 const ROLE_CONFIG = {
   focal: { label: "Focal", colour: "#3D5C3A" },
@@ -12,28 +11,6 @@ const ROLE_CONFIG = {
 };
 
 const EMPTY_ROLES = { focal: 0, secondary: 0, foliage: 0, filler: 0 };
-
-function calcFromRatios(ratios, totalStems) {
-  const total = Math.max(0, totalStems);
-  const focal = Math.round(total * ratios.focal);
-  const secondary = Math.round(total * ratios.secondary);
-  const foliage = Math.round(total * ratios.foliage);
-  const filler = total - focal - secondary - foliage;
-  return { focal, secondary, foliage, filler, total };
-}
-
-function scaleByQty(counts, qty) {
-  return Object.fromEntries(
-    Object.entries(counts).map(([k, v]) => [k, v * qty]),
-  );
-}
-
-function stemCost(counts) {
-  return Object.entries(AVG_PRICE).reduce(
-    (s, [role, price]) => s + (counts[role] ?? 0) * price,
-    0,
-  );
-}
 
 /* ── Shared: role-by-role manual input ── */
 function RoleInputs({ roles, onChange }) {

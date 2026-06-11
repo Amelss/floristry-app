@@ -2,6 +2,7 @@ import FLOWERS from '../data/flowers';
 import STYLES from '../data/styles';
 import { COLOUR_NODES, SCHEMES } from '../data/colourWheel';
 import COND_DATA from '../data/conditioning';
+import { generateDeepQuiz } from './deepQuizGenerator';
 
 const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
@@ -265,7 +266,11 @@ function qStyleOrigin() {
 function qStyleFlower() {
   const s = pick(STYLES.filter(st=>st.flowers.length >= 2));
   const correctFlower = pick(s.flowers.filter(f => !f.includes('only')));
-  const allOtherFlowers = STYLES.filter(st=>st.id!==s.id).flatMap(st=>st.flowers).filter(f=>!f.includes('only'));
+  // Dedupe and exclude the answer — the same flower can appear in several styles
+  const allOtherFlowers = [...new Set(
+    STYLES.filter(st=>st.id!==s.id).flatMap(st=>st.flowers)
+      .filter(f=>!f.includes('only') && f !== correctFlower && !s.flowers.includes(f)),
+  )];
   const opts = shuffle([correctFlower, ...sample(allOtherFlowers, 3)]);
   return {
     question: `Which of these flowers is a signature bloom of the ${s.name} style?`,
@@ -349,9 +354,47 @@ export function generateQuiz(category = 'all', count = 10) {
 }
 
 export const CATEGORIES = [
-  { id: 'all',     label: 'Mixed — All Topics',    desc: 'A bit of everything. The best preparation for a floristry exam.',   emoji: '🌸' },
+  { id: 'all',     label: 'Mixed — All Topics',    desc: 'A bit of everything — including meanings, sustainability, terminology, and weddings.', emoji: '🌸' },
   { id: 'flowers', label: 'Flower Knowledge',       desc: 'Latin names, plant families, seasonality, and flower roles.',        emoji: '🌹' },
   { id: 'colour',  label: 'Colour Theory',          desc: 'Harmony schemes, colour temperature, and palette building.',         emoji: '🎨' },
   { id: 'care',    label: 'Care & Conditioning',    desc: 'How to maximise vase life and handle specialist flowers.',           emoji: '💧' },
   { id: 'styles',  label: 'Design Styles',          desc: 'Identify styles, techniques, tools, and their origins.',            emoji: '✂️' },
 ];
+
+/* ── Unified quiz: one flow, any topic, three lengths ── */
+
+export const QUIZ_LENGTHS = [
+  { value: 10, label: 'Quick',    time: '~4 min'  },
+  { value: 20, label: 'Standard', time: '~8 min'  },
+  { value: 40, label: 'In-depth', time: '~15 min' },
+];
+
+// Measured minimum unique-question capacity per topic (verified by tests) —
+// a topic only offers lengths it can genuinely fill without repeats.
+const TOPIC_MAX_LENGTH = { all: 40, flowers: 40, colour: 20, care: 10, styles: 20 };
+
+export function lengthsFor(category) {
+  const max = TOPIC_MAX_LENGTH[category] ?? 10;
+  return QUIZ_LENGTHS.filter((l) => l.value <= max);
+}
+
+/**
+ * One generator for every quiz. Single topics draw from that topic's pool;
+ * Mixed blends the foundations pool with the cross-domain deep pool
+ * (meanings, sustainability, terminology, weddings…) so longer quizzes get
+ * genuine breadth, not repetition.
+ */
+export function generateUnifiedQuiz(category = 'all', count = 10) {
+  if (category !== 'all') return generateQuiz(category, count);
+
+  const pool = shuffle([...generateDeepQuiz(), ...generateQuiz('all', 20)]);
+  const seen = new Set();
+  const out = [];
+  for (const q of pool) {
+    if (seen.has(q.question)) continue;
+    seen.add(q.question);
+    out.push(q);
+    if (out.length === count) break;
+  }
+  return out;
+}
