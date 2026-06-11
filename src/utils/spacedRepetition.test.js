@@ -4,6 +4,7 @@ import {
   dayKey,
   daysBetween,
   selectDailyCards,
+  interleaveByType,
   gradeCard,
   updateStreak,
   boxCounts,
@@ -11,6 +12,8 @@ import {
   MAX_BOX,
   DAILY_GOAL,
 } from './spacedRepetition';
+
+const groupOf = (c) => (c.type.startsWith('Glossary') ? 'Glossary' : c.type);
 
 describe('buildDeck', () => {
   const deck = buildDeck();
@@ -70,6 +73,23 @@ describe('selectDailyCards', () => {
     expect(new Set(cards.map((c) => c.id)).size).toBe(DAILY_GOAL);
   });
 
+  it('mixes all three card types when filling with new cards', () => {
+    const cards = selectDailyCards(deck, {}, '2026-06-10');
+    const groups = new Set(cards.map(groupOf));
+    expect([...groups].sort()).toEqual(['Flower meaning', 'Glossary', 'Latin name']);
+  });
+
+  it('keeps mixing as the deck is worked through', () => {
+    // Simulate having seen the first 60 cards (well past the flowers section)
+    let states = {};
+    selectDailyCards(deck, {}, '2026-06-10', 60).forEach((c) => {
+      states = gradeCard(states, c.id, true, '2026-06-10');
+    });
+    const nextDay = selectDailyCards(deck, states, '2026-06-11');
+    const fresh = nextDay.filter((c) => !states[c.id]);
+    expect(new Set(fresh.map(groupOf)).size).toBeGreaterThan(1);
+  });
+
   it('puts due cards before unseen ones, weakest box first', () => {
     const [a, b, c] = deck;
     const states = {
@@ -94,6 +114,27 @@ describe('selectDailyCards', () => {
       expect(onDay(interval - 1), `box ${box} due too early`).toBe(false);
       expect(onDay(interval), `box ${box} not due on its interval`).toBe(true);
     }
+  });
+});
+
+describe('interleaveByType', () => {
+  it('round-robins across groups and keeps every card exactly once', () => {
+    const cards = [
+      { id: 'a1', type: 'Latin name' },
+      { id: 'a2', type: 'Latin name' },
+      { id: 'a3', type: 'Latin name' },
+      { id: 'b1', type: 'Flower meaning' },
+      { id: 'g1', type: 'Glossary · Design' },
+      { id: 'g2', type: 'Glossary · Care' },
+    ];
+    const out = interleaveByType(cards);
+    expect(out.map((c) => c.id)).toEqual(['a1', 'b1', 'g1', 'a2', 'g2', 'a3']);
+  });
+
+  it('handles empty and single-group input', () => {
+    expect(interleaveByType([])).toEqual([]);
+    const single = [{ id: 'x', type: 'Latin name' }];
+    expect(interleaveByType(single)).toEqual(single);
   });
 });
 

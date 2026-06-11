@@ -68,9 +68,37 @@ function isDue(state, todayKey) {
   return daysBetween(state.last, todayKey) >= interval;
 }
 
+const typeGroup = (card) => (card.type.startsWith('Glossary') ? 'Glossary' : card.type);
+
+/**
+ * Round-robin cards across their type groups (Latin names, meanings,
+ * glossary) so a run of new cards is a mixture rather than one topic —
+ * the deck is stored grouped by source, which would otherwise mean weeks
+ * of Latin names before the first meaning card appears.
+ */
+export function interleaveByType(cards) {
+  const groups = [];
+  const byKey = new Map();
+  for (const c of cards) {
+    const k = typeGroup(c);
+    if (!byKey.has(k)) {
+      byKey.set(k, []);
+      groups.push(byKey.get(k));
+    }
+    byKey.get(k).push(c);
+  }
+  const out = [];
+  for (let round = 0; out.length < cards.length; round++) {
+    for (const g of groups) {
+      if (g[round]) out.push(g[round]);
+    }
+  }
+  return out;
+}
+
 /**
  * Pick today's session: due cards first (weakest box first, most overdue
- * first), then unseen cards to fill up to the goal.
+ * first), then unseen cards — mixed across topics — to fill up to the goal.
  */
 export function selectDailyCards(deck, cardStates, todayKey, goal = DAILY_GOAL) {
   const due = deck
@@ -83,7 +111,7 @@ export function selectDailyCards(deck, cardStates, todayKey, goal = DAILY_GOAL) 
         daysBetween(sb.last, todayKey) - daysBetween(sa.last, todayKey)
       );
     });
-  const fresh = deck.filter((c) => !cardStates[c.id]);
+  const fresh = interleaveByType(deck.filter((c) => !cardStates[c.id]));
   return [...due, ...fresh].slice(0, goal);
 }
 
